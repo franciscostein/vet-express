@@ -1,0 +1,20 @@
+{
+  "name": "vet-express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leandro94costa/vet-express.git"
+  },
+  "author": "Eduardo Bento, Guilherme Gimenes, Leandro Costa, Melquisedeque Marques",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leandro94costa/vet-express/issues"
+  },
+  "homepage": "https://github.com/leandro94costa/vet-express#readme"
+}
