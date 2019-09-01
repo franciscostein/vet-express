@@ -1,0 +1,1 @@
+{"_id":{"$oid":"5d6c34318d249b3b20ca4fd1"},"usuario":{"$oid":"5d6bff828d249b3b20ca4fce"},"regiao":[{"cidade":"Campinas","dias":["Segunda","Quarta","Sexta"]},{"cidade":"Valinhos","dias":["Terça","Quinta"]},{"cidade":"Vinhedo","dias":["Segunda","Terça","Quarta","Quinta","Sexta"]}]}
