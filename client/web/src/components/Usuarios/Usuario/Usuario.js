@@ -4,6 +4,11 @@ import classes from './Usuario.module.css';
 
 const usuario = props => (
     <div>
+        <h2>Profile</h2>
+    </div>
+
+
+    <div>
         <ul role="tablist">
             <li role="presentation">
                 <a href="#home">Informações</a>
@@ -22,7 +27,7 @@ const usuario = props => (
             <div role="tabpanel" id="home">
                 <div>
                     <label for="inputCPF">CPF</label>
-                    <input type="text" id="inputCPF" />
+                    <input type="text" id="inputCPF"/>
                 </div>
                 <div>
                     <label for="inputRG">RG</label>
@@ -47,7 +52,7 @@ const usuario = props => (
                     <input type="text" id="inputLogradouro"/>
                 </div>
                 <div>
-                    <label for=""></label>
+                    <label for="inputNumero">No.</label>
                     <input type="text" id="inputNumero"/>
                 </div>
                 <div>
@@ -97,6 +102,12 @@ const usuario = props => (
             <div role="tabpanel" id="acesso">
 
             </div>
+
+            <FormControl>
+                <InputLabel htmlFor="my-input">Email address</InputLabel>
+                <Input id="my-input" aria-describedby="my-helper-text" />
+                <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
+            </FormControl>
         </div>
     </div>
 );
