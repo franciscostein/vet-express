@@ -12,11 +12,33 @@ import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 
 const suggestions = [
-    { label: 'A' },
-    { label: 'B' },
-    { label: 'C' },
-    { label: 'D' },
-    { label: 'E' }
+    { value: 'AC', label: 'Acre' },
+    { value: 'AL', label: 'Alagoas' },
+    { value: 'AP', label: 'Amapá' },
+    { value: 'AM', label: 'Amazonas' },
+    { value: 'BA', label: 'Bahia' },
+    { value: 'CE', label: 'Ceará' },
+    { value: 'DF', label: 'Distrito Federal' },
+    { value: 'ES', label: 'Espírito Santo' },
+    { value: 'GO', label: 'Goiás' },
+    { value: 'MA', label: 'Maranhão' },
+    { value: 'MT', label: 'Mato Grosso' },
+    { value: 'MS', label: 'Mato Grosso do Sul' },
+    { value: 'MG', label: 'Minas Gerais' },
+    { value: 'PA', label: 'Pará' },
+    { value: 'PB', label: 'Paraíba' },
+    { value: 'PR', label: 'Paraná' },
+    { value: 'PE', label: 'Pernambuco' },
+    { value: 'PI', label: 'Piauí' },
+    { value: 'RJ', label: 'Rio de Janeiro' },
+    { value: 'RN', label: 'Rio Grande do Norte' },
+    { value: 'RS', label: 'Rio Grande do Sul' },
+    { value: 'RO', label: 'Rondônia' },
+    { value: 'RR', label: 'Roraima' },
+    { value: 'SC', label: 'Santa Catarina' },
+    { value: 'SP', label: 'São Paulo' },
+    { value: 'SE', label: 'Sergipe' },
+    { value: 'TO', label: 'Tocantins' },
 ].map(suggestion => ({
     value: suggestion.label,
     label: suggestion.label,
@@ -320,10 +342,10 @@ const components = {
 export default function IntegrationReactSelect() {
     const classes = useStyles();
     const theme = useTheme();
-    const [multi, setMulti] = React.useState(null);
-
-    function handleChangeMulti(value) {
-        setMulti(value);
+    const [single, setSingle] = React.useState(null);
+    
+    function handleChangeSingle(value) {
+        setSingle(value);
     }
 
     const selectStyles = {
@@ -342,20 +364,19 @@ export default function IntegrationReactSelect() {
                 <Select
                     classes={classes}
                     styles={selectStyles}
-                    inputId="react-select-multiple"
+                    inputId="selectUF"
                     TextFieldProps={{
-                        label: 'Categorias',
+                        label: 'UF',
                         InputLabelProps: {
-                            htmlFor: 'react-select-multiple',
+                            htmlFor: 'selectUF',
                             shrink: true,
                         },
                     }}
-                    placeholder="Selecione categorias"
+                    placeholder="Selecione um estado"
                     options={suggestions}
                     components={components}
-                    value={multi}
-                    onChange={handleChangeMulti}
-                    isMulti
+                    value={single}
+                    onChange={handleChangeSingle}
                 />
             </NoSsr>
         </div>

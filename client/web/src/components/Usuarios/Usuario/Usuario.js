@@ -1,9 +1,9 @@
 import React from 'react';
-import { TextField, Divider } from '@material-ui/core';
+import { TextField, Divider, FormControlLabel, Switch } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
-import Estado from '../../fragments/Estado/Estado';
+import UF from '../../fragments/UnidadeFederativa/UnidadeFederativa';
 import CategoriaCNH from '../../fragments/CategoriaCNH/CategoriaCNH';
 
 const useStyles = makeStyles(theme => ({
@@ -35,13 +35,6 @@ const usuario = props => {
                     required
                     fullWidth
                 />
-                <KeyboardDatePicker
-                    id="inputNascimento"
-                    label="Nascimento"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    KeyboardButtonProps={{ 'arial-labe': 'change time', }}
-                />
                 <TextField
                     id="inputCPF"
                     label="CPF"
@@ -49,6 +42,7 @@ const usuario = props => {
                     margin="normal"
                     required
                 />
+                <div className={classes.divider} />
                 <TextField
                     id="inputRG"
                     label="RG"
@@ -56,6 +50,31 @@ const usuario = props => {
                     margin="normal"
                     required
                 />
+                <div className={classes.divider} />
+                <TextField
+                    id="inputMae"
+                    label="Nome da mãe"
+                    className={classes.TextField}
+                    margin="normal"
+                    fullWidth
+                />
+                <div className={classes.divider} />
+                <TextField
+                    id="inputPai"
+                    label="Nome do pai"
+                    className={classes.TextField}
+                    margin="normal"
+                    fullWidth
+                />
+                <div className={classes.divider} />
+                <KeyboardDatePicker
+                    id="inputNascimento"
+                    label="Nascimento"
+                    format="dd/MM/yyyy"
+                    margin="normal"
+                    KeyboardButtonProps={{ 'arial-labe': 'change time', }}
+                />
+                
                 <h4>CNH</h4>
                 <TextField
                     id="inputNumeroCNH"
@@ -63,6 +82,7 @@ const usuario = props => {
                     className={classes.TextField}
                     margin="normal"
                 />
+                <div className={classes.divider} />
                 <KeyboardDatePicker
                     id="inputValidadeCNH"
                     label="Validade"
@@ -71,7 +91,9 @@ const usuario = props => {
                     KeyboardButtonProps={{ 'arial-labe': 'change time', }}
                 />
                 <CategoriaCNH />
+                
                 <Divider />
+
                 <h3>Endereço</h3>
                 <TextField
                     id="inputCEP"
@@ -92,19 +114,71 @@ const usuario = props => {
                     className={classes.TextField}
                     margin="normal"
                 />
+                <div className={classes.divider} />
                 <TextField
                     id="inputBairro"
                     label="Bairro"
                     className={classes.TextField}
                     margin="normal"
                 />
+                <div className={classes.divider} />
                 <TextField
                     id="inputCidade"
                     label="Cidade"
                     className={classes.TextField}
                     margin="normal"
                 />
-                <Estado classes={classes} />
+                <UF classes={classes} />
+
+                <Divider />
+
+                <h3>Telefone</h3>
+                <TextField
+                    id="inputTelefoneResidencial"
+                    label="Residencial"
+                    className={classes.TextField}
+                    margin="normal"
+                />
+                <h4>Celular</h4>
+                <TextField
+                    id="inputCelularPessoal"
+                    label="Pessoal"
+                    className={classes.TextField}
+                    margin="normal"
+                />
+                <TextField
+                    id="inputCelularProfissional"
+                    label="Profissional"
+                    className={classes.TextField}
+                    margin="normal"
+                />
+
+                <Divider />
+
+                <h3>Acesso</h3>
+                <TextField
+                    id="inputEmail"
+                    label="E-mail"
+                    className={classes.TextField}
+                    margin="normal"
+                    required
+                />
+                <TextField
+                    id="inputSenha"
+                    label="Senha"
+                    className={classes.TextField}
+                    type="password"
+                    margin="normal"
+                />
+                <div className={classes.divider} />
+                <FormControlLabel
+                    control={
+                        <Switch
+                            color="primary"
+                        />
+                    }
+                    label="Administrador"
+                />
             </form>
         </React.Fragment>
     );
