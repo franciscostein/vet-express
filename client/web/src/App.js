@@ -8,12 +8,15 @@ import './App.css';
 
 // import Login from './components/Login/Login';
 import Usuario from './components/Usuarios/Usuario/Usuario';
+import Toolbar from './components/Navigation/Toolbar/Toolbar';
+//import SideDrawer from './components/Navigation/SideDrawer/SideDrawer';
 
 class App extends Component {
     render() {
         return (
             <div>
                 <CssBaseline />
+                <Toolbar />
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <Container maxWidth="sm">
                         <Usuario />

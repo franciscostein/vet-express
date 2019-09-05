@@ -359,7 +359,7 @@ export default function IntegrationReactSelect() {
     };
 
     return (
-        <div className={classes.root}>
+        <div> {/*className={classes.root}*/}
             <NoSsr>
                 <Select
                     classes={classes}

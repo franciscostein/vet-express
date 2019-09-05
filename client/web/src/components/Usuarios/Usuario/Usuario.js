@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Divider, FormControlLabel, Switch } from '@material-ui/core';
+import { TextField, Divider, FormControlLabel, Switch, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
+    
 }));
 
 const usuario = props => {
@@ -42,7 +43,6 @@ const usuario = props => {
                     margin="normal"
                     required
                 />
-                <div className={classes.divider} />
                 <TextField
                     id="inputRG"
                     label="RG"
@@ -50,7 +50,7 @@ const usuario = props => {
                     margin="normal"
                     required
                 />
-                <div className={classes.divider} />
+                {/*<div className={classes.divider} />
                 <TextField
                     id="inputMae"
                     label="Nome da mãe"
@@ -65,7 +65,7 @@ const usuario = props => {
                     className={classes.TextField}
                     margin="normal"
                     fullWidth
-                />
+                />*/}
                 <div className={classes.divider} />
                 <KeyboardDatePicker
                     id="inputNascimento"
@@ -145,7 +145,7 @@ const usuario = props => {
                     label="Pessoal"
                     className={classes.TextField}
                     margin="normal"
-                />
+                />&nbsp;&nbsp;&nbsp;
                 <TextField
                     id="inputCelularProfissional"
                     label="Profissional"
@@ -162,7 +162,7 @@ const usuario = props => {
                     className={classes.TextField}
                     margin="normal"
                     required
-                />
+                />&nbsp;&nbsp;&nbsp;
                 <TextField
                     id="inputSenha"
                     label="Senha"
@@ -179,6 +179,15 @@ const usuario = props => {
                     }
                     label="Administrador"
                 />
+                <div className={classes.divider} />
+                <Button 
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}>Salvar</Button>
+                &nbsp;&nbsp;&nbsp;
+                <Button
+                    variant="contained"
+                    className={classes.button}>Cancelar</Button>
             </form>
         </React.Fragment>
     );
