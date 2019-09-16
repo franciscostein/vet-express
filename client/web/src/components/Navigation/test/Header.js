@@ -1,24 +1,18 @@
 import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import { makeStyles, createStyles } from '@material-ui/styles';
 
-
-/*const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => createStyles({
     header: {
-
-    }
-}));*/
+        backgroundColor: '#FFC107'
+    },
+}));
 
 const Header = props => {
-    //const styles = useStyles();
+    const classes = useStyles();
 
     return (
-        <div>
-            <AppBar position="static">
-                <Toolbar>
-                </Toolbar>
-            </AppBar>
+        <div className={classes.header}>
+            VetExpress
         </div>
     );
 }
