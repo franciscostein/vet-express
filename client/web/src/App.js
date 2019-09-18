@@ -1,15 +1,20 @@
 import React from 'react';
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import MenuRounded from '@material-ui/icons/MenuRounded';
+
+import { lightGreen } from '@material-ui/core/colors';
 
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
 import CustomHeader from './components/Navigation/test/Header';
 import Usuario from './components/Usuarios/Usuario/Usuario';
+
+import styles from './App.module.css';
+import genericStyles from './Generic.module.css';
  
 import {
     Root,
@@ -19,43 +24,62 @@ import {
     Footer,
     presets,
 } from 'mui-layout';
-import { green, lightGreen, red, deepOrange } from '@material-ui/core/colors';
- 
+
 const baseTheme = createMuiTheme({ 
     palette: {
-        primary: deepOrange
+        primary: lightGreen,
+        secondary: {
+            main: '#f3f3f3'
+        }
     }
-}); // or use your own theme;
+});
+
+const useHeaderStyles = makeStyles(({ palette }) => ({
+    header: {
+        backgroundColor: '#8BC34A'
+    },
+    icon: {
+        color: '#fff'
+    }
+}));
 
 const config = presets.createStandardLayout({ navVariant: 'temporary', autoCollapsedDisabled: true, headerPosition: 'sticky' });
  
-const App = () => (
-    <ThemeProvider theme={baseTheme}>
-        <Root config={config}>
-            <Header
-                renderMenuIcon={open => (open ? <ChevronLeft /> : <MenuRounded />)}
-            >
-                <CustomHeader />
-            </Header>
-            <Nav
-                renderIcon={collapsed =>
-                collapsed ? <ChevronRight /> : <ChevronLeft />
-            }
-            >
-                nav
-            </Nav>
-            <React.Fragment>
+const App = () => {
+    const {
+        icon: iconCss,
+        header: headerCss
+    } = useHeaderStyles();
+
+    return (
+        <ThemeProvider theme={baseTheme}>
+            <Root config={config}>
+                <Header
+                    classes={{ root: headerCss }}
+                    renderMenuIcon={open => (open ? <ChevronLeft className={iconCss} /> : <MenuRounded classes={{ root: iconCss }} />)}
+                >
+                    <CustomHeader />
+                </Header>
+                <Nav
+                    renderIcon={collapsed =>
+                    collapsed ? <ChevronRight /> : <ChevronLeft />
+                }
+                >
+                    nav
+                </Nav>
                 <Content>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <Usuario />
+                        <Usuario styles={genericStyles} />
                     </MuiPickersUtilsProvider>
                 </Content>
-            </React.Fragment>
-            <Footer>
-                footer
-            </Footer>
-        </Root>
-    </ThemeProvider>
-)
+                <div className={styles.footer}>
+                    <Footer>
+                        Vet Express &copy; 2019.
+                    </Footer>
+                </div>
+            </Root>
+        </ThemeProvider>
+    );
+}
  
 export default App;

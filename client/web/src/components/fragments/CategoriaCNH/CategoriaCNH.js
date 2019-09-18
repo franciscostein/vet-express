@@ -337,27 +337,25 @@ export default function IntegrationReactSelect() {
     };
 
     return (
-        <div> {/*className={classes.root}*/}
-            <NoSsr>
-                <Select
-                    classes={classes}
-                    styles={selectStyles}
-                    inputId="react-select-multiple"
-                    TextFieldProps={{
-                        label: 'Categorias',
-                        InputLabelProps: {
-                            htmlFor: 'react-select-multiple',
-                            shrink: true,
-                        },
-                    }}
-                    placeholder="Selecione categorias"
-                    options={suggestions}
-                    components={components}
-                    value={multi}
-                    onChange={handleChangeMulti}
-                    isMulti
-                />
-            </NoSsr>
-        </div>
+        <NoSsr>
+            <Select
+                classes={classes}
+                styles={selectStyles}
+                inputId="react-select-multiple"
+                TextFieldProps={{
+                    label: 'Categorias',
+                    InputLabelProps: {
+                        htmlFor: 'react-select-multiple',
+                        shrink: true,
+                    },
+                }}
+                placeholder="Selecione categorias"
+                options={suggestions}
+                components={components}
+                value={multi}
+                onChange={handleChangeMulti}
+                isMulti
+            />
+        </NoSsr>
     );
 }

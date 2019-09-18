@@ -359,26 +359,24 @@ export default function IntegrationReactSelect() {
     };
 
     return (
-        <div> {/*className={classes.root}*/}
-            <NoSsr>
-                <Select
-                    classes={classes}
-                    styles={selectStyles}
-                    inputId="selectUF"
-                    TextFieldProps={{
-                        label: 'UF',
-                        InputLabelProps: {
-                            htmlFor: 'selectUF',
-                            shrink: true,
-                        },
-                    }}
-                    placeholder="Selecione um estado"
-                    options={suggestions}
-                    components={components}
-                    value={single}
-                    onChange={handleChangeSingle}
-                />
-            </NoSsr>
-        </div>
+        <NoSsr>
+            <Select
+                classes={classes}
+                styles={selectStyles}
+                inputId="selectUF"
+                TextFieldProps={{
+                    label: 'UF',
+                    InputLabelProps: {
+                        htmlFor: 'selectUF',
+                        shrink: true,
+                    },
+                }}
+                placeholder="Selecione um estado"
+                options={suggestions}
+                components={components}
+                value={single}
+                onChange={handleChangeSingle}
+            />
+        </NoSsr>
     );
 }

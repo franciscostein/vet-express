@@ -1,194 +1,198 @@
-import React from 'react';
-import { TextField, Divider, FormControlLabel, Switch, Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
+import { TextField, FormControlLabel, Switch, Button } from '@material-ui/core';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import UF from '../../fragments/UnidadeFederativa/UnidadeFederativa';
 import CategoriaCNH from '../../fragments/CategoriaCNH/CategoriaCNH';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-    
-}));
+import styles from './Usuario.module.css';
 
 const usuario = props => {
-    const classes = useStyles();
-
+    const [selectedDate, handleDateChange] = useState(new Date());
     return (
         <React.Fragment>
-            <h2>Usuário</h2>
-            <form className={classes.container} noValidate autoComplete="off">
-                <TextField
-                    id="inputNome"
-                    label="Nome"
-                    className={classes.TextField}
-                    margin="normal"
-                    required
-                    fullWidth
-                />
-                <TextField
-                    id="inputCPF"
-                    label="CPF"
-                    className={classes.TextField}
-                    margin="normal"
-                    required
-                />
-                <TextField
-                    id="inputRG"
-                    label="RG"
-                    className={classes.TextField}
-                    margin="normal"
-                    required
-                />
-                {/*<div className={classes.divider} />
-                <TextField
-                    id="inputMae"
-                    label="Nome da mãe"
-                    className={classes.TextField}
-                    margin="normal"
-                    fullWidth
-                />
-                <div className={classes.divider} />
-                <TextField
-                    id="inputPai"
-                    label="Nome do pai"
-                    className={classes.TextField}
-                    margin="normal"
-                    fullWidth
-                />*/}
-                <div className={classes.divider} />
-                <KeyboardDatePicker
-                    id="inputNascimento"
-                    label="Nascimento"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    KeyboardButtonProps={{ 'arial-labe': 'change time', }}
-                />
-                
-                <h4>CNH</h4>
-                <TextField
-                    id="inputNumeroCNH"
-                    label="Número"
-                    className={classes.TextField}
-                    margin="normal"
-                />
-                <div className={classes.divider} />
-                <KeyboardDatePicker
-                    id="inputValidadeCNH"
-                    label="Validade"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    KeyboardButtonProps={{ 'arial-labe': 'change time', }}
-                />
-                <CategoriaCNH />
-                
-                <Divider />
+            <h2 className={props.styles.row}>Usuário</h2>
+            <div className={props.styles.row}>
+                <form noValidate autoComplete="off">
+                    <div className={props.styles.row}>
+                        <div className={`${props.styles.col} ${props.styles.span3of3}`}>
+                            <TextField
+                                id="inputNome"
+                                label="Nome"
+                                margin="normal"
+                                required
+                                fullWidth
+                            />
+                        </div>
+                    </div>
+                    <div className={`${props.styles.row} ${props.styles.clearfix}`}>
+                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
+                            <TextField
+                                id="inputCPF"
+                                label="CPF"
+                                margin="normal"
+                                required
+                                fullWidth
+                            />
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
+                            <KeyboardDatePicker
+                                id="inputNascimento"
+                                label="Nascimento"
+                                format="dd/MM/yyyy"
+                                value={selectedDate}
+                                onChange={date => handleDateChange(date)}
+                                margin="normal"
+                            />
+                            {/* KeyboardButtonProps={{ 'arial-labe': 'change time', }} */}
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
+                            <TextField
+                                id="inputTelefone"
+                                label="Telefone"
+                                className={props.styles.floatRight}
+                                margin="normal"
+                                fullWidth
+                            />    
+                        </div>
+                    </div>
 
-                <h3>Endereço</h3>
-                <TextField
-                    id="inputCEP"
-                    label="CEP"
-                    className={classes.TextField}
-                    margin="normal"
-                />
-                <TextField
-                    id="inputLogradouro"
-                    label="Logradouro"
-                    className={classes.TextField}
-                    margin="normal"
-                    fullWidth
-                />
-                <TextField
-                    id="inputNumero"
-                    label="Número"
-                    className={classes.TextField}
-                    margin="normal"
-                />
-                <div className={classes.divider} />
-                <TextField
-                    id="inputBairro"
-                    label="Bairro"
-                    className={classes.TextField}
-                    margin="normal"
-                />
-                <div className={classes.divider} />
-                <TextField
-                    id="inputCidade"
-                    label="Cidade"
-                    className={classes.TextField}
-                    margin="normal"
-                />
-                <UF classes={classes} />
+                    <h3 className={props.styles.row}>CNH</h3>
+                    <div className={props.styles.row}>
+                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
+                            <TextField
+                                id="inputNumeroCNH"
+                                label="Número"
+                                margin="normal"
+                                fullWidth
+                            />
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
+                            <KeyboardDatePicker
+                                id="inputValidadeCNH"
+                                label="Validade"
+                                format="dd/MM/yyyy"
+                                value={selectedDate}
+                                onChange={date => handleDateChange(date)}
+                                margin="normal"
+                            />
+                            {/* KeyboardButtonProps={{ 'arial-labe': 'change time', }} */}
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of3} ${styles.select}`}>
+                            <CategoriaCNH />
+                        </div>
+                    </div>
 
-                <Divider />
+                    <h3 className={props.styles.row}>Endereço</h3>
+                    <div className={props.styles.row}>
+                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
+                            <TextField
+                                id="inputCEP"
+                                label="CEP"
+                                margin="normal"
+                            />
+                        </div>
+                    </div>
+                    <div className={props.styles.row}>
+                        <div className={`${props.styles.col} ${props.styles.span4of5}`}>
+                            <TextField
+                                id="inputLogradouro"
+                                label="Logradouro"
+                                margin="normal"
+                                fullWidth
+                            />
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of5}`}>
+                            <TextField
+                                id="inputNumero"
+                                label="Número"
+                                className={props.styles.floatRight}
+                                margin="normal"
+                            />
+                        </div>
+                    </div>
+                    <div className={props.styles.row}>
+                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
+                            <TextField
+                                id="inputBairro"
+                                label="Bairro"
+                                margin="normal"
+                            />
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
+                            <TextField
+                                id="inputCidade"
+                                label="Cidade"
+                                margin="normal"
+                            />
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of3} ${styles.select}`}>
+                            <UF />
+                        </div>
+                    </div>
 
-                <h3>Telefone</h3>
-                <TextField
-                    id="inputTelefoneResidencial"
-                    label="Residencial"
-                    className={classes.TextField}
-                    margin="normal"
-                />
-                <h4>Celular</h4>
-                <TextField
-                    id="inputCelularPessoal"
-                    label="Pessoal"
-                    className={classes.TextField}
-                    margin="normal"
-                />&nbsp;&nbsp;&nbsp;
-                <TextField
-                    id="inputCelularProfissional"
-                    label="Profissional"
-                    className={classes.TextField}
-                    margin="normal"
-                />
-
-                <Divider />
-
-                <h3>Acesso</h3>
-                <TextField
-                    id="inputEmail"
-                    label="E-mail"
-                    className={classes.TextField}
-                    margin="normal"
-                    required
-                />&nbsp;&nbsp;&nbsp;
-                <TextField
-                    id="inputSenha"
-                    label="Senha"
-                    className={classes.TextField}
-                    type="password"
-                    margin="normal"
-                />
-                <div className={classes.divider} />
-                <FormControlLabel
-                    control={
-                        <Switch
-                            color="primary"
-                        />
-                    }
-                    label="Administrador"
-                />
-                <div className={classes.divider} />
-                <Button 
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}>Salvar</Button>
-                &nbsp;&nbsp;&nbsp;
-                <Button
-                    variant="contained"
-                    className={classes.button}>Cancelar</Button>
-            </form>
+                    <h3 className={props.styles.row}>Acesso</h3>
+                    <div className={props.styles.row}>
+                        <div className={`${props.styles.col} ${props.styles.span1of2}`}>
+                            <TextField
+                                id="inputEmail"
+                                label="E-mail"
+                                margin="normal"
+                                required
+                                fullWidth
+                            />
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of2} ${styles.administrador}`}>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        color="primary"
+                                    />
+                                }
+                                label="Administrador"
+                                className={props.styles.floatRight}
+                            />
+                        </div>
+                    </div>
+                    <div className={props.styles.row}>
+                        <div className={`${props.styles.col} ${props.styles.span1of2}`}>
+                            <TextField
+                                id="inputSenha"
+                                label="Senha"
+                                type="password"
+                                margin="normal"
+                                fullWidth
+                            />
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of2}`}>
+                            <TextField
+                                id="inputConfirmarSenha"
+                                label="Confirme a senha"
+                                type="password"
+                                margin="normal"
+                                fullWidth
+                            />
+                        </div>
+                    </div>
+                    
+                    <div className={`${props.styles.row} ${styles.buttons}`}>
+                        <div className={`${props.styles.col} ${props.styles.span1of2}`}>
+                            <Button 
+                                variant="contained"
+                                color="primary"
+                                className={`${props.styles.primaryButton} ${props.styles.floatRight}`}
+                            >Salvar</Button>
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of2}`}>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={props.styles.secondaryButton}
+                            >Cancelar</Button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </React.Fragment>
     );
 };

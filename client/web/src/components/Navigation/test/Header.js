@@ -1,20 +1,11 @@
 import React from 'react';
-import { makeStyles, createStyles } from '@material-ui/styles';
 
-const useStyles = makeStyles(theme => createStyles({
-    header: {
-        backgroundColor: '#FFC107'
-    },
-}));
+import styles from './Header.module.css';
 
-const Header = props => {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.header}>
-            VetExpress
-        </div>
-    );
-}
+const Header = () => (
+    <div className={styles.header}>
+        &nbsp; Vet Express
+    </div>
+);
 
 export default Header;
