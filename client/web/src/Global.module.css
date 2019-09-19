@@ -9,17 +9,6 @@
     visibility: hidden;
 }
 
-/*  ALIGNING  ============================================================================= */
-
-.centerHorizontalyAndVerticaly {
-	position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    -moz-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-}
-
 /*  GROUPING  ============================================================================= */
 
 .row {

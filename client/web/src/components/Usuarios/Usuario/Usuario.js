@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import { TextField, FormControlLabel, Switch, Button } from '@material-ui/core';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import Button from '@material-ui/core/Button';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 import UF from '../../fragments/UnidadeFederativa/UnidadeFederativa';
 import CategoriaCNH from '../../fragments/CategoriaCNH/CategoriaCNH';
@@ -10,7 +14,7 @@ import styles from './Usuario.module.css';
 const usuario = props => {
     const [selectedDate, handleDateChange] = useState(new Date());
     return (
-        <React.Fragment>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <h2 className={props.styles.row}>Usuário</h2>
             <div className={props.styles.row}>
                 <form noValidate autoComplete="off">
@@ -44,7 +48,6 @@ const usuario = props => {
                                 onChange={date => handleDateChange(date)}
                                 margin="normal"
                             />
-                            {/* KeyboardButtonProps={{ 'arial-labe': 'change time', }} */}
                         </div>
                         <div className={`${props.styles.col} ${props.styles.span1of3}`}>
                             <TextField
@@ -76,7 +79,6 @@ const usuario = props => {
                                 onChange={date => handleDateChange(date)}
                                 margin="normal"
                             />
-                            {/* KeyboardButtonProps={{ 'arial-labe': 'change time', }} */}
                         </div>
                         <div className={`${props.styles.col} ${props.styles.span1of3} ${styles.select}`}>
                             <CategoriaCNH />
@@ -144,7 +146,7 @@ const usuario = props => {
                                 fullWidth
                             />
                         </div>
-                        <div className={`${props.styles.col} ${props.styles.span1of2} ${styles.administrador}`}>
+                        <div className={`${props.styles.col} ${props.styles.span1of2} ${styles.administrator}`}>
                             <FormControlLabel
                                 control={
                                     <Switch
@@ -195,7 +197,7 @@ const usuario = props => {
                     </div>
                 </form>
             </div>
-        </React.Fragment>
+        </MuiPickersUtilsProvider>
     );
 };
 
