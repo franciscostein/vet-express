@@ -106,8 +106,8 @@ const usuario = props => {
                             <TextField
                                 id="inputNumero"
                                 label="Número"
-                                className={props.styles.floatRight}
                                 margin="normal"
+                                fullWidth
                             />
                         </div>
                     </div>
@@ -117,6 +117,7 @@ const usuario = props => {
                                 id="inputBairro"
                                 label="Bairro"
                                 margin="normal"
+                                fullWidth
                             />
                         </div>
                         <div className={`${props.styles.col} ${props.styles.span1of3}`}>
@@ -124,6 +125,7 @@ const usuario = props => {
                                 id="inputCidade"
                                 label="Cidade"
                                 margin="normal"
+                                fullWidth
                             />
                         </div>
                         <div className={`${props.styles.col} ${props.styles.span1of3} ${styles.select}`}>

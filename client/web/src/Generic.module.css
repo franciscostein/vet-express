@@ -220,6 +220,12 @@ form {
     float: right !important;
 }
 
+@media only screen and (max-width: 480px) {
+	.floatRight {	/* because in devices with < 480px which item will have its line  */
+		float: left !important;
+	}
+}
+
 /* BUTTONS ========================================================================================= */
 .primaryButton,
 .secondaryButton:hover {

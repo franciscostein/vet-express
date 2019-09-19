@@ -11,6 +11,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
 import CustomHeader from './components/Navigation/test/Header';
+import SideDrawer from './components/Navigation/SideDrawer/SideDrawer';
 import Usuario from './components/Usuarios/Usuario/Usuario';
 
 import styles from './App.module.css';
@@ -65,7 +66,7 @@ const App = () => {
                     collapsed ? <ChevronRight /> : <ChevronLeft />
                 }
                 >
-                    nav
+                <SideDrawer />
                 </Nav>
                 <Content>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
