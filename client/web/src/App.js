@@ -9,7 +9,8 @@ import SideDrawer from './layout/SideDrawer/SideDrawer';
 import Footer from './layout/Footer/Footer';
 
 import Login from './components/Login/Login';
-import Clinica from './components/Clinicas/Clinica/Clinica';
+import Retiradas from './components/Retiradas/Retiradas';
+// import Clinica from './components/Clinicas/Clinica/Clinica';
 // import Usuario from './components/Usuarios/Usuario/Usuario';
 
 import globalStyles from './Global.module.css';
@@ -35,11 +36,12 @@ const App = () => {
                 <Root config={config}>
                     <Header />
                     <SideDrawer />
-                    <Content>
-                        <Clinica styles={globalStyles} />
+                    <Content className={globalStyles.content}>
+                        <Retiradas styles={globalStyles} />
+                        {/* <Clinica styles={globalStyles} /> */}
                         {/* <Usuario styles={globalStyles} /> */}
                     </Content>
-                    <Footer />
+                    <Footer styles={globalStyles} />
                 </Root>
             }
         </ThemeProvider>

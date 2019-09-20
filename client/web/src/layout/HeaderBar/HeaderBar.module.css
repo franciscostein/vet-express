@@ -10,7 +10,7 @@ img {
     opacity: 1;
     transition: opacity 0.3s;
     margin-top: 8px;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 img:hover {
