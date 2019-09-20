@@ -5,15 +5,23 @@ header {
 }
 
 img {
-    height: 35px;
-    width: 35px;
-    
+    height: 32px !important;
+    width: 32px !important;
+    opacity: 1;
+    transition: opacity 0.3s;
+    margin-top: 8px;
+    margin-left: 10px;
+}
+
+img:hover {
+    opacity: 0.75;
 }
 
 .title {
-
-}
-
-.icon {
-
+    font-size: 110%;
+    word-spacing: 2px;
+    letter-spacing: 1px;
+    font-weight: 300;
+    margin-top: 10px;
+    margin-left: 3px;
 }

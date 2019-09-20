@@ -6,7 +6,7 @@ import styles from './Footer.module.css';
 const FooterLayout = () => (
     <div className={styles.footer}>
         <Footer>
-            Vet Express &copy; 2019.
+            GOTTA STICKY THIS SHIT TO THE BOTTOM!!! Vet Express &copy; 2019.
         </Footer>
     </div>
 );

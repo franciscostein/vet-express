@@ -6,8 +6,8 @@ import Button from '@material-ui/core/Button';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-import UF from '../../fragments/UnidadeFederativa/UnidadeFederativa';
 import CategoriaCNH from '../../fragments/CategoriaCNH/CategoriaCNH';
+import Endereco from '../../fragments/Endereco/Endereco';
 
 import styles from './Usuario.module.css';
 
@@ -80,60 +80,12 @@ const usuario = props => {
                                 margin="normal"
                             />
                         </div>
-                        <div className={`${props.styles.col} ${props.styles.span1of3} ${styles.select}`}>
+                        <div className={`${props.styles.col} ${props.styles.span1of3} ${props.styles.select}`}>
                             <CategoriaCNH />
                         </div>
                     </div>
 
-                    <h3 className={props.styles.row}>Endereço</h3>
-                    <div className={props.styles.row}>
-                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
-                            <TextField
-                                id="inputCEP"
-                                label="CEP"
-                                margin="normal"
-                            />
-                        </div>
-                    </div>
-                    <div className={props.styles.row}>
-                        <div className={`${props.styles.col} ${props.styles.span4of5}`}>
-                            <TextField
-                                id="inputLogradouro"
-                                label="Logradouro"
-                                margin="normal"
-                                fullWidth
-                            />
-                        </div>
-                        <div className={`${props.styles.col} ${props.styles.span1of5}`}>
-                            <TextField
-                                id="inputNumero"
-                                label="Número"
-                                margin="normal"
-                                fullWidth
-                            />
-                        </div>
-                    </div>
-                    <div className={props.styles.row}>
-                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
-                            <TextField
-                                id="inputBairro"
-                                label="Bairro"
-                                margin="normal"
-                                fullWidth
-                            />
-                        </div>
-                        <div className={`${props.styles.col} ${props.styles.span1of3}`}>
-                            <TextField
-                                id="inputCidade"
-                                label="Cidade"
-                                margin="normal"
-                                fullWidth
-                            />
-                        </div>
-                        <div className={`${props.styles.col} ${props.styles.span1of3} ${styles.select}`}>
-                            <UF />
-                        </div>
-                    </div>
+                    <Endereco styles={props.styles} />
 
                     <h3 className={props.styles.row}>Acesso</h3>
                     <div className={props.styles.row}>
@@ -199,6 +151,6 @@ const usuario = props => {
             </div>
         </MuiPickersUtilsProvider>
     );
-};
+}
 
 export default usuario;

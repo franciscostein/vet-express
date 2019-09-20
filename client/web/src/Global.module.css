@@ -215,6 +215,10 @@ form {
 	}
 }
 
+.select {
+    padding-top: 12px;
+}
+
 /* BUTTONS ========================================================================================= */
 .primaryButton,
 .secondaryButton:hover {

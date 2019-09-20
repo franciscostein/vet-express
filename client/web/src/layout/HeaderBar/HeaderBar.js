@@ -88,10 +88,8 @@ const HeaderBar = props => {
                             open={open}
                             onClose={handleClose}
                         >
-                            <div className={styles.icons}>
-                                <MenuItem onClick={handleClose}><PersonOutlineIcon />&nbsp; Perfil</MenuItem>
-                                <MenuItem onClick={handleClose}><ExitToAppIcon />&nbsp; Sair</MenuItem>
-                            </div>
+                            <MenuItem onClick={handleClose}><PersonOutlineIcon />&nbsp; Perfil</MenuItem>
+                            <MenuItem onClick={handleClose}><ExitToAppIcon />&nbsp; Sair</MenuItem>   
                         </Menu>
                     </div>
                 </Grid>

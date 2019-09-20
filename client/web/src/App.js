@@ -7,7 +7,10 @@ import { Root, Content, presets } from 'mui-layout';
 import Header from './layout/HeaderBar/HeaderBar';
 import SideDrawer from './layout/SideDrawer/SideDrawer';
 import Footer from './layout/Footer/Footer';
-import Usuario from './components/Usuarios/Usuario/Usuario';
+
+import Login from './components/Login/Login';
+import Clinica from './components/Clinicas/Clinica/Clinica';
+// import Usuario from './components/Usuarios/Usuario/Usuario';
 
 import globalStyles from './Global.module.css';
 
@@ -21,18 +24,24 @@ const baseTheme = createMuiTheme({
 });
 
 const config = presets.createStandardLayout({ navVariant: 'temporary', autoCollapsedDisabled: true, headerPosition: 'sticky' });
+
+// Development only
+const auth = true;
  
 const App = () => {
     return (
         <ThemeProvider theme={baseTheme}>
-            <Root config={config}>
-                <Header />
-                <SideDrawer />
-                <Content>
-                    <Usuario styles={globalStyles} />
-                </Content>
-                <Footer />
-            </Root>
+            { !auth ? <Login styles={globalStyles} /> :
+                <Root config={config}>
+                    <Header />
+                    <SideDrawer />
+                    <Content>
+                        <Clinica styles={globalStyles} />
+                        {/* <Usuario styles={globalStyles} /> */}
+                    </Content>
+                    <Footer />
+                </Root>
+            }
         </ThemeProvider>
     );
 }
