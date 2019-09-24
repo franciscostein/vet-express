@@ -9,7 +9,8 @@ import SideDrawer from './layout/SideDrawer/SideDrawer';
 import Footer from './layout/Footer/Footer';
 
 import Login from './components/Login/Login';
-import Retiradas from './components/Retiradas/Retiradas';
+import Retiradas from './components/Retiradas/Retiradas-mui-dataTables';
+// import Retiradas from './components/Retiradas/Retiradas-materialTable';
 // import Clinica from './components/Clinicas/Clinica/Clinica';
 // import Usuario from './components/Usuarios/Usuario/Usuario';
 

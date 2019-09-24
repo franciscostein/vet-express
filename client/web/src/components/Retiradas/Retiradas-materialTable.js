@@ -10,7 +10,6 @@ import styles from './Retiradas.module.css';
 const retiradas = props => {
     return (
         <Fragment>
-            {/* <h2 className={props.styles.row}>Retiradas</h2> */}
             <Grid justify="center" container className={styles.topButton}>
                 <Grid item>
                     <Button
@@ -20,8 +19,9 @@ const retiradas = props => {
                     >Importar</Button>
                 </Grid>
             </Grid>
-            <form>
+            <form className={props.styles.formTable}>
                 <MaterialTable
+                    title='Retiradas'
                     icons={tableIcons}
                     columns={[
                         { title: 'Clínica', field: 'clinica' },
@@ -38,13 +38,36 @@ const retiradas = props => {
                         { clinica: 'AMAZOO CLINLAB COD.3349 *', data: '20/09/2019', obs: 'retirada de material', motorista: 'Thelma Ahmed' },
                         { clinica: 'CLINICA VETERINARIA MUNDO PET - VINHEDO 13334', data: '20/09/2019', obs: '2 formulario raiva', motorista: 'Nayan Morgan' }
                     ]}
-                    title="Retiradas"
+                    actions={[
+                        {
+                            icon: tableIcons.Add,
+                            tooltip: 'Adicionar',
+                            isFreeAction: true,
+                            onClick: (event, rowData) => {
+                                // Do save operation
+                            }
+                        },
+                        {
+                            icon: tableIcons.Delete,
+                            tooltip: 'Excluir',
+                            onClick: (event, rowData) => {
+                                // Do save operation
+                            }
+                        }
+                    ]}
+                    options={{
+                        actionsColumnIndex: -1,
+                        sorting: true
+                    }}
+                    localization={{
+                        header: {
+                            actions: ''
+                        }
+                    }}
                 />
             </form>
         </Fragment>
     );
 }
-
-// Clinica | Data | Observação | Motorista
 
 export default retiradas;
