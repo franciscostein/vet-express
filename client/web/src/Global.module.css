@@ -209,7 +209,8 @@ form {
 }
 
 .formTable {
-    width: 90% !important;
+	width: 90% !important;
+	margin-top: 50px !important;
 }
 
 /* FIELS ========================================================================================= */

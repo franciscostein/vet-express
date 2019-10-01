@@ -35,13 +35,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const retiradas = props => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     return (
         <form className={props.styles.formTable}>
             
-            <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
-            <label htmlFor="icon-button-file">
+            {/* <input accept="image/*" className={classes.input} id="icon-button-file" type="file" /> */}
+            {/* <label htmlFor="icon-button-file">
                 <IconButton
                 color="primary"
                 className={classes.button}
@@ -50,7 +50,7 @@ const retiradas = props => {
                 >
                     <PublishIcon />
                 </IconButton>
-            </label>
+            </label> */}
 
             <MUIDataTable
                 title={ 'Retiradas' }
