@@ -1,8 +1,12 @@
 import React from 'react';
 import MUIDataTable from 'mui-datatables';
-import PublishIcon from '@material-ui/icons/Publish';
-import makeStyles from '@material-ui/styles/makeStyles';
-import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import makeStyles from '@material-ui/core/styles/makeStyles';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+
+import CustomToolbar from '../fragments/CustomToolbar/CustomToolbar';
 
 import styles from './Retiradas.module.css';
 
@@ -22,42 +26,63 @@ const options = {
     filterType: 'checkbox',
     responsive: 'scrollFullHeight',
     download: false,
-    print: false
+    print: false,
+    customToolbar: () => {
+        return (
+            <CustomToolbar />
+        );
+    }
 }
 
-const useStyles = makeStyles(theme => ({
-    button: {
-      margin: theme.spacing(1),
-    },
+const useStyles = makeStyles(() => ({
     input: {
-      display: 'none',
-    },
+        display: 'none'
+    }
 }));
 
+const loading = true;
+  
 const retiradas = props => {
-    // const classes = useStyles();
-
+    const classes = useStyles();
+    
     return (
         <form className={props.styles.formTable}>
             
-            {/* <input accept="image/*" className={classes.input} id="icon-button-file" type="file" /> */}
-            {/* <label htmlFor="icon-button-file">
-                <IconButton
-                color="primary"
-                className={classes.button}
-                aria-label="upload picture"
-                component="span"
-                >
-                    <PublishIcon />
-                </IconButton>
-            </label> */}
+            <Grid justify="center" container className={styles.topButton}>
+                <Grid item>
+                    <input
+                        accept=".xlsx, .xls"
+                        className={classes.input}
+                        id="contained-button-file"
+                        type="file"
+                    />
+                    <label htmlFor="contained-button-file">
+                        <Button 
+                            variant="contained" 
+                            component="span" 
+                            color="primary" 
+                            className={props.styles.primaryButton}
+                        >
+                            Importar
+                        </Button>
+                    </label>
+                </Grid>
+            </Grid>
 
-            <MUIDataTable
-                title={ 'Retiradas' }
-                columns={ columns }
-                data={ data }
-                options={ options }
-            />
+            <div className={styles.progress}>
+            {
+                loading ? <LinearProgress variant="indeterminate" color="primary"/> : <CheckCircleIcon color="primary" fontSize="large"/>
+            }
+            </div>
+
+            <div className={styles.table}>
+                <MUIDataTable
+                    title={'Retiradas'}
+                    columns={columns}
+                    data={data}
+                    options={options}
+                />
+            </div>
         </form>
     );
 }
