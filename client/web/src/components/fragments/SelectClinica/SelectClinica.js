@@ -12,35 +12,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 
 const suggestions = [
-    { value: 'AC', label: 'Acre' },
-    { value: 'AL', label: 'Alagoas' },
-    { value: 'AP', label: 'Amapá' },
-    { value: 'AM', label: 'Amazonas' },
-    { value: 'BA', label: 'Bahia' },
-    { value: 'CE', label: 'Ceará' },
-    { value: 'DF', label: 'Distrito Federal' },
-    { value: 'ES', label: 'Espírito Santo' },
-    { value: 'GO', label: 'Goiás' },
-    { value: 'MA', label: 'Maranhão' },
-    { value: 'MT', label: 'Mato Grosso' },
-    { value: 'MS', label: 'Mato Grosso do Sul' },
-    { value: 'MG', label: 'Minas Gerais' },
-    { value: 'PA', label: 'Pará' },
-    { value: 'PB', label: 'Paraíba' },
-    { value: 'PR', label: 'Paraná' },
-    { value: 'PE', label: 'Pernambuco' },
-    { value: 'PI', label: 'Piauí' },
-    { value: 'RJ', label: 'Rio de Janeiro' },
-    { value: 'RN', label: 'Rio Grande do Norte' },
-    { value: 'RS', label: 'Rio Grande do Sul' },
-    { value: 'RO', label: 'Rondônia' },
-    { value: 'RR', label: 'Roraima' },
-    { value: 'SC', label: 'Santa Catarina' },
-    { value: 'SP', label: 'São Paulo' },
-    { value: 'SE', label: 'Sergipe' },
-    { value: 'TO', label: 'Tocantins' },
+    { label: 'VETPAT LAB. DE ANALISE VETERINARIA - SP  COD-4981*' },
+    { label: 'ANIMAL CENTER - CAMPINAS' },
+    { label: 'DIAGPET - CAMPINAS' },
+    { label: 'LABORATORIO CDVE - CAMPINAS' },
+    { label: 'SCAN SAUDE E CIENCIA ANIMAL-CAMPINAS- COD.7961*' },
+    { label: 'AMAZOO CLINLAB COD.3349 *' },
+    { label: 'CLINICA VETERINARIA MUNDO PET - VINHEDO 13334' }
 ].map(suggestion => ({
-    value: suggestion.value,
+    value: suggestion.label,
     label: suggestion.label,
 }));
 
@@ -343,10 +323,10 @@ export default function IntegrationReactSelect() {
     const classes = useStyles();
     const theme = useTheme();
     const [single, setSingle] = React.useState(null);
-    
-    function handleChangeSingle(value) {
+
+    const handleChangeSingle = value => {
         setSingle(value);
-    }
+    };
 
     const selectStyles = {
         input: base => ({
@@ -363,15 +343,15 @@ export default function IntegrationReactSelect() {
             <Select
                 classes={classes}
                 styles={selectStyles}
-                inputId="selectUF"
+                inputId="react-select-single"
                 TextFieldProps={{
-                    label: 'UF',
+                    label: 'Clínica',
                     InputLabelProps: {
-                        htmlFor: 'selectUF',
+                        htmlFor: 'react-select-single',
                         shrink: true,
                     },
                 }}
-                placeholder="Selecione um estado"
+                placeholder=""
                 options={suggestions}
                 components={components}
                 value={single}

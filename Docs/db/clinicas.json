@@ -1,1 +1,21 @@
-{"_id":{"$oid":"5d6bf8978d249b3b20ca4fcd"},"cnpj":{"$numberInt":"7961"},"fantasia":"SCAN SAUDE E CIENCIA ANIMAL-CAMPINAS- COD.7961*","endereco":{"logradouro":"RUA ALBANO DE ALMEIDA LIMA","numero":{"$numberInt":"997"},"bairro":"CASTELO","cidade":"CAMPINAS"},"telefone":{"$numberInt":"1932426159"},"contato":"LIVIA FAGUNDES"}
+{
+    "_id": {
+        "$oid": "5d6bf8978d249b3b20ca4fcd"
+    },
+    "cnpj": {
+        "$numberInt": "7961"
+    },
+    "fantasia": "SCAN SAUDE E CIENCIA ANIMAL-CAMPINAS- COD.7961*",
+    "endereco": {
+        "logradouro": "RUA ALBANO DE ALMEIDA LIMA",
+        "numero": {
+            "$numberInt": "997"
+        },
+        "bairro": "CASTELO",
+        "cidade": "CAMPINAS"
+    },
+    "telefone": {
+        "$numberInt": "1932426159"
+    },
+    "contato": "LIVIA FAGUNDES"
+}

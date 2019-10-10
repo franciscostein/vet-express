@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import CategoriaCNH from '../../fragments/CategoriaCNH/CategoriaCNH';
 import Endereco from '../../fragments/Endereco/Endereco';
@@ -14,7 +13,7 @@ import styles from './Usuario.module.css';
 const usuario = props => {
     const [selectedDate, handleDateChange] = useState(new Date());
     return (
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Fragment>
             <h2 className={props.styles.row}>Usuário</h2>
             <form noValidate autoComplete="off">
                 <div className={props.styles.row}>
@@ -97,7 +96,7 @@ const usuario = props => {
                             fullWidth
                         />
                     </div>
-                    <div className={`${props.styles.col} ${props.styles.span1of2} ${styles.administrator}`}>
+                    <div className={`${props.styles.col} ${props.styles.span1of2} ${props.styles.switch}`}>
                         <FormControlLabel
                             control={
                                 <Switch
@@ -132,7 +131,7 @@ const usuario = props => {
                 
                 <FormButtons styles={props.styles} />
             </form>
-        </MuiPickersUtilsProvider>
+        </Fragment>
     );
 }
 
