@@ -8,6 +8,8 @@ import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import SelectClinica from '../../fragments/SelectClinica/SelectClinica';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
@@ -33,9 +35,11 @@ const retiradas = props => {
                         <SelectClinica />
                     </div>
                     <div className={`${props.styles.col} ${styles.span1of12}`}>
-                        <Fab color="primary" size="small" aria-label="add" className={`${props.styles.floatRight} ${styles.marginTop}`}>
-                            <AddIcon />
-                        </Fab>
+                        <Tooltip title="Adicionar clínica">
+                            <Fab color="primary" size="small" className={`${props.styles.floatRight} ${styles.marginTop}`}>
+                                <AddIcon />
+                            </Fab>
+                        </Tooltip>
                     </div>
                 </div>
                 <div className={props.styles.row}>
@@ -79,16 +83,22 @@ const retiradas = props => {
                 <div className={`${props.styles.row} ${styles.photoButton}`}>
                     <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
                     <label htmlFor="icon-button-file">
-                        <IconButton
-                            color="primary"
-                            // className={classes.button}
-                            aria-label="upload picture"
-                            component="span"
-                            edge="start"
-                        >
-                            <PhotoCamera />
-                        </IconButton>
+                        <Tooltip title="Adicionar imagem da colheta">
+                            <IconButton
+                                color="primary"
+                                aria-label="upload picture"
+                                component="span"
+                                edge="start"
+                            >
+                                <PhotoCamera />
+                            </IconButton>
+                        </Tooltip>
                     </label>
+                </div>
+                <div className={props.styles.row}>
+                    <Paper elevation="1" className={styles.img}>
+                        {/* <img src={require('../../../static/img/doggo.jpg')} alt="Doggo"/> */}
+                    </Paper>
                 </div>
 
                 <FormButtons styles={props.styles} variant="inset" />

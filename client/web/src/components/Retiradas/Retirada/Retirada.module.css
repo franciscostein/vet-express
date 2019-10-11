@@ -13,3 +13,12 @@
 .photoButton {
     margin-top: 25px !important;
 }
+
+h2 {
+    padding-bottom: 20px;
+}
+
+.img {
+    height: 200px;
+    width: auto;
+}
