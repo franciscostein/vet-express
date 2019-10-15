@@ -31,12 +31,12 @@ const retiradas = props => {
             <h2 className={props.styles.row}>Retirada</h2>
             <form noValidate autoComplete="off">
                 <div className={props.styles.row}>
-                    <div className={`${props.styles.col} ${styles.span11of12}`}>
+                    <div className={`${props.styles.col} ${props.styles.span11of12}`}>
                         <SelectClinica />
                     </div>
-                    <div className={`${props.styles.col} ${styles.span1of12}`}>
-                        <Tooltip title="Adicionar clínica">
-                            <Fab color="primary" size="small" className={`${props.styles.floatRight} ${styles.marginTop}`}>
+                    <div className={`${props.styles.col} ${props.styles.span1of12}`}>
+                        <Tooltip title="Nova clínica">
+                            <Fab color="primary" size="small" className={`${props.styles.floatRight} ${props.styles.fabMarginTop}`}>
                                 <AddIcon />
                             </Fab>
                         </Tooltip>

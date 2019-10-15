@@ -12,9 +12,13 @@ import Footer from './layout/Footer/Footer';
 
 import Login from './components/Login/Login';
 // import Retiradas from './components/Retiradas/Retiradas';
-import Retirada from './components/Retiradas/Retirada/Retirada';
+// import Retirada from './components/Retiradas/Retirada/Retirada';
+// import Clinicas from './components/Clinicas/Clinicas';
 // import Clinica from './components/Clinicas/Clinica/Clinica';
+// import Usuarios from './components/Usuarios/Usuarios';
 // import Usuario from './components/Usuarios/Usuario/Usuario';
+// import Motoristas from './components/Motoristas/Motoristas';
+import Motorista from './components/Motoristas/Motorista/Motorista';
 
 import globalStyles from './Global.module.css';
 
@@ -41,10 +45,14 @@ const App = () => {
                     <SideDrawer />
                     <Content className={globalStyles.content}>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <Retirada styles={globalStyles} />
+                            {/* <Retirada styles={globalStyles} /> */}
                             {/* <Retiradas styles={globalStyles} /> */}
+                            {/* <Clinicas styles={globalStyles} /> */}
                             {/* <Clinica styles={globalStyles} /> */}
+                            {/* <Usuarios styles={globalStyles} /> */}
                             {/* <Usuario styles={globalStyles} /> */}
+                            {/* <Motoristas styles={globalStyles} /> */}
+                            <Motorista styles={globalStyles} />
                         </MuiPickersUtilsProvider>
                     </Content>
                     <Footer styles={globalStyles} />

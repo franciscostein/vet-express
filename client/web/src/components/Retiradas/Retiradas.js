@@ -6,7 +6,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
-import CustomToolbar from '../fragments/CustomToolbar/CustomToolbar';
+import options from '../fragments/TableOptions/Options';
 
 import styles from './Retiradas.module.css';
 
@@ -21,18 +21,6 @@ const data = [
     [ 'AMAZOO CLINLAB COD.3349 *', '20/09/2019', 'retirada de material', 'Thelma Ahmed' ],
     [ 'CLINICA VETERINARIA MUNDO PET - VINHEDO 13334', '20/09/2019', '2 formulario raiva', 'Nayan Morgan' ]
 ];
-
-const options = {
-    filterType: 'checkbox',
-    responsive: 'scrollFullHeight',
-    download: false,
-    print: false,
-    customToolbar: () => {
-        return (
-            <CustomToolbar />
-        );
-    }
-}
 
 const useStyles = makeStyles(() => ({
     input: {

@@ -12,13 +12,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 
 const suggestions = [
-    { value: 4981, label: 'VETPAT LAB. DE ANALISE VETERINARIA - SP  COD-4981*' },
-    { value: 15240, label: 'ANIMAL CENTER - CAMPINAS' },
-    { value: 7134, label: 'DIAGPET - CAMPINAS' },
-    { value: 8969, label: 'LABORATORIO CDVE - CAMPINAS' },
-    { value: 7961, label: 'SCAN SAUDE E CIENCIA ANIMAL-CAMPINAS- COD.7961*' },
-    { value: 3349, label: 'AMAZOO CLINLAB COD.3349 *' },
-    { value: 13334, label: 'CLINICA VETERINARIA MUNDO PET - VINHEDO 13334' }
+    { value: 73025823003, label: 'Lívia Giovanna Mendes' },
+    { value: 15244743040, label: 'Arthur Guilherme Isaac Ramos' },
+    { value: 82960475003, label: 'Eduarda Maya da Costa' },
+    { value: 76724904005, label: 'Alexandre Anthony Luan Ramos' },
+    { value: 20735551014, label: 'Cláudio Paulo dos Santos' },
+    { value: 19507111026, label: 'Isabella Rebeca Francisca Viana' },
+    { value: 89320749094, label: 'Sérgio Levi Alves' },
+    { value: 10632197013, label: 'Letícia Adriana Cardoso' },
+    { value: 83638557073, label: 'Anderson Calebe Danilo Gomes' }
 ].map(suggestion => ({
     value: suggestion.value,
     label: suggestion.label,
@@ -345,7 +347,7 @@ export default function IntegrationReactSelect() {
                 styles={selectStyles}
                 inputId="react-select-single"
                 TextFieldProps={{
-                    label: 'Clínica',
+                    label: 'Usuário',
                     InputLabelProps: {
                         htmlFor: 'react-select-single',
                         shrink: true,
