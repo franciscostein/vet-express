@@ -215,8 +215,20 @@ form {
     margin: 0 auto !important;
 }
 
+@media only screen and (max-width: 480px) {
+	form {
+		width: 90%;
+	}
+}
+
 .formTable {
 	width: 90% !important;
+}
+
+@media only screen and (max-width: 480px) {
+	.formTable {
+		width: 100% !important;
+	}
 }
 
 /* FIELS ========================================================================================= */

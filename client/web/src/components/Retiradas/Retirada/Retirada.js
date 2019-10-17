@@ -101,7 +101,7 @@ const retiradas = props => {
                     </Paper>
                 </div>
 
-                <FormButtons styles={props.styles} variant="inset" />
+                <FormButtons styles={props.styles} />
             </form>
         </Fragment>
     );

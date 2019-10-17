@@ -4,6 +4,10 @@ import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 
 import SelectUsuario from '../../fragments/SelectUsuario/SelectUsuario';
+import SelectCidades from '../../fragments/SelectCidades/SelectCidades';
+import FormButtons from '../../fragments/FormButtons/FormButtons';
+
+import styles from './Motorista.module.css';
 
 const motorista = props => {
     return (
@@ -23,7 +27,40 @@ const motorista = props => {
                     </div>
                 </div>
 
-                <h3 className={props.styles.row}>Regiões</h3>
+                <h3 className={`${props.styles.row} ${styles.h3}`}>Regiões</h3>
+                <div className={`${props.styles.row} ${styles.dia}`}>
+                    <div className={`${props.styles.col} ${props.styles.span2of2}`}>
+                        <SelectCidades dia='Segunda-feira' />                       
+                    </div>                    
+                </div>
+                <div className={`${props.styles.row} ${styles.dia}`}>
+                    <div className={`${props.styles.col} ${props.styles.span2of2}`}>
+                        <SelectCidades dia='Terça-feira' />
+                    </div>
+                </div>
+                <div className={`${props.styles.row} ${styles.dia}`}>
+                    <div className={`${props.styles.col} ${props.styles.span2of2}`}>
+                        <SelectCidades dia='Quarta-feira' />
+                        
+                    </div>
+                </div>
+                <div className={`${props.styles.row} ${styles.dia}`}>
+                    <div className={`${props.styles.col} ${props.styles.span2of2}`}>
+                        <SelectCidades dia='Quinta-feira' />
+                    </div>
+                </div>
+                <div className={`${props.styles.row} ${styles.dia}`}>
+                    <div className={`${props.styles.col} ${props.styles.span2of2}`}>
+                        <SelectCidades dia='Sexta-feira' />
+                    </div>
+                </div>
+                <div className={`${props.styles.row} ${styles.dia}`}>
+                    <div className={`${props.styles.col} ${props.styles.span2of2}`}>
+                        <SelectCidades dia='Sábado' />
+                    </div>
+                </div>
+                
+                <FormButtons styles={props.styles} />
             </form>
         </Fragment>
     );
