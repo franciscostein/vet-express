@@ -2,11 +2,17 @@
     "_id": {
         "$oid": "5d6bff828d249b3b20ca4fce"
     },
+    "nome": "Francisco Roberto da Rocha",
     "cpf": {
         "$numberLong": "13830109601"
     },
-    "rg": {
-        "$numberInt": "361713484"
+    "nascimento": {
+        "$date": {
+            "$numberLong": "-276037200000"
+        }
+    },
+    "telefone": {
+        "$numberLong": "65991389478"
     },
     "cnh": {
         "numero": {
@@ -22,12 +28,6 @@
             "B"
         ]
     },
-    "nome": "Francisco Roberto da Rocha",
-    "nascimento": {
-        "$date": {
-            "$numberLong": "-276037200000"
-        }
-    },
     "endereco": {
         "cep": {
             "$numberInt": "78110640"
@@ -39,23 +39,6 @@
         "bairro": "Centro Norte",
         "cidade": "Várzea Grande",
         "estado": "MT"
-    },
-    "telefone": {
-        "celular": {
-            "profissional": {
-                "$numberLong": "65992717069"
-            },
-            "pessoal": {
-                "$numberLong": "65991389478"
-            }
-        },
-        "residencial": {
-            "$numberLong": "6526462884"
-        }
-    },
-    "filiacao": {
-        "mae": "Larissa Antônia",
-        "pai": "Gustavo Augusto Mário da Rocha"
     },
     "acesso": {
         "email": "franciscorobertodarocha_@selfcd.com.br",

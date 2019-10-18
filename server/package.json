@@ -11,10 +11,15 @@
     "type": "git",
     "url": "git+https://github.com/leandro94costa/vet-express.git"
   },
-  "author": "Eduardo Bento, Guilherme Gimenes, Leandro Costa, Melquisedeque Marques",
+  "author": "Leandro Costa",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/leandro94costa/vet-express/issues"
   },
-  "homepage": "https://github.com/leandro94costa/vet-express#readme"
+  "homepage": "https://github.com/leandro94costa/vet-express#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "mongoose": "^5.7.5",
+    "validator": "^11.1.0"
+  }
 }

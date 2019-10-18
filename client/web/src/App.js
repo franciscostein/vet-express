@@ -16,8 +16,8 @@ import Login from './components/Login/Login';
 // import Clinicas from './components/Clinicas/Clinicas';
 // import Clinica from './components/Clinicas/Clinica/Clinica';
 // import Usuarios from './components/Usuarios/Usuarios';
-// import Usuario from './components/Usuarios/Usuario/Usuario';
-import Motoristas from './components/Motoristas/Motoristas';
+import Usuario from './components/Usuarios/Usuario/Usuario';
+// import Motoristas from './components/Motoristas/Motoristas';
 // import Motorista from './components/Motoristas/Motorista/Motorista';
 
 import globalStyles from './Global.module.css';
@@ -50,8 +50,8 @@ const App = () => {
                             {/* <Clinicas styles={globalStyles} /> */}
                             {/* <Clinica styles={globalStyles} /> */}
                             {/* <Usuarios styles={globalStyles} /> */}
-                            {/* <Usuario styles={globalStyles} /> */}
-                            <Motoristas styles={globalStyles} />
+                            <Usuario styles={globalStyles} />
+                            {/* <Motoristas styles={globalStyles} /> */}
                             {/* <Motorista styles={globalStyles} /> */}
                         </MuiPickersUtilsProvider>
                     </Content>
