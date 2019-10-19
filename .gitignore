@@ -1,4 +1,5 @@
 Docs/Private
 client/web/node_modules
 server/node_modules
+server/src/utils/config
 /Vet Express.code-workspace
