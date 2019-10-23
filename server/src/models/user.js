@@ -12,8 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     cpf: {
         type: Number,
-        required: true,
-        trim: true
+        required: true
     },
     birthday: {
         type: Date,
@@ -26,7 +25,7 @@ const userSchema = new mongoose.Schema({
         number: {
             type: Number
         },
-        experingDate: {
+        expiringDate: {
             type: Date
         },
         category: [{

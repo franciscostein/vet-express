@@ -4,7 +4,7 @@ const router = new express.Router();
 const User = require('../../models/user');
 
 // Get users
-router.get('/users', async (req, res) => {
+router.get('/users', auth, async (req, res) => {
     try {
         const users = await User.find();
 
@@ -18,7 +18,7 @@ router.get('/users', async (req, res) => {
 });
 
 // Get user
-router.get('/users/:id', async (req, res) => {
+router.get('/users/:id', auth, async (req, res) => {
     const _id = req.params.id;
 
     try {
@@ -33,6 +33,20 @@ router.get('/users/:id', async (req, res) => {
     }
 });
 
+// Create user
+router.post('/users', auth, async (req, res) => {
+    const user = new User(req.body);
+
+    try {
+        await user.save();
+        const token = await user.generateAuthToken();
+
+        res.status(201).send({ user, token });
+    } catch(e) {
+        res.status(400).send(e);
+    }
+});
+
 // Update user
 router.patch('/users/:id', auth, async (req, res) => {
     // Gotta implement allowedUpdates
@@ -41,10 +55,13 @@ router.patch('/users/:id', auth, async (req, res) => {
 
         if (!user) {
             return res.status(404).send();
+        } else if (user.administrator) {
+            updates.forEach(update => user[update] = req.body[update]);
+            await user.save();
+            res.send(user);
+        } else {
+            res.status(403).send({ message: 'Ação só permitida para administradores' }); // 403 - forbidden
         }
-        updates.forEach(update => user[update] = req.body[update]);
-        await user.save();
-        res.send(user);
     } catch(e) {
         res.status(400).send(e);
     }
@@ -62,20 +79,6 @@ router.delete('/users/:id', auth, async (req, res) => {
         res.send(user);
     } catch(e) {
         res.status(500).send();
-    }
-});
-
-// Create user
-router.post('/users', async (req, res) => {
-    const user = new User(req.body);
-
-    try {
-        await user.save();
-        const token = await user.generateAuthToken();
-
-        res.status(201).send({ user, token });
-    } catch(e) {
-        res.status(400).send(e);
     }
 });
 
@@ -138,3 +141,4 @@ router.patch('/users/me', auth, async (req, res) => {
     }
 });
 
+module.exports = router;
