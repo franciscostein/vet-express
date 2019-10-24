@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -38,6 +40,29 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn(props) {
     const classes = useStyles();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleChangeEmail = value => {
+        setEmail(value);
+    }
+
+    const handleChangePassword = value => {
+        setPassword(value);
+    }
+
+    const doLogin = () => {
+        axios.post('/users/login', {
+            email,
+            password
+        })
+        .then(response => {
+            alert(response);
+        })
+        .catch(error => {
+            alert(`error: ${error} \nemail: ${email} \npassword: ${password}`);
+        });
+    }
     
     return (
         <Container component="main" maxWidth="xs">
@@ -49,7 +74,7 @@ export default function SignIn(props) {
                 <Typography component="h1" variant="h5" color="textSecondary">
                     Vet Express
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form}>
                     <TextField
                         margin="normal"
                         required
@@ -59,6 +84,8 @@ export default function SignIn(props) {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        value={email}
+                        onChange={event => handleChangeEmail(event.target.value)}
                     />
                     <TextField
                         margin="normal"
@@ -69,6 +96,8 @@ export default function SignIn(props) {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        value={password}
+                        onChange={event => handleChangePassword(event.target.value)}
                     />
                     <Button
                         type="submit"
@@ -76,6 +105,7 @@ export default function SignIn(props) {
                         variant="contained"
                         color="primary"
                         className={`${props.styles.primaryButton} ${styles.button}`}
+                        onClick={() => doLogin()}
                     >
                         Entrar
                     </Button>
