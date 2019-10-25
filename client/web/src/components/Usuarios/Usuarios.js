@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import MUIDataTable from 'mui-datatables';
 
 import options from '../fragments/TableOptions/Options';
@@ -19,17 +19,17 @@ const data = [
 
 const usuarios = props => {
     return (
-        <form className={props.styles.formTable}>
+        <Fragment>
             <h2 className={props.styles.row}>Usuários</h2>
-            <div>
+            <form className={props.styles.formTable}>
                 <MUIDataTable
                     title={''}
                     columns={columns}
                     data={data}
                     options={options}
                 />
-            </div>
-        </form>
+            </form>
+        </Fragment>
     );
 }
 

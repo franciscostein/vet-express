@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import Cookies from 'js-cookie';
 import MUIDataTable from 'mui-datatables';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -32,40 +33,47 @@ const loading = true;
   
 const retiradas = props => {
     const classes = useStyles();
-    
+    const user = Cookies.getJSON('user');
+
     return (
         <form className={props.styles.formTable}>
             
-            <Grid justify="center" container className={styles.topButton}>
-                <Grid item>
-                    <input
-                        accept=".xlsx, .xls"
-                        className={classes.input}
-                        id="contained-button-file"
-                        type="file"
-                    />
-                    <label htmlFor="contained-button-file">
-                        <Button 
-                            variant="contained" 
-                            component="span" 
-                            color="primary" 
-                            className={props.styles.primaryButton}
-                        >
-                            Importar
-                        </Button>
-                    </label>
-                </Grid>
-            </Grid>
+            { user.administrator ? 
+                <Fragment>
+                    <Grid justify="center" container className={styles.topButton}>
+                        <Grid item>
+                            <input
+                                accept=".xlsx, .xls"
+                                className={classes.input}
+                                id="contained-button-file"
+                                type="file"
+                            />
+                            <label htmlFor="contained-button-file">
+                                <Button 
+                                    variant="contained" 
+                                    component="span" 
+                                    color="primary" 
+                                    className={props.styles.primaryButton}
+                                >
+                                    Importar
+                                </Button>
+                            </label>
+                        </Grid>
+                    </Grid>
 
-            <div className={styles.progress}>
-            {
-                loading ? <LinearProgress variant="indeterminate" color="primary"/> : <CheckCircleIcon color="primary" fontSize="large"/>
-            }
-            </div>
+                    <div className={styles.progress}>
+                    {
+                        loading ? <LinearProgress variant="indeterminate" color="primary"/> : <CheckCircleIcon color="primary" fontSize="large"/>
+                    }
+                    </div>
+                </Fragment>
+            : <h2 className={props.styles.row}>Retiradas</h2> }
 
-            <div className={styles.table}>
+            
+
+            <div className={user.administrator ? styles.table : styles.marginTop}>
                 <MUIDataTable
-                    title={'Retiradas'}
+                    title={user.administrator ? 'Retiradas' : ''}
                     columns={columns}
                     data={data}
                     options={options}

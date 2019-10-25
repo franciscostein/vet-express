@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SignIn(props) {
+const SignIn = props => {
     const classes = useStyles();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -58,6 +59,9 @@ export default function SignIn(props) {
         })
         .then(response => {
             Cookies.set('authToken', response.data.token);
+            Cookies.set('user', response.data.user);
+
+            props.history.push("/");
             window.location.reload();
         })
         .catch(error => {
@@ -115,3 +119,5 @@ export default function SignIn(props) {
         </Container>
     );
 }
+
+export default withRouter(SignIn);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,10 +8,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
-import Retiradas from '@material-ui/icons/RestoreFromTrash';
-import Clinica from '@material-ui/icons/Store';
-import Motorista from '@material-ui/icons/SportsMotorsports';
-import Usuario from '@material-ui/icons/AccountBox';
+import RetiradasIcon from '@material-ui/icons/RestoreFromTrash';
+import ClinicasIcon from '@material-ui/icons/Store';
+import MotoristaIcon from '@material-ui/icons/SportsMotorsports';
+import UsuariosIcon from '@material-ui/icons/AccountBox';
 import Chat from '@material-ui/icons/ChatBubble';
 import Email from '@material-ui/icons/Email';
 import { Nav } from 'mui-layout';
@@ -28,8 +29,12 @@ function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
 }
 
-export default function SimpleList() {
+const SimpleList = props => {
     const classes = useStyles();
+
+    const handleLinkClick = path => {
+        props.history.push(path);
+    }
 
     return (
         <Nav
@@ -42,30 +47,42 @@ export default function SimpleList() {
                 <Divider />
                 <List component="nav" aria-label="main mailbox folders">
                     
-                    <ListItem button>
+                    <ListItem 
+                        button
+                        onClick={() => handleLinkClick('/')}
+                    >
                         <ListItemIcon>
-                            <Retiradas />
+                            <RetiradasIcon />
                         </ListItemIcon>
                         <ListItemText primary="Retiradas" />
                     </ListItem>
 
-                    <ListItem button>
+                    <ListItem 
+                        button 
+                        onClick={() => handleLinkClick('/clinicas')}
+                    >
                         <ListItemIcon>
-                            <Clinica />
+                            <ClinicasIcon />
                         </ListItemIcon>
                         <ListItemText primary="Clínicas" />
                     </ListItem>
 
-                    <ListItem button>
+                    <ListItem 
+                        button
+                        onClick={() => handleLinkClick('/motoristas')}
+                    >
                         <ListItemIcon>
-                            <Motorista />
+                            <MotoristaIcon />
                         </ListItemIcon>
                         <ListItemText primary="Motoristas" />
                     </ListItem>
 
-                    <ListItem button>
+                    <ListItem 
+                        button
+                        onClick={() => handleLinkClick('/usuarios')}
+                    >
                         <ListItemIcon>
-                            <Usuario />
+                            <UsuariosIcon />
                         </ListItemIcon>
                         <ListItemText primary="Usuários" />
                     </ListItem>
@@ -92,3 +109,5 @@ export default function SimpleList() {
         </Nav>
   );
 }
+
+export default withRouter(SimpleList);

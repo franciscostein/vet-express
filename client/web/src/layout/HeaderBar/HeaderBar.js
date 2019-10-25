@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Cookies from 'js-cookie';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
@@ -36,12 +38,24 @@ const HeaderBar = props => {
     }
 
     function handleProfile() {
-        // Redirect to profile page
+        return (
+            <Link to="/usuarios/perfil" />
+        );
     }
 
     function handleLogout() {
-        Cookies.remove('authToken');
-        window.location.reload();
+        const authToken = Cookies.get('authToken');
+        axios.post('/users/logout', null, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        })
+        .then(response => {
+            Cookies.remove('authToken');
+            Cookies.remove('user');
+            window.location.reload();
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }
 
     const {

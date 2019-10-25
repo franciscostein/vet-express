@@ -223,11 +223,13 @@ form {
 
 .formTable {
 	width: 90% !important;
+	margin-top: 30px !important;
 }
 
 @media only screen and (max-width: 480px) {
 	.formTable {
 		width: 100% !important;
+		margin-top: 30px !important;
 	}
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-// import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
@@ -14,13 +14,9 @@ import Footer from './layout/Footer/Footer';
 
 import Login from './components/Login/Login';
 import Retiradas from './components/Retiradas/Retiradas';
-// import Retirada from './components/Retiradas/Retirada/Retirada';
-// import Clinicas from './components/Clinicas/Clinicas';
-// import Clinica from './components/Clinicas/Clinica/Clinica';
-// import Usuarios from './components/Usuarios/Usuarios';
-// import Usuario from './components/Usuarios/Usuario/Usuario';
-// import Motoristas from './components/Motoristas/Motoristas';
-// import Motorista from './components/Motoristas/Motorista/Motorista';
+import Clinicas from './components/Clinicas/Clinicas';
+import Usuarios from './components/Usuarios/Usuarios';
+import Motoristas from './components/Motoristas/Motoristas';
 
 import globalStyles from './Global.module.css';
 
@@ -40,29 +36,35 @@ const auth = Cookies.get('authToken');
  
 const App = () => {
     return (
-        // <BrowserRouter>
-        <ThemeProvider theme={baseTheme}>
-            {auth === undefined ? <Login styles={globalStyles} /> :
-                <Root config={config}>
-                    <Header />
-                    <SideDrawer />
-                    <Content className={globalStyles.content}>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            {/* <Retirada styles={globalStyles} /> */}
-                            <Retiradas styles={globalStyles} />
-                            {/* <Clinicas styles={globalStyles} /> */}
-                            {/* <Clinica styles={globalStyles} /> */}
-                            {/* <Usuarios styles={globalStyles} /> */}
-                            {/* <Usuario styles={globalStyles} /> */}
-                            {/* <Motoristas styles={globalStyles} /> */}
-                            {/* <Motorista styles={globalStyles} /> */}
-                        </MuiPickersUtilsProvider>
-                    </Content>
-                    <Footer styles={globalStyles} />
-                </Root>
-            }
-        </ThemeProvider>
-        // </BrowserRouter>
+        <BrowserRouter>
+            <ThemeProvider theme={baseTheme}>
+                {auth === undefined ? <Login styles={globalStyles} /> :
+                    <Root config={config}>
+                        <Header />
+                        <SideDrawer />
+                        <Content className={globalStyles.content}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <Switch>
+                                    <Route path="/clinicas">
+                                        <Clinicas styles={globalStyles} />
+                                    </Route>
+                                    <Route path="/usuarios">
+                                        <Usuarios styles={globalStyles} />
+                                    </Route>
+                                    <Route path="/motoristas">
+                                        <Motoristas styles={globalStyles} />
+                                    </Route>
+                                    <Route exact path="/">
+                                        <Retiradas styles={globalStyles} />
+                                    </Route>
+                                </Switch>
+                            </MuiPickersUtilsProvider>
+                        </Content>
+                        <Footer styles={globalStyles} />
+                    </Root>
+                }
+            </ThemeProvider>
+        </BrowserRouter>
     );
 }
  
