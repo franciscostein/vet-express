@@ -57,10 +57,11 @@ export default function SignIn(props) {
             password
         })
         .then(response => {
-            alert(response);
+            Cookies.set('authToken', response.data.token);
+            window.location.reload();
         })
         .catch(error => {
-            alert(`error: ${error} \nemail: ${email} \npassword: ${password}`);
+            console.log(error);
         });
     }
     
@@ -74,7 +75,7 @@ export default function SignIn(props) {
                 <Typography component="h1" variant="h5" color="textSecondary">
                     Vet Express
                 </Typography>
-                <form className={classes.form}>
+                <div className={classes.form}>
                     <TextField
                         margin="normal"
                         required
@@ -109,7 +110,7 @@ export default function SignIn(props) {
                     >
                         Entrar
                     </Button>
-              </form>
+                </div>
             </div>
         </Container>
     );

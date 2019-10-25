@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -32,6 +33,15 @@ const HeaderBar = props => {
 
     function handleClose() {
         setAnchorEl(null);
+    }
+
+    function handleProfile() {
+        // Redirect to profile page
+    }
+
+    function handleLogout() {
+        Cookies.remove('authToken');
+        window.location.reload();
     }
 
     const {
@@ -88,8 +98,8 @@ const HeaderBar = props => {
                             open={open}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}><PersonOutlineIcon />&nbsp; Perfil</MenuItem>
-                            <MenuItem onClick={handleClose}><ExitToAppIcon />&nbsp; Sair</MenuItem>   
+                            <MenuItem onClick={event => handleProfile(event)}><PersonOutlineIcon />&nbsp; Perfil</MenuItem>
+                            <MenuItem onClick={event => handleLogout(event)}><ExitToAppIcon />&nbsp; Sair</MenuItem>   
                         </Menu>
                     </div>
                 </Grid>

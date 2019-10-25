@@ -8,8 +8,6 @@ import CategoriaCNH from '../../fragments/CategoriaCNH/CategoriaCNH';
 import Endereco from '../../fragments/Endereco/Endereco';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
 
-import styles from './Usuario.module.css';
-
 const usuario = props => {
     const [selectedDate, handleDateChange] = useState(new Date());
     return (

@@ -82,7 +82,7 @@ router.delete('/users/:id', auth, async (req, res) => {
     }
 });
 
-// Log in
+// Loggin in
 router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password);
@@ -93,7 +93,7 @@ router.post('/users/login', async (req, res) => {
     }
 });
 
-// Log out
+// Loggin out
 router.post('/users/logout', auth, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(token => {

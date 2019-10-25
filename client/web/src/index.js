@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 
 // default global settings for Axios
-axios.defaults.baseURL = 'localhost:4000';
+axios.defaults.baseURL = 'http://localhost:4000';
 axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
