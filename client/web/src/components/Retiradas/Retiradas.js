@@ -29,6 +29,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
+// DEV only
 const loading = true;
   
 const retiradas = props => {
@@ -76,7 +77,7 @@ const retiradas = props => {
                     title={user.administrator ? 'Retiradas' : ''}
                     columns={columns}
                     data={data}
-                    options={options}
+                    options={options(user.administrator)}
                 />
             </div>
         </form>

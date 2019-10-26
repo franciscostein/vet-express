@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import MUIDataTable from 'mui-datatables';
+import Cookies from 'js-cookie';
 
 import options from '../fragments/TableOptions/Options';
 
@@ -14,6 +15,8 @@ const data = [
 ]
 
 const motoristas = props => {
+    const user = Cookies.getJSON('user');
+
     return (
         <Fragment>
             <h2 className={props.styles.row}>Motoristas</h2>
@@ -22,7 +25,7 @@ const motoristas = props => {
                     title={''}
                     columns={columns}
                     data={data}
-                    options={options}
+                    options={options(user.administrator)}
                 />
             </form>
         </Fragment>

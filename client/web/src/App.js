@@ -15,6 +15,7 @@ import Footer from './layout/Footer/Footer';
 import Login from './components/Login/Login';
 import Retiradas from './components/Retiradas/Retiradas';
 import Clinicas from './components/Clinicas/Clinicas';
+import Clinica from './components/Clinicas/Clinica/Clinica';
 import Usuarios from './components/Usuarios/Usuarios';
 import Motoristas from './components/Motoristas/Motoristas';
 
@@ -47,6 +48,9 @@ const App = () => {
                                 <Switch>
                                     <Route path="/clinicas">
                                         <Clinicas styles={globalStyles} />
+                                    </Route>
+                                    <Route path="/clinica">
+                                        <Clinica styles={globalStyles} />
                                     </Route>
                                     <Route path="/usuarios">
                                         <Usuarios styles={globalStyles} />
