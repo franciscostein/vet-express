@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from 'react';
+import { useHistory } from "react-router-dom";
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -25,6 +26,11 @@ const useStyles = makeStyles(() => ({
 const retiradas = props => {
     const classes = useStyles();
     const [selectedDate, handleDateChange] = useState(new Date());
+    const history = useHistory();
+
+    const novaClinicaClickHandler = () => {
+        history.push('/clinica');
+    }
 
     return (
         <Fragment>
@@ -36,7 +42,12 @@ const retiradas = props => {
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of12}`}>
                         <Tooltip title="Nova clínica">
-                            <Fab color="primary" size="small" className={`${props.styles.floatRight} ${props.styles.fabMarginTop}`}>
+                            <Fab
+                                className={`${props.styles.floatRight} ${props.styles.fabMarginTop}`} 
+                                color="primary" 
+                                size="small" 
+                                onClick={() => novaClinicaClickHandler()}
+                            >
                                 <AddIcon />
                             </Fab>
                         </Tooltip>

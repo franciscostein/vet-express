@@ -371,7 +371,7 @@ export default function IntegrationReactSelect() {
                         shrink: true,
                     },
                 }}
-                placeholder="Selecione um estado"
+                placeholder="Estado"
                 options={suggestions}
                 components={components}
                 value={single}

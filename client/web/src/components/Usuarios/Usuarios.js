@@ -29,7 +29,7 @@ const usuarios = props => {
                     title={''}
                     columns={columns}
                     data={data}
-                    options={options(user.administrator)}
+                    options={options(user.administrator, '/usuario')}
                 />
             </form>
         </Fragment>

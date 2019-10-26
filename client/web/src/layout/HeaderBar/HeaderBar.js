@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import IconButton from '@material-ui/core/IconButton';
@@ -28,6 +28,7 @@ const useHeaderStyles = makeStyles(({ palette }) => ({
 const HeaderBar = props => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+    const history = useHistory();
 
     function handleMenu(event) {
         setAnchorEl(event.currentTarget);
@@ -38,9 +39,8 @@ const HeaderBar = props => {
     }
 
     function handleProfile() {
-        return (
-            <Link to="/usuarios/perfil" />
-        );
+        const { _id } = Cookies.getJSON('user');
+        history.push(`/usuario/${_id}`);
     }
 
     function handleLogout() {

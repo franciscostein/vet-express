@@ -25,7 +25,7 @@ const motoristas = props => {
                     title={''}
                     columns={columns}
                     data={data}
-                    options={options(user.administrator)}
+                    options={options(user.administrator, '/motorista')}
                 />
             </form>
         </Fragment>

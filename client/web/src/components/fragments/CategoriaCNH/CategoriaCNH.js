@@ -349,7 +349,7 @@ export default function IntegrationReactSelect() {
                         shrink: true,
                     },
                 }}
-                placeholder="Selecione categorias"
+                placeholder="A, B..."
                 options={suggestions}
                 components={components}
                 value={multi}

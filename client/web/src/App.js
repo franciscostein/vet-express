@@ -14,10 +14,13 @@ import Footer from './layout/Footer/Footer';
 
 import Login from './components/Login/Login';
 import Retiradas from './components/Retiradas/Retiradas';
+import Retirada from './components/Retiradas/Retirada/Retirada';
 import Clinicas from './components/Clinicas/Clinicas';
 import Clinica from './components/Clinicas/Clinica/Clinica';
 import Usuarios from './components/Usuarios/Usuarios';
+import Usuario from './components/Usuarios/Usuario/Usuario';
 import Motoristas from './components/Motoristas/Motoristas';
+import Motorista from './components/Motoristas/Motorista/Motorista';
 
 import globalStyles from './Global.module.css';
 
@@ -49,14 +52,23 @@ const App = () => {
                                     <Route path="/clinicas">
                                         <Clinicas styles={globalStyles} />
                                     </Route>
-                                    <Route path="/clinica">
+                                    <Route path="/clinica/:id?">
                                         <Clinica styles={globalStyles} />
                                     </Route>
                                     <Route path="/usuarios">
                                         <Usuarios styles={globalStyles} />
                                     </Route>
+                                    <Route path="/usuario/:id?">
+                                        <Usuario styles={globalStyles} />
+                                    </Route>
                                     <Route path="/motoristas">
                                         <Motoristas styles={globalStyles} />
+                                    </Route>
+                                    <Route path="/motorista/:id?">
+                                        <Motorista styles={globalStyles} />
+                                    </Route>
+                                    <Route path="/retirada/:id?">
+                                        <Retirada styles={globalStyles} />
                                     </Route>
                                     <Route exact path="/">
                                         <Retiradas styles={globalStyles} />

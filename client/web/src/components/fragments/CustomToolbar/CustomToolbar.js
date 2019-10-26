@@ -10,28 +10,23 @@ const defaultToolbarStyles = {
     },
 };
 
-class CustomToolbar extends React.Component {
+const CustomToolbar = props => {
+    const { classes } = props;
+    const history = useHistory();
     
-    handleClick = () => {
-        const history = useHistory();
-
-        history.push(this.props.addPath);
+    const handleClick = () => {
+        history.push(props.addPath);
     }
 
-    render() {
-        const { classes } = this.props;
-
-        return (
-            <React.Fragment>
-                <Tooltip title={"Adicionar"}>
-                <IconButton className={classes.iconButton} onClick={this.handleClick}>
-                    <AddIcon className={classes.deleteIcon} />
-                </IconButton>
-                </Tooltip>
-            </React.Fragment>
-        );
-    }
-
+    return (
+        <React.Fragment>
+            <Tooltip title={"Adicionar"}>
+            <IconButton className={classes.iconButton} onClick={() => handleClick()}>
+                <AddIcon className={classes.deleteIcon} />
+            </IconButton>
+            </Tooltip>
+        </React.Fragment>
+    );
 }
 
 export default withStyles(defaultToolbarStyles, { name: "CustomToolbar" })(CustomToolbar);

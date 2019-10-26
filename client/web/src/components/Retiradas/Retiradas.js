@@ -77,7 +77,7 @@ const retiradas = props => {
                     title={user.administrator ? 'Retiradas' : ''}
                     columns={columns}
                     data={data}
-                    options={options(user.administrator)}
+                    options={options(user.administrator, '/retirada')}
                 />
             </div>
         </form>

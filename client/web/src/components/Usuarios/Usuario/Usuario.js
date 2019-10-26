@@ -1,4 +1,6 @@
-import React, { useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import { useLocation } from 'react-router-dom';
+import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -10,6 +12,17 @@ import FormButtons from '../../fragments/FormButtons/FormButtons';
 
 const usuario = props => {
     const [selectedDate, handleDateChange] = useState(new Date());
+    const [cpf, setCpf] = useState('');
+    const location = useLocation();
+
+    useEffect(() => {
+        console.log(location.search);
+    });
+
+    const handleChangeCpf = value => {
+        setCpf(value);
+    }
+
     return (
         <Fragment>
             <h2 className={props.styles.row}>Usuário</h2>
@@ -33,7 +46,11 @@ const usuario = props => {
                             margin="normal"
                             required
                             fullWidth
-                        />
+                            value={cpf}
+                            onChange={event => handleChangeCpf(event)}
+                        >
+                            <InputMask mask="999.999.999-99" maskChar=" " />
+                        </TextField>
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3}`}>
                         <KeyboardDatePicker

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useHistory } from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
@@ -10,6 +11,12 @@ import FormButtons from '../../fragments/FormButtons/FormButtons';
 import styles from './Motorista.module.css';
 
 const motorista = props => {
+    const history = useHistory();
+
+    const novoMotoristaClickHandler = () => {
+        history.push('/usuario');
+    }
+
     return (
         <Fragment>
             <h2 className={props.styles.row}>Motorista</h2>
@@ -20,7 +27,12 @@ const motorista = props => {
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of12}`}>
                         <Tooltip title="Novo usuário">
-                            <Fab color="primary" size="small" className={`${props.styles.floatRight} ${props.styles.fabMarginTop}`}>
+                            <Fab
+                                className={`${props.styles.floatRight} ${props.styles.fabMarginTop}`} 
+                                color="primary" 
+                                size="small" 
+                                onClick={() => novoMotoristaClickHandler()}
+                            >
                                 <AddIcon />
                             </Fab>
                         </Tooltip>

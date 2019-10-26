@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -31,6 +32,7 @@ function ListItemLink(props) {
 
 const SimpleList = props => {
     const classes = useStyles();
+    const { administrator } = Cookies.getJSON('user');
 
     const handleLinkClick = path => {
         props.history.push(path);
@@ -67,25 +69,30 @@ const SimpleList = props => {
                         <ListItemText primary="Clínicas" />
                     </ListItem>
 
-                    <ListItem 
-                        button
-                        onClick={() => handleLinkClick('/motoristas')}
-                    >
-                        <ListItemIcon>
-                            <MotoristaIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Motoristas" />
-                    </ListItem>
+                    { administrator ? 
+                        <Fragment>
+                            <ListItem 
+                                button
+                                onClick={() => handleLinkClick('/motoristas')}
+                            >
+                                <ListItemIcon>
+                                    <MotoristaIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Motoristas" />
+                            </ListItem>
 
-                    <ListItem 
-                        button
-                        onClick={() => handleLinkClick('/usuarios')}
-                    >
-                        <ListItemIcon>
-                            <UsuariosIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Usuários" />
-                    </ListItem>
+                            <ListItem 
+                                button
+                                onClick={() => handleLinkClick('/usuarios')}
+                            >
+                                <ListItemIcon>
+                                    <UsuariosIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Usuários" />
+                            </ListItem>
+                        </Fragment>
+                    : '' }
+                    
                 </List>
                 <div className={classes.toolbar} />
                 <Divider />
