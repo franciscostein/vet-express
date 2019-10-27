@@ -1,8 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import CustomToolbar from '../CustomToolbar/CustomToolbar';
-import DeleteConfirmation from '../../fragments/DeleteConfirmation/DeleteConfirmation';
+// import DeleteConfirmation from '../../fragments/DeleteConfirmation/DeleteConfirmation';
 
 const options = (admin, addPath) => {
+    const history = useHistory();
+
     const commomConfig = {
         filterType: 'checkbox',
         responsive: 'scrollFullHeight',
@@ -39,18 +42,23 @@ const options = (admin, addPath) => {
                 delete: "Excluir",
                 deleteAria: "Excluir linhas selecionadas",
             }
+        },
+        onRowClick: (rowData, rowMeta) => {
+            const _id = rowData[0];
+            history.push(`${addPath}/${_id}`);
         }
     }
 
     if (admin) {
         return {
             ...commomConfig,
-            onRowsDelete: () => {
-                // Callback function that triggers when row(s) are deleted. 
+            // Callback function that triggers when row(s) are deleted.
+            onRowsDelete: rowsDeleted => {
                 // function(rowsDeleted: object(lookup: {[dataIndex]: boolean}, data: arrayOfObjects: {index: number, dataIndex: number})) => void OR false (Returning false prevents row deletion.)
+                console.log(rowsDeleted);
                 return (
-                    <DeleteConfirmation />
-                    
+                    // <DeleteConfirmation />
+                    false    
                 );
             },
             customToolbar: () => {

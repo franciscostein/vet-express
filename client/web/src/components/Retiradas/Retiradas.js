@@ -11,16 +11,16 @@ import options from '../fragments/TableOptions/Options';
 
 import styles from './Retiradas.module.css';
 
-const columns = [ 'Clínica', 'Data', 'Observação', 'Motorista' ];
+const columns = [{ name: 'id', options: { display: false, viewColumns: false, filter: false, searchable: false } }, 'Clínica', 'Data', 'Observação', 'Motorista' ];
 
 const data = [
-    [ 'VETPAT LAB. DE ANALISE VETERINARIA - SP  COD-4981*', '20/09/2019', '', 'Jevan Stout' ],
-    [ 'ANIMAL CENTER - CAMPINAS', '20/09/2019', '', 'Jevan Stout' ],
-    [ 'DIAGPET - CAMPINAS', '20/09/2019', '', 'Jevan Stout' ],
-    [ 'LABORATORIO CDVE - CAMPINAS', '20/09/2019', '.', 'Jevan Stout' ],
-    [ 'SCAN SAUDE E CIENCIA ANIMAL-CAMPINAS- COD.7961*', '20/09/2019', 'retirada de material', 'Jevan Stout' ],
-    [ 'AMAZOO CLINLAB COD.3349 *', '20/09/2019', 'retirada de material', 'Thelma Ahmed' ],
-    [ 'CLINICA VETERINARIA MUNDO PET - VINHEDO 13334', '20/09/2019', '2 formulario raiva', 'Nayan Morgan' ]
+    ['123', 'VETPAT LAB. DE ANALISE VETERINARIA - SP  COD-4981*', '20/09/2019', '', 'Jevan Stout' ],
+    ['123', 'ANIMAL CENTER - CAMPINAS', '20/09/2019', '', 'Jevan Stout' ],
+    ['123', 'DIAGPET - CAMPINAS', '20/09/2019', '', 'Jevan Stout' ],
+    ['123', 'LABORATORIO CDVE - CAMPINAS', '20/09/2019', '.', 'Jevan Stout' ],
+    ['123', 'SCAN SAUDE E CIENCIA ANIMAL-CAMPINAS- COD.7961*', '20/09/2019', 'retirada de material', 'Jevan Stout' ],
+    ['123', 'AMAZOO CLINLAB COD.3349 *', '20/09/2019', 'retirada de material', 'Thelma Ahmed' ],
+    ['123', 'CLINICA VETERINARIA MUNDO PET - VINHEDO 13334', '20/09/2019', '2 formulario raiva', 'Nayan Morgan' ]
 ];
 
 const useStyles = makeStyles(() => ({

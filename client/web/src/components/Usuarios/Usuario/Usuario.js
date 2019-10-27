@@ -1,6 +1,8 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { useLocation } from 'react-router-dom';
-import InputMask from 'react-input-mask';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+// import InputMask from 'react-input-mask';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
@@ -12,15 +14,52 @@ import FormButtons from '../../fragments/FormButtons/FormButtons';
 
 const usuario = props => {
     const [selectedDate, handleDateChange] = useState(new Date());
+    const { id } = useParams();
+    const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
-    const location = useLocation();
-
+    const [telefone, setTelefone] = useState('');
+    const [numeroCNH, setNumeroCNH] = useState('');
+    const [email, setEmail] = useState('');
+    
     useEffect(() => {
-        console.log(location.search);
-    });
+        if (id) {
+            const authToken = Cookies.get('authToken');
+            console.log(authToken);
+            axios.get(`/users/${id}`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+            .then(response => {
+                const { data } = response;
+                setNome(data.name);
+                setCpf(data.cpf);
+                setTelefone(data.phone);
+                setNumeroCNH(data.cnh.number);
+                setEmail(data.email);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    }, []);
+
+    const handleChangeNome = value => {
+        setNome(value);
+    }
 
     const handleChangeCpf = value => {
         setCpf(value);
+    }
+
+    const handleChangeTelefone = value => {
+        setTelefone(value);
+    }
+
+    const handleChangeNumeroCNH = value => {
+        setNumeroCNH(value);
+    }
+
+    const handleChangeEmail = value => {
+        setEmail(value);
     }
 
     return (
@@ -35,6 +74,8 @@ const usuario = props => {
                             margin="normal"
                             required
                             fullWidth
+                            value={nome}
+                            onChange={event => handleChangeNome(event.target.value)}
                         />
                     </div>
                 </div>
@@ -47,9 +88,12 @@ const usuario = props => {
                             required
                             fullWidth
                             value={cpf}
-                            onChange={event => handleChangeCpf(event)}
+                            onChange={event => handleChangeCpf(event.target.value)}
+                            inputProps={{
+                                maxlength: 11
+                            }}
                         >
-                            <InputMask mask="999.999.999-99" maskChar=" " />
+                            {/* <InputMask mask="999.999.999-99" maskChar=" " /> */}
                         </TextField>
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3}`}>
@@ -69,6 +113,8 @@ const usuario = props => {
                             className={props.styles.floatRight}
                             margin="normal"
                             fullWidth
+                            value={telefone}
+                            onChange={event => handleChangeTelefone(event.target.value)}
                         />    
                     </div>
                 </div>
@@ -81,6 +127,8 @@ const usuario = props => {
                             label="Número"
                             margin="normal"
                             fullWidth
+                            value={numeroCNH}
+                            onChange={event => handleChangeNumeroCNH(event.target.value)}
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3}`}>
@@ -109,6 +157,8 @@ const usuario = props => {
                             margin="normal"
                             required
                             fullWidth
+                            value={email}
+                            onChange={event => handleChangeEmail(event.target.value)}
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of2} ${props.styles.switch}`}>
