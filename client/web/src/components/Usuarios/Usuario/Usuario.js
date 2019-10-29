@@ -13,18 +13,29 @@ import Endereco from '../../fragments/Endereco/Endereco';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
 
 const usuario = props => {
-    const [selectedDate, handleDateChange] = useState(new Date());
     const { id } = useParams();
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
+    const [nascimento, setNascimento] = useState(new Date());
     const [telefone, setTelefone] = useState('');
     const [numeroCNH, setNumeroCNH] = useState('');
+    const [validadeCNH, setValidadeCNH] = useState(new Date());
+    const [categoriasCNH, setCategoriasCNH] = useState([]);
+    const [endereco, setEndereco] = useState({
+        cep: '',
+        logradouro: '',
+        numero: '',
+        bairro: '',
+        cidade: '',
+        estado: ''
+    });
     const [email, setEmail] = useState('');
+    const [admin, setAdmin] = useState({ checkedAdmin: false });
     
     useEffect(() => {
         if (id) {
             const authToken = Cookies.get('authToken');
-            console.log(authToken);
+
             axios.get(`/users/${id}`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             })
@@ -32,9 +43,13 @@ const usuario = props => {
                 const { data } = response;
                 setNome(data.name);
                 setCpf(data.cpf);
+                setNascimento(formatDate(data.birthday));
                 setTelefone(data.phone);
                 setNumeroCNH(data.cnh.number);
+                setValidadeCNH(formatDate(data.cnh.expiringDate));
+                setCategoriasCNH(data.cnh.category);
                 setEmail(data.email);
+                setAdmin({ ...admin, checkedAdmin: data.administrator });
             })
             .catch(error => {
                 console.log(error);
@@ -42,25 +57,17 @@ const usuario = props => {
         }
     }, []);
 
-    const handleChangeNome = value => {
-        setNome(value);
+    const formatDate = date => {
+        const dateArray = date.split('-');
+        const day = dateArray[1];
+        const month = dateArray[2].substring(0, 2);
+        const year = dateArray[0];
+        return `${month}/${day}/${year}`;
     }
 
-    const handleChangeCpf = value => {
-        setCpf(value);
-    }
-
-    const handleChangeTelefone = value => {
-        setTelefone(value);
-    }
-
-    const handleChangeNumeroCNH = value => {
-        setNumeroCNH(value);
-    }
-
-    const handleChangeEmail = value => {
-        setEmail(value);
-    }
+    const handleChangeAdmin = name => event => {
+        setAdmin({ ...admin, [name]: event.target.checked });
+    };
 
     return (
         <Fragment>
@@ -75,7 +82,7 @@ const usuario = props => {
                             required
                             fullWidth
                             value={nome}
-                            onChange={event => handleChangeNome(event.target.value)}
+                            onChange={event => setNome(event.target.value)}
                         />
                     </div>
                 </div>
@@ -88,7 +95,7 @@ const usuario = props => {
                             required
                             fullWidth
                             value={cpf}
-                            onChange={event => handleChangeCpf(event.target.value)}
+                            onChange={event => setCpf(event.target.value)}
                             inputProps={{
                                 maxlength: 11
                             }}
@@ -101,8 +108,8 @@ const usuario = props => {
                             id="inputNascimento"
                             label="Nascimento"
                             format="dd/MM/yyyy"
-                            value={selectedDate}
-                            onChange={date => handleDateChange(date)}
+                            value={nascimento}
+                            onChange={date => setNascimento(date)}
                             margin="normal"
                         />
                     </div>
@@ -114,7 +121,7 @@ const usuario = props => {
                             margin="normal"
                             fullWidth
                             value={telefone}
-                            onChange={event => handleChangeTelefone(event.target.value)}
+                            onChange={event => setTelefone(event.target.value)}
                         />    
                     </div>
                 </div>
@@ -128,21 +135,21 @@ const usuario = props => {
                             margin="normal"
                             fullWidth
                             value={numeroCNH}
-                            onChange={event => handleChangeNumeroCNH(event.target.value)}
+                            onChange={event => setNumeroCNH(event.target.value)}
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3}`}>
                         <KeyboardDatePicker
                             id="inputValidadeCNH"
-                            label="Validade"
+                            label="Válido até"
                             format="dd/MM/yyyy"
-                            value={selectedDate}
-                            onChange={date => handleDateChange(date)}
+                            value={validadeCNH}
+                            onChange={date => setValidadeCNH(date)}
                             margin="normal"
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3} ${props.styles.select}`}>
-                        <CategoriaCNH />
+                        <CategoriaCNH value={categoriasCNH} onChange={event => setCategoriasCNH(event)} />
                     </div>
                 </div>
 
@@ -158,7 +165,7 @@ const usuario = props => {
                             required
                             fullWidth
                             value={email}
-                            onChange={event => handleChangeEmail(event.target.value)}
+                            onChange={event => setEmail(event.target.value)}
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of2} ${props.styles.switch}`}>
@@ -166,6 +173,9 @@ const usuario = props => {
                             control={
                                 <Switch
                                     color="primary"
+                                    checked={admin.checkedAdmin}
+                                    onChange={handleChangeAdmin('checkedAdmin')}
+                                    value="checkedAdmin"
                                 />
                             }
                             label="Administrador"

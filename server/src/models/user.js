@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+require('mongoose-long')(mongoose);
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -12,18 +13,20 @@ const userSchema = new mongoose.Schema({
     },
     cpf: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
     birthday: {
         type: Date,
         required: true
     },
     phone: {
-        type: Number
+        type: mongoose.Types.Long
     },
     cnh: {
         number: {
-            type: Number
+            type: Number,
+            unique: true
         },
         expiringDate: {
             type: Date

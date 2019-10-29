@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Select from 'react-select';
@@ -11,15 +11,15 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-const suggestions = [
-    { label: 'A' },
-    { label: 'B' },
-    { label: 'C' },
-    { label: 'D' },
-    { label: 'E' }
-].map(suggestion => ({
-    value: suggestion.label,
-    label: suggestion.label,
+const categories = [
+    { category: 'A' },
+    { category: 'B' },
+    { category: 'C' },
+    { category: 'D' },
+    { category: 'E' }
+].map(categories => ({
+    value: categories.category,
+    label: categories.category,
 }));
 
 const useStyles = makeStyles(theme => ({
@@ -317,13 +317,28 @@ const components = {
     ValueContainer,
 };
 
-export default function IntegrationReactSelect() {
+export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const [multi, setMulti] = React.useState(null);
+    const [multi, setMulti] = useState(null);
+
+    useEffect(() => {
+        console.log(props);
+        const value = props.value;
+        const values = [];
+        const categorias = ['A', 'B', 'C', 'D', 'E'];
+
+        value.forEach(item => {
+            values.push(categories[categorias.indexOf(item)]);
+        });
+
+        console.log(values);
+
+        setMulti(values);
+    }, []);
 
     function handleChangeMulti(value) {
-        setMulti(value);
+        props.onChange(value);
     }
 
     const selectStyles = {
@@ -350,10 +365,10 @@ export default function IntegrationReactSelect() {
                     },
                 }}
                 placeholder="A, B..."
-                options={suggestions}
+                options={categories}
                 components={components}
                 value={multi}
-                onChange={handleChangeMulti}
+                onChange={event => handleChangeMulti(event)}
                 isMulti
             />
         </NoSsr>

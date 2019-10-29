@@ -52,7 +52,9 @@ const SignIn = props => {
         setPassword(value);
     }
 
-    const doLogin = () => {
+    const doLogin = event => {
+        event.preventDefault();
+
         axios.post('/users/login', {
             email,
             password
@@ -72,7 +74,7 @@ const SignIn = props => {
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
+            <form className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <img src={`${process.env.PUBLIC_URL}/flask64.svg`} alt="logo"></img>
                 </Avatar>
@@ -110,12 +112,12 @@ const SignIn = props => {
                         variant="contained"
                         color="primary"
                         className={`${props.styles.primaryButton} ${styles.button}`}
-                        onClick={() => doLogin()}
+                        onClick={event => doLogin(event)}
                     >
                         Entrar
                     </Button>
                 </div>
-            </div>
+            </form>
         </Container>
     );
 }
