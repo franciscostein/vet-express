@@ -14,6 +14,7 @@ import FormButtons from '../../fragments/FormButtons/FormButtons';
 
 const usuario = props => {
     const { id } = useParams();
+    const { administrator } = Cookies.getJSON('user');
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
     const [nascimento, setNascimento] = useState(new Date());
@@ -60,8 +61,8 @@ const usuario = props => {
 
     const formatDate = date => {
         const dateArray = date.split('-');
-        const day = dateArray[1];
-        const month = dateArray[2].substring(0, 2);
+        const day = dateArray[2].substring(0, 2);
+        const month = dateArray[1];
         const year = dateArray[0];
         return `${month}/${day}/${year}`;
     }
@@ -100,6 +101,7 @@ const usuario = props => {
                             margin="normal"
                             required
                             fullWidth
+                            disabled={!administrator}
                             value={cpf}
                             onChange={event => setCpf(event.target.value)}
                             inputProps={{
@@ -139,6 +141,7 @@ const usuario = props => {
                             id="inputNumeroCNH"
                             label="Número"
                             margin="normal"
+                            disabled={!administrator}
                             fullWidth
                             value={numeroCNH}
                             onChange={event => setNumeroCNH(event.target.value)}
@@ -168,6 +171,7 @@ const usuario = props => {
                             id="inputEmail"
                             label="E-mail"
                             margin="normal"
+                            disabled={!administrator}
                             required
                             fullWidth
                             value={email}
@@ -179,6 +183,7 @@ const usuario = props => {
                             control={
                                 <Switch
                                     color="primary"
+                                    disabled={!administrator}
                                     checked={admin.checkedAdmin}
                                     onChange={handleChangeAdmin('checkedAdmin')}
                                     value="checkedAdmin"

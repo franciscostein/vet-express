@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Select from 'react-select';
@@ -11,7 +11,7 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-const suggestions = [
+const estados = [
     { value: 'AC', label: 'Acre' },
     { value: 'AL', label: 'Alagoas' },
     { value: 'AP', label: 'Amapá' },
@@ -38,10 +38,10 @@ const suggestions = [
     { value: 'SC', label: 'Santa Catarina' },
     { value: 'SP', label: 'São Paulo' },
     { value: 'SE', label: 'Sergipe' },
-    { value: 'TO', label: 'Tocantins' },
-].map(suggestion => ({
-    value: suggestion.value,
-    label: suggestion.label,
+    { value: 'TO', label: 'Tocantins' }
+].map(estados => ({
+    value: estados.value,
+    label: estados.label,
 }));
 
 const useStyles = makeStyles(theme => ({
@@ -339,10 +339,17 @@ const components = {
     ValueContainer,
 };
 
-export default function IntegrationReactSelect() {
+export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const [single, setSingle] = React.useState(null);
+    const [single, setSingle] = useState(null);
+
+    useEffect(() => {
+        if (props.value) {
+            const ufs = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
+            setSingle(estados[ufs.indexOf(props.value)]);
+        }
+    }, [props.value]);
     
     function handleChangeSingle(value) {
         setSingle(value);
@@ -372,7 +379,7 @@ export default function IntegrationReactSelect() {
                     },
                 }}
                 placeholder="Estado"
-                options={suggestions}
+                options={estados}
                 components={components}
                 value={single}
                 onChange={handleChangeSingle}
@@ -380,3 +387,4 @@ export default function IntegrationReactSelect() {
         </NoSsr>
     );
 }
+
