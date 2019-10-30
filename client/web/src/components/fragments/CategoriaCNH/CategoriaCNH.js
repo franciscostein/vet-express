@@ -323,23 +323,22 @@ export default function IntegrationReactSelect(props) {
     const [multi, setMulti] = useState(null);
 
     useEffect(() => {
-        console.log(props);
-        const value = props.value;
-        const values = [];
-        const categorias = ['A', 'B', 'C', 'D', 'E'];
+        if (props.value) {
+            const value = props.value;
+            const values = [];
+            const categorias = ['A', 'B', 'C', 'D', 'E'];
 
-        value.forEach(item => {
-            values.push(categories[categorias.indexOf(item)]);
-        });
+            value.forEach(item => {
+                values.push(categories[categorias.indexOf(item)]);
+            });
 
-        console.log(values);
+            setMulti(values);
+        }
+    }, [props.value]);
 
-        setMulti(values);
-    }, []);
-
-    function handleChangeMulti(value) {
-        props.onChange(value);
-    }
+    const handleChangeMulti = value => {
+        setMulti(value);
+    };
 
     const selectStyles = {
         input: base => ({
@@ -368,7 +367,7 @@ export default function IntegrationReactSelect(props) {
                 options={categories}
                 components={components}
                 value={multi}
-                onChange={event => handleChangeMulti(event)}
+                onChange={handleChangeMulti}
                 isMulti
             />
         </NoSsr>

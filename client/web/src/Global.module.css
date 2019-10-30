@@ -202,8 +202,8 @@ h2 {
 
 h3 {
     font-size: 110%;
-    margin-top: 50px !important;
-    margin-bottom: -20px !important;
+	margin-top: 50px !important;
+	margin-bottom: -10px !important;
 	font-weight: 400 bold;
 	color: #555;
 }

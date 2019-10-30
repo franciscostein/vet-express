@@ -48,6 +48,7 @@ const usuario = props => {
                 setNumeroCNH(data.cnh.number);
                 setValidadeCNH(formatDate(data.cnh.expiringDate));
                 setCategoriasCNH(data.cnh.category);
+                handleChangeEndereco(data.address);
                 setEmail(data.email);
                 setAdmin({ ...admin, checkedAdmin: data.administrator });
             })
@@ -65,9 +66,14 @@ const usuario = props => {
         return `${month}/${day}/${year}`;
     }
 
+    const handleChangeEndereco = address => {
+        const { zipCode, street, number, neighborhood, city, state } = address;
+        setEndereco({ cep: zipCode, logradouro: street, numero: number, bairro: neighborhood, cidade: city, estado: state });
+    }
+
     const handleChangeAdmin = name => event => {
         setAdmin({ ...admin, [name]: event.target.checked });
-    };
+    }
 
     return (
         <Fragment>
@@ -149,11 +155,11 @@ const usuario = props => {
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3} ${props.styles.select}`}>
-                        <CategoriaCNH value={categoriasCNH} onChange={event => setCategoriasCNH(event)} />
+                        <CategoriaCNH value={categoriasCNH} onChange={value => setCategoriasCNH(value)} />
                     </div>
                 </div>
 
-                <Endereco styles={props.styles} />
+                <Endereco styles={props.styles} value={endereco} onChange={value => setEndereco(value)} />
 
                 <h3 className={props.styles.row}>Acesso</h3>
                 <div className={props.styles.row}>
