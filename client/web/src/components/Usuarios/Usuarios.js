@@ -16,22 +16,21 @@ const usuarios = props => {
     useEffect(() => {
         const authToken = Cookies.get('authToken');
 
-            axios.get(`/users`, {
-                headers: { 'Authorization': `Bearer ${authToken}` }
-            })
-            .then(response => {
-                // console.log(response.data);
-                const users = [];
+        axios.get(`/users`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        })
+        .then(response => {
+            const users = [];
 
-                response.data.forEach(user => {
-                    users.push([user._id, user.name, formatDate(user.birthday), user.phone, user.email, user.administrator ? 'Administrador' : 'Motorista']);
-                });
-
-                setData(users);
-            })
-            .catch(error => {
-                console.log(error);
+            response.data.forEach(user => {
+                users.push([user._id, user.name, formatDate(user.birthday), user.phone, user.email, user.administrator ? 'Administrador' : 'Motorista']);
             });
+
+            setData(users);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     }, []);
     
     const formatDate = date => {

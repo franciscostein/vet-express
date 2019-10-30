@@ -31,7 +31,30 @@ const usuario = props => {
         estado: ''
     });
     const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
     const [admin, setAdmin] = useState({ checkedAdmin: false });
+    const [userData, setUserData] = useState({
+        name: '',
+        cpf: 0,
+        birthday: new Date(),
+        phone: 0,
+        cnh: {
+            number: 0,
+            expiringDate: new Date(),
+            category: []
+        },
+        address: {
+            zipCode: 0,
+            street: '',
+            number: 0,
+            neighborhood: '',
+            city: '',
+            state: ''
+        },
+        email: '',
+        password: '',
+        administrator: false
+    });
     
     useEffect(() => {
         if (id) {
@@ -42,10 +65,10 @@ const usuario = props => {
             })
             .then(response => {
                 const { data } = response;
-                setNome(data.name);
-                setCpf(data.cpf);
-                setNascimento(formatDate(data.birthday));
-                setTelefone(data.phone);
+                handleChangeNome(data.name);
+                handleChangeCPF(data.cpf);
+                handleChangeNascimento(formatDate(data.birthday));
+                handleChangeTelefone(data.phone);
                 setNumeroCNH(data.cnh.number);
                 setValidadeCNH(formatDate(data.cnh.expiringDate));
                 setCategoriasCNH(data.cnh.category);
@@ -67,6 +90,28 @@ const usuario = props => {
         return `${month}/${day}/${year}`;
     }
 
+    const handleChangeNome = value => {
+        setNome(value);
+        setUserData({ ...userData, name: nome });
+    }
+
+    const handleChangeCPF = value => {
+        setCpf(value);
+        setUserData({ ...userData, cpf: parseInt(cpf) });
+    }
+
+    const handleChangeNascimento = value => {
+        console.log(value.getDate());
+        setNascimento(value);
+        console.log(nascimento);
+        setUserData({ ...userData, birthday: nascimento });
+    }
+
+    const handleChangeTelefone = value => {
+        setTelefone(value);
+        setUserData({ ...userData, phone: parseInt(telefone) });
+    }
+
     const handleChangeEndereco = address => {
         const { zipCode, street, number, neighborhood, city, state } = address;
         setEndereco({ cep: zipCode, logradouro: street, numero: number, bairro: neighborhood, cidade: city, estado: state });
@@ -74,6 +119,10 @@ const usuario = props => {
 
     const handleChangeAdmin = name => event => {
         setAdmin({ ...admin, [name]: event.target.checked });
+    }
+
+    const handleButtonsClick = event => {
+        // console.log(userData);
     }
 
     return (
@@ -89,7 +138,7 @@ const usuario = props => {
                             required
                             fullWidth
                             value={nome}
-                            onChange={event => setNome(event.target.value)}
+                            onChange={event => handleChangeNome(event.target.value)}
                         />
                     </div>
                 </div>
@@ -103,7 +152,7 @@ const usuario = props => {
                             fullWidth
                             disabled={!administrator}
                             value={cpf}
-                            onChange={event => setCpf(event.target.value)}
+                            onChange={event => handleChangeCPF(event.target.value)}
                             inputProps={{
                                 maxlength: 11
                             }}
@@ -117,7 +166,7 @@ const usuario = props => {
                             label="Nascimento"
                             format="dd/MM/yyyy"
                             value={nascimento}
-                            onChange={date => setNascimento(date)}
+                            onChange={date => handleChangeNascimento(date)}
                             margin="normal"
                         />
                     </div>
@@ -129,7 +178,7 @@ const usuario = props => {
                             margin="normal"
                             fullWidth
                             value={telefone}
-                            onChange={event => setTelefone(event.target.value)}
+                            onChange={event => handleChangeTelefone(event.target.value)}
                         />    
                     </div>
                 </div>
@@ -202,6 +251,8 @@ const usuario = props => {
                             type="password"
                             margin="normal"
                             fullWidth
+                            value={senha}
+                            onChange={event => setSenha(event.target.value)}
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of2}`}>
@@ -211,11 +262,13 @@ const usuario = props => {
                             type="password"
                             margin="normal"
                             fullWidth
+                            value={senha}
+                            onChange={event => setSenha(event.target.value)}
                         />
                     </div>
                 </div>
                 
-                <FormButtons styles={props.styles} />
+                <FormButtons styles={props.styles} path='/users' value={userData} onClick={event => handleButtonsClick(event)} />
             </form>
         </Fragment>
     );

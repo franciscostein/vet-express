@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { useHistory } from 'react-router-dom';
@@ -7,9 +9,31 @@ import styles from './FormButtons.module.css';
 
 const formButtons = props => {
     const history = useHistory();
+    const [data, setData] = useState({});
 
-    const salvarClickHandler = () => {
-        history.goBack();
+    useEffect(() => {
+        if (props.value) {
+            setData({ ...props.value });
+        }
+    }, [props.value]);
+
+    const salvarClickHandler = event => {
+        // props.onClick(event);
+
+        const authToken = Cookies.get('authToken');
+        console.log(data);
+        axios.post(props.path, 
+            data,
+            { headers: { 'Authorization': `Bearer ${authToken}` }
+        })
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+        // history.goBack();
     }
 
     const cancelarClickHandler = () => {
@@ -23,7 +47,7 @@ const formButtons = props => {
                     variant="contained"
                     color="primary"
                     className={props.styles.primaryButton}
-                    onClick={() => salvarClickHandler()}
+                    onClick={event => salvarClickHandler(event)}
                 >Salvar</Button>
             </Grid>
             <Grid item>
