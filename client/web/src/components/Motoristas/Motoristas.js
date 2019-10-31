@@ -1,10 +1,13 @@
-import React, { Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import axios from 'axios';
 import MUIDataTable from 'mui-datatables';
 import Cookies from 'js-cookie';
 
 import options from '../fragments/TableOptions/Options';
 
-const columns = [{ name: 'id', options: { display: false, viewColumns: false, filter: false, searchable: false } }, 'Nome', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+const columns = [
+    { name: 'id', options: { display: false, viewColumns: false, filter: false, searchable: false } }, 'Nome', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'
+];
 
 const data = [
     ['123', 'Lívia Giovanna Mendes', 'Embu das Artes, Mococa, Tupã', 'Paulínia, Martinópolis', 'Sorocaba, Guarulhos, São Paulo', 'Campinas, Birigüi', 'São Bernardo do Campo, Sorocaba, Cotia', 'São Paulo, Campinas'],
@@ -15,7 +18,28 @@ const data = [
 ]
 
 const motoristas = props => {
-    const user = Cookies.getJSON('user');
+    const { administrator } = Cookies.getJSON('user');
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const authToken = Cookies.get('authToken');
+
+        axios.get(`/drivers`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        })
+        .then(response => {
+            const drivers = [];
+
+            response.data.forEach(driver => {
+                drivers.push([driver._id, driver.name, driver.birthday, driver.phone, driver.email, driver.administrator ? 'Administrador' : 'Motorista']);
+            });
+
+            setData(drivers);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }, []);
 
     return (
         <Fragment>
@@ -25,7 +49,7 @@ const motoristas = props => {
                     title={''}
                     columns={columns}
                     data={data}
-                    options={options(user.administrator, '/motorista')}
+                    options={options(administrator, '/motorista')}
                 />
             </form>
         </Fragment>

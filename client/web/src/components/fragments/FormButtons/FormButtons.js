@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Button from '@material-ui/core/Button';
@@ -9,31 +9,39 @@ import styles from './FormButtons.module.css';
 
 const formButtons = props => {
     const history = useHistory();
-    const [data, setData] = useState({});
-
-    useEffect(() => {
-        if (props.value) {
-            setData({ ...props.value });
-        }
-    }, [props.value]);
 
     const salvarClickHandler = event => {
-        // props.onClick(event);
-
+        const { id, data, path } = props;
         const authToken = Cookies.get('authToken');
-        console.log(data);
-        axios.post(props.path, 
-            data,
-            { headers: { 'Authorization': `Bearer ${authToken}` }
-        })
-        .then(response => {
-            console.log(response);
-        })
-        .catch(error => {
-            console.log(error);
-        });
 
-        // history.goBack();
+        console.log(data);
+        
+        if (id) {   // edit
+            axios.patch(`${path}/${id}`, 
+                data,
+                { headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+            .then(response => {
+                console.log(response);
+                // history.goBack();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+        else {  // insert
+            axios.post(path, 
+                data,
+                { headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+            .then(response => {
+                console.log(response);
+                // history.goBack();
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
     }
 
     const cancelarClickHandler = () => {

@@ -351,8 +351,9 @@ export default function IntegrationReactSelect(props) {
         }
     }, [props.value]);
     
-    function handleChangeSingle(value) {
-        setSingle(value);
+    function handleChangeSingle(estado) {
+        setSingle(estado);
+        props.setEstado(estado.value);
     }
 
     const selectStyles = {

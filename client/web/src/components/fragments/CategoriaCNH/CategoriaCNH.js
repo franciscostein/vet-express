@@ -323,8 +323,9 @@ export default function IntegrationReactSelect(props) {
     const [multi, setMulti] = useState(null);
 
     useEffect(() => {
-        if (props.value) {
-            const value = props.value;
+        const { value } = props;
+
+        if (value) {
             const values = [];
             const categorias = ['A', 'B', 'C', 'D', 'E'];
 
@@ -336,8 +337,16 @@ export default function IntegrationReactSelect(props) {
         }
     }, [props.value]);
 
-    const handleChangeMulti = value => {
-        setMulti(value);
+    const handleChangeMulti = categoriasValue => {
+        const categoriasArray = [];
+        
+        setMulti(categoriasValue);
+
+        categoriasValue.forEach(categoriaElement => {
+            categoriasArray.push(categoriaElement.value);
+        });
+        
+        props.onChange(categoriasArray.sort());
     };
 
     const selectStyles = {

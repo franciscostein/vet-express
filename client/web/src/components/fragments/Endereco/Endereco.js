@@ -1,28 +1,9 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 import UF from '../../fragments/UnidadeFederativa/UnidadeFederativa';
 
 const endereco = props => {
-    const [cep, setCep] = useState('');
-    const [logradouro, setLogradouro] = useState('');
-    const [numero, setNumero] = useState('');
-    const [bairro, setBairro] = useState('');
-    const [cidade, setCidade] = useState('');
-    const [estado, setEstado] = useState('');
-
-    useEffect(() => {
-        if (props.value) {
-            const { cep, logradouro, numero, bairro, cidade, estado } = props.value;
-            setCep(cep);
-            setLogradouro(logradouro);
-            setNumero(numero);
-            setBairro(bairro);
-            setCidade(cidade);
-            setEstado(estado);
-        }
-    }, [props.value]);
-
     return (
         <Fragment>
             <h3 className={props.styles.row}>Endereço</h3>
@@ -32,8 +13,8 @@ const endereco = props => {
                         id="inputCEP"
                         label="CEP"
                         margin="normal"
-                        value={cep}
-                        onChange={event => setCep(event.target.value)}
+                        value={props.cep}
+                        onChange={event => props.setCep(event.target.value)}
                     />
                 </div>
             </div>
@@ -44,8 +25,8 @@ const endereco = props => {
                         label="Logradouro"
                         margin="normal"
                         fullWidth
-                        value={logradouro}
-                        onChange={event => setLogradouro(event.target.value)}
+                        value={props.logradouro}
+                        onChange={event => props.setLogradouro(event.target.value)}
                     />
                 </div>
                 <div className={`${props.styles.col} ${props.styles.span1of5}`}>
@@ -54,8 +35,8 @@ const endereco = props => {
                         label="Número"
                         margin="normal"
                         fullWidth
-                        value={numero}
-                        onChange={event => setNumero(event.target.value)}
+                        value={props.numero}
+                        onChange={event => props.setNumero(event.target.value)}
                     />
                 </div>
             </div>
@@ -66,8 +47,8 @@ const endereco = props => {
                         label="Bairro"
                         margin="normal"
                         fullWidth
-                        value={bairro}
-                        onChange={event => setBairro(event.target.value)}
+                        value={props.bairro}
+                        onChange={event => props.setBairro(event.target.value)}
                     />
                 </div>
                 <div className={`${props.styles.col} ${props.styles.span1of3}`}>
@@ -76,12 +57,14 @@ const endereco = props => {
                         label="Cidade"
                         margin="normal"
                         fullWidth
-                        value={cidade}
-                        onChange={event => setCidade(event.target.value)}
+                        value={props.cidade}
+                        onChange={event => props.setCidade(event.target.value)}
                     />
                 </div>
                 <div className={`${props.styles.col} ${props.styles.span1of3} ${props.styles.select}`}>
-                    <UF value={estado} onChange={value => setEstado(value)} />
+                    <UF 
+                        value={props.estado} setEstado={value => props.setEstado(value)}
+                    />
                 </div>
             </div>
         </Fragment>
