@@ -18,8 +18,10 @@ router.get('/users', auth, async (req, res) => {
 });
 
 // Get user
+// Get user name only: /users/:id?name=true
 router.get('/users/:id', auth, async (req, res) => {
     const _id = req.params.id;
+    const nameOnly = req.query.name === 'true';
 
     try {
         const user = await User.findOne({ _id });
@@ -27,7 +29,7 @@ router.get('/users/:id', auth, async (req, res) => {
         if (!user) {
             return res.status(404).send();
         }
-        res.send(user);
+        res.send(nameOnly ? { name: user.name } : user);
     } catch(e) {
         res.status(500).send();
     }
