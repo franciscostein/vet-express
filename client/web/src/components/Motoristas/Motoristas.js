@@ -15,16 +15,15 @@ const motoristas = props => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-
         axios.get(`/drivers`, {
             headers: { 'Authorization': `Bearer ${authToken}` }
         })
         .then(response => {
-            const drivers = [];
+            const drivers = [];    
 
             response.data.forEach(driver => {
                 const { segunda, terca, quarta, quinta, sexta, sabado } = arrangeRegion(driver.region);
-                drivers.push([driver._id, getUserName(driver.user), segunda.join(', '), terca.join(', '), quarta.join(', '), quinta.join(', '), sexta.join(', '), sabado.join(', ')]);
+                drivers.push([driver._id, driver.user.name, segunda.join(', '), terca.join(', '), quarta.join(', '), quinta.join(', '), sexta.join(', '), sabado.join(', ')]);
             });
             setData(drivers);
         })
@@ -32,17 +31,6 @@ const motoristas = props => {
             console.log(error);
         });
     }, []);
-
-    const getUserName = userId => {
-
-        axios.get(`/users/${userId}?name=true`, {
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        })
-        .then(response => response.data.name)
-        .catch(error => {
-            console.log(error);
-        });
-    }
 
     const arrangeRegion = region => {
         const segunda = [];
@@ -60,6 +48,7 @@ const motoristas = props => {
                     case 'segunda':
                         segunda.push(city);
                         break;
+                    case 'terça':
                     case 'terca':
                         terca.push(city);
                         break;
@@ -74,7 +63,9 @@ const motoristas = props => {
                         break;
                     case 'sabado':
                         sabado.push(city);
-                        break;            
+                        break;
+                    default:
+                        console.log(city, day);
                 }
             });
         });

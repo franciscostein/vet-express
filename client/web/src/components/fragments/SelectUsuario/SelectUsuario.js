@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Select from 'react-select';
@@ -11,20 +13,10 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-const suggestions = [
-    { value: 73025823003, label: 'Lívia Giovanna Mendes' },
-    { value: 15244743040, label: 'Arthur Guilherme Isaac Ramos' },
-    { value: 82960475003, label: 'Eduarda Maya da Costa' },
-    { value: 76724904005, label: 'Alexandre Anthony Luan Ramos' },
-    { value: 20735551014, label: 'Cláudio Paulo dos Santos' },
-    { value: 19507111026, label: 'Isabella Rebeca Francisca Viana' },
-    { value: 89320749094, label: 'Sérgio Levi Alves' },
-    { value: 10632197013, label: 'Letícia Adriana Cardoso' },
-    { value: 83638557073, label: 'Anderson Calebe Danilo Gomes' }
-].map(suggestion => ({
-    value: suggestion.value,
-    label: suggestion.label,
-}));
+// const suggestions = usuarios.map(suggestion => ({
+//     value: suggestion._id,
+//     label: suggestion.name,
+// }));
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -321,13 +313,38 @@ const components = {
     ValueContainer,
 };
 
-export default function IntegrationReactSelect() {
+export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const [single, setSingle] = React.useState(null);
+    const authToken = Cookies.get('authToken');
+    const [usuarios, setUsuarios] = useState([]);    
+    const [single, setSingle] = useState(null);
+
+    useEffect(() => {
+        axios.get('/drivers?userOnly=true', {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        })
+        .then(response => {
+            setUsuarios(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+        if (props.value) {
+            setSingle(props.value);
+        }
+    }, [props.value]);
+
+    const suggestions = usuarios.map(suggestion => ({
+        value: suggestion._id,
+        label: suggestion.name,
+    }));
 
     const handleChangeSingle = value => {
         setSingle(value);
+        console.log(value);
+        props.onChange(value.value);
     };
 
     const selectStyles = {

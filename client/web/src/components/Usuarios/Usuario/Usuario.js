@@ -14,6 +14,7 @@ import FormButtons from '../../fragments/FormButtons/FormButtons';
 
 const usuario = props => {
     const { id } = useParams();
+    const authToken = Cookies.get('authToken');
     const { administrator } = Cookies.getJSON('user');
     const [nome, setNome] = useState('');
     const [cpf, setCpf] = useState('');
@@ -33,11 +34,7 @@ const usuario = props => {
     const [admin, setAdmin] = useState({ checkedAdmin: false });
     
     useEffect(() => {
-        console.log('useEffect');
         if (id) {
-            console.log('if id');
-            const authToken = Cookies.get('authToken');
-
             axios.get(`/users/${id}`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             })

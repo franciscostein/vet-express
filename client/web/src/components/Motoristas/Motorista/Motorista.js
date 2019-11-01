@@ -1,4 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useParams } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
@@ -11,7 +14,25 @@ import FormButtons from '../../fragments/FormButtons/FormButtons';
 import styles from './Motorista.module.css';
 
 const motorista = props => {
+    const { id } = useParams();
+    const authToken = Cookies.get('authToken');
     const history = useHistory();
+    const [userId, setUserId] = useState('');
+
+    useEffect(() => {
+        if (id) {
+            axios.get(`/drivers/${id}`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+            .then(response => {
+                const { data } = response;
+                setUserId(data.user);   // { value: , label: }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    }, []);
 
     const novoMotoristaClickHandler = () => {
         history.push('/usuario');
@@ -23,7 +44,7 @@ const motorista = props => {
             <form noValidate autoComplete="off">
                 <div className={props.styles.row}>
                     <div className={`${props.styles.col} ${props.styles.span11of12}`}>
-                        <SelectUsuario />
+                        <SelectUsuario value={userId} onChange={value => setUserId(value)} />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of12}`}>
                         <Tooltip title="Novo usuário">

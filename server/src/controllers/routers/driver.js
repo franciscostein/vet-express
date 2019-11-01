@@ -4,12 +4,23 @@ const auth = require('../../utils/middleware/auth');
 const router = express.Router();
 
 // Get drivers
+// Get drivers' user only: /drivers?userOnly=true
 router.get('/drivers', auth, async (req, res) => {
     try {
-        const drivers = await Driver.find();
+        const userOnly = req.query.userOnly === 'true';
+        const driversQueryResult = await Driver.find().populate('user', 'name').exec();
+        let drivers = [];
 
-        if (!drivers) {
+        if (!driversQueryResult) {
             return res.status(404).send();
+        }
+
+        if (userOnly) {
+            driversQueryResult.forEach(driver => {
+                drivers.push(driver.user);
+            });
+        } else {
+            drivers = driversQueryResult;
         }
         res.send(drivers);
     } catch(e) {
