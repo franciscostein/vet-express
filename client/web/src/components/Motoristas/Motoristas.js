@@ -22,8 +22,10 @@ const motoristas = props => {
             const drivers = [];    
 
             response.data.forEach(driver => {
-                const { segunda, terca, quarta, quinta, sexta, sabado } = arrangeRegion(driver.region);
-                drivers.push([driver._id, driver.user.name, segunda.join(', '), terca.join(', '), quarta.join(', '), quinta.join(', '), sexta.join(', '), sabado.join(', ')]);
+                const { _id, user, region } = driver;
+                const { monday, tuesday, wednesday, thursday, friday, saturday } = region;
+
+                drivers.push([_id, user.name, monday.cities.join(', '), tuesday.cities.join(', '), wednesday.cities.join(', '), thursday.cities.join(', '), friday.cities.join(', '), saturday.cities.join(', ')]);
             });
             setData(drivers);
         })
@@ -31,46 +33,6 @@ const motoristas = props => {
             console.log(error);
         });
     }, []);
-
-    const arrangeRegion = region => {
-        const segunda = [];
-        const terca = [];
-        const quarta = [];
-        const quinta = [];
-        const sexta = [];
-        const sabado = [];
-
-        region.forEach(element => {
-            const { city, weekday } = element;
-
-            weekday.forEach(day => {
-                switch(day.toLowerCase()) {
-                    case 'segunda':
-                        segunda.push(city);
-                        break;
-                    case 'terça':
-                    case 'terca':
-                        terca.push(city);
-                        break;
-                    case 'quarta':
-                        quarta.push(city);
-                        break;
-                    case 'quinta':
-                        quinta.push(city);
-                        break;
-                    case 'sexta':
-                        sexta.push(city);
-                        break;
-                    case 'sabado':
-                        sabado.push(city);
-                        break;
-                    default:
-                        console.log(city, day);
-                }
-            });
-        });
-        return { segunda, terca, quarta, quinta, sexta, sabado }
-    }
 
     return (
         <Fragment>

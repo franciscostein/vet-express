@@ -17,7 +17,16 @@ const motorista = props => {
     const { id } = useParams();
     const authToken = Cookies.get('authToken');
     const history = useHistory();
-    const [userId, setUserId] = useState('');
+    const [usuario, setUsuario] = useState({
+        _id: '',
+        nome: ''
+    });
+    const [segunda, setSegunda] = useState([]);
+    const [terca, setTerca] = useState([]);
+    const [quarta, setQuarta] = useState([]);
+    const [quinta, setQuinta] = useState([]);
+    const [sexta, setSexta] = useState([]);
+    const [sabado, setSabado] = useState([]);
 
     useEffect(() => {
         if (id) {
@@ -26,13 +35,25 @@ const motorista = props => {
             })
             .then(response => {
                 const { data } = response;
-                setUserId(data.user);   // { value: , label: }
+                const { user, region } = data;
+
+                setUsuario({ _id: user._id, nome: user.name });
+                setSegunda(region.monday.cities);
+                setTerca(region.tuesday.cities);
+                setQuarta(region.wednesday.cities);
+                setQuinta(region.thursday.cities);
+                setSexta(region.friday.cities);
+                setSabado(region.saturday.cities);
             })
             .catch(error => {
                 console.log(error);
             });
         }
     }, []);
+
+    // const handleChangeUsuario = (userId, userName) => {
+    //     setUsuario({ _id: userId, nome: userName });
+    // }
 
     const novoMotoristaClickHandler = () => {
         history.push('/usuario');
@@ -44,7 +65,11 @@ const motorista = props => {
             <form noValidate autoComplete="off">
                 <div className={props.styles.row}>
                     <div className={`${props.styles.col} ${props.styles.span11of12}`}>
-                        <SelectUsuario value={userId} onChange={value => setUserId(value)} />
+                        <SelectUsuario
+                            disabled={id ? true : false}
+                            value={usuario} 
+                            onChange={(userId, userName) => setUsuario({ _id: userId, nome: userName })}
+                        />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of12}`}>
                         <Tooltip title="Novo usuário">
@@ -63,37 +88,93 @@ const motorista = props => {
                 <h3 className={`${props.styles.row} ${styles.h3}`}>Regiões</h3>
                 <div className={`${props.styles.row} ${styles.dia}`}>
                     <div className={`${props.styles.col} ${props.styles.span2of2}`}>
-                        <SelectCidades dia='Segunda-feira' />                       
+                        <SelectCidades
+                            key="segunda"
+                            dia='Segunda-feira'
+                            value={segunda}
+                            onChange={value => setSegunda(value)}
+                        />                       
                     </div>                    
                 </div>
                 <div className={`${props.styles.row} ${styles.dia}`}>
                     <div className={`${props.styles.col} ${props.styles.span2of2}`}>
-                        <SelectCidades dia='Terça-feira' />
+                        <SelectCidades
+                            key="terca"
+                            dia='Terça-feira'
+                            value={terca}
+                            onChange={value => setTerca(value)}
+                        />
                     </div>
                 </div>
                 <div className={`${props.styles.row} ${styles.dia}`}>
                     <div className={`${props.styles.col} ${props.styles.span2of2}`}>
-                        <SelectCidades dia='Quarta-feira' />
-                        
+                        <SelectCidades
+                            key="quarta"
+                            dia='Quarta-feira' 
+                            value={quarta}
+                            onChange={value => setQuarta(value)}
+                        />
                     </div>
                 </div>
                 <div className={`${props.styles.row} ${styles.dia}`}>
                     <div className={`${props.styles.col} ${props.styles.span2of2}`}>
-                        <SelectCidades dia='Quinta-feira' />
+                        <SelectCidades
+                            key="quinta"
+                            dia='Quinta-feira'
+                            value={quinta}
+                            onChange={value => setQuinta(value)}
+                        />
                     </div>
                 </div>
                 <div className={`${props.styles.row} ${styles.dia}`}>
                     <div className={`${props.styles.col} ${props.styles.span2of2}`}>
-                        <SelectCidades dia='Sexta-feira' />
+                        <SelectCidades
+                            key="sexta"
+                            dia='Sexta-feira'
+                            value={sexta}
+                            onChange={value => setSexta(value)}
+                        />
                     </div>
                 </div>
                 <div className={`${props.styles.row} ${styles.dia}`}>
                     <div className={`${props.styles.col} ${props.styles.span2of2}`}>
-                        <SelectCidades dia='Sábado' />
+                        <SelectCidades
+                            key="sabado"
+                            dia='Sábado'
+                            value={sabado}
+                            onChange={value => setSabado(value)}
+                        />
                     </div>
                 </div>
                 
-                <FormButtons styles={props.styles} />
+                <FormButtons 
+                    styles={props.styles}
+                    path='/drivers'
+                    id={id}
+                    data={{
+                        user: usuario._id,
+                        region: {
+                            monday: {
+                                cities: segunda
+                            },
+                            tuesday: {
+                                cities: terca
+                            },
+                            wednesday: {
+                                cities: quarta
+                            },
+                            thursday: {
+                                cities: quinta
+                            },
+                            friday: {
+                                cities: sexta
+                            },
+                            saturday: {
+                                cities: sabado
+                            }
+                        }
+                    }}
+                />
             </form>
         </Fragment>
     );

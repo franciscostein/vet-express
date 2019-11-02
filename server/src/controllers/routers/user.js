@@ -4,9 +4,17 @@ const router = new express.Router();
 const User = require('../../models/user');
 
 // Get users
+// Get users' id and name of non admins: /users?drivers=true
 router.get('/users', auth, async (req, res) => {
     try {
-        const users = await User.find();
+        const driversOnly = req.query.drivers === 'true';
+        let users;
+        
+        if (driversOnly) {
+            users = await User.find({ administrator: false }).select('name'); // id is always present
+        } else {
+            users = await User.find();
+        }
 
         if (!users) {
             return res.status(404).send();

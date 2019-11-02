@@ -6,15 +6,50 @@ const driverSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    region: [{
-        city: {
-            type: String,
-            trim: true
+    region: {
+        monday: {
+            cities: [{
+                type: String,
+                trim: true
+            }]
         },
-        weekday: [{
-            type: String
-        }]
-    }]
+        tuesday: {
+            cities: [{
+                type: String,
+                trim: true
+            }]
+        },
+        wednesday: {
+            cities: [{
+                type: String,
+                trim: true
+            }]
+        },
+        thursday: {
+            cities: [{
+                type: String,
+                trim: true
+            }]
+        },
+        friday: {
+            cities: [{
+                type: String,
+                trim: true
+            }]
+        },
+        saturday: {
+            cities: [{
+                type: String,
+                trim: true
+            }]
+        },
+        sunday: {
+            cities: [{
+                type: String,
+                trim: true
+            }]
+        }
+    }
 }, {
     timestamps: true
 });

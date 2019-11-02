@@ -33,7 +33,7 @@ router.get('/drivers/:id', auth, async (req, res) => {
     const _id = req.params.id;
 
     try {
-        const driver = await Driver.findOne({ _id });
+        const driver = await Driver.findOne({ _id }).populate('user', 'name').exec();
 
         if (!driver) {
             return res.status(404).send();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Select from 'react-select';
@@ -961,10 +961,28 @@ const components = {
 export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const [multi, setMulti] = React.useState(null);
+    const [multi, setMulti] = useState(null);
+
+    useEffect(() => {
+        if (props.value) {
+            const cities = [];
+
+            props.value.forEach(city => {
+                cities.push({ value: city, label: city });
+            });
+            setMulti(cities);
+        }
+    }, [props.value]);
 
     function handleChangeMulti(value) {
+        const cities = [];
+
         setMulti(value);
+
+        value.forEach(element => {
+            cities.push(element.value);
+        });
+        props.onChange(cities);
     }
 
     const selectStyles = {

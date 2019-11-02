@@ -317,22 +317,34 @@ export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
     const authToken = Cookies.get('authToken');
+    const axiosHeader = {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+    }
     const [usuarios, setUsuarios] = useState([]);    
     const [single, setSingle] = useState(null);
 
     useEffect(() => {
-        axios.get('/drivers?userOnly=true', {
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        })
-        .then(response => {
-            setUsuarios(response.data);
-        })
+        axios.all([
+            axios.get('/users?drivers=true', axiosHeader),
+            axios.get('/drivers?userOnly=true', axiosHeader)
+        ])        
+        .then(axios.spread((usersRes, driversRes) => {  // fill only users that aren't admins and drivers yet
+            let usersData = usersRes.data;
+            const driversData = JSON.stringify(driversRes.data);
+
+            usersData = usersData.filter(user => {
+                const strUser = JSON.stringify(user);
+                return !driversData.includes(strUser);
+            });
+            setUsuarios(usersData);
+        }))
         .catch(error => {
             console.log(error);
         });
+        const { value } = props;
 
-        if (props.value) {
-            setSingle(props.value);
+        if (value) {
+            setSingle({ value: value._id, label: value.nome });
         }
     }, [props.value]);
 
@@ -341,10 +353,9 @@ export default function IntegrationReactSelect(props) {
         label: suggestion.name,
     }));
 
-    const handleChangeSingle = value => {
-        setSingle(value);
-        console.log(value);
-        props.onChange(value.value);
+    const handleChangeSingle = userValue => {
+        setSingle(userValue);
+        props.onChange(userValue.value, userValue.label);
     };
 
     const selectStyles = {
@@ -370,9 +381,12 @@ export default function IntegrationReactSelect(props) {
                         shrink: true,
                     },
                 }}
+                isSearchable
+                noOptionsMessage="Nenhum usuário encontrado"
                 placeholder=""
                 options={suggestions}
                 components={components}
+                isDisabled={props.disabled}
                 value={single}
                 onChange={handleChangeSingle}
             />

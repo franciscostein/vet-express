@@ -14,7 +14,7 @@ const formButtons = props => {
         const { id, data, path } = props;
         const authToken = Cookies.get('authToken');
 
-        console.log(data);
+        // console.log(data);
         
         if (id) {   // edit
             axios.patch(`${path}/${id}`, 
