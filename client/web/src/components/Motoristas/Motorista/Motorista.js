@@ -16,6 +16,7 @@ import styles from './Motorista.module.css';
 const motorista = props => {
     const { id } = useParams();
     const authToken = Cookies.get('authToken');
+    const { administrator } = Cookies.getJSON('user');
     const history = useHistory();
     const [usuario, setUsuario] = useState({
         _id: '',
@@ -30,7 +31,9 @@ const motorista = props => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`/drivers/${id}`, {
+            const driverId = administrator ? id : `user/${id}`;
+
+            axios.get(`/drivers/${driverId}`, {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             })
             .then(response => {
@@ -50,10 +53,6 @@ const motorista = props => {
             });
         }
     }, []);
-
-    // const handleChangeUsuario = (userId, userName) => {
-    //     setUsuario({ _id: userId, nome: userName });
-    // }
 
     const novoMotoristaClickHandler = () => {
         history.push('/usuario');
@@ -76,7 +75,8 @@ const motorista = props => {
                             <Fab
                                 className={`${props.styles.floatRight} ${props.styles.fabMarginTop}`} 
                                 color="primary" 
-                                size="small" 
+                                size="small"
+                                disabled={!administrator}
                                 onClick={() => novoMotoristaClickHandler()}
                             >
                                 <AddIcon />
@@ -91,6 +91,7 @@ const motorista = props => {
                         <SelectCidades
                             key="segunda"
                             dia='Segunda-feira'
+                            disabled={!administrator}
                             value={segunda}
                             onChange={value => setSegunda(value)}
                         />                       
@@ -101,6 +102,7 @@ const motorista = props => {
                         <SelectCidades
                             key="terca"
                             dia='Terça-feira'
+                            disabled={!administrator}
                             value={terca}
                             onChange={value => setTerca(value)}
                         />
@@ -110,7 +112,8 @@ const motorista = props => {
                     <div className={`${props.styles.col} ${props.styles.span2of2}`}>
                         <SelectCidades
                             key="quarta"
-                            dia='Quarta-feira' 
+                            dia='Quarta-feira'
+                            disabled={!administrator}
                             value={quarta}
                             onChange={value => setQuarta(value)}
                         />
@@ -121,6 +124,7 @@ const motorista = props => {
                         <SelectCidades
                             key="quinta"
                             dia='Quinta-feira'
+                            disabled={!administrator}
                             value={quinta}
                             onChange={value => setQuinta(value)}
                         />
@@ -131,6 +135,7 @@ const motorista = props => {
                         <SelectCidades
                             key="sexta"
                             dia='Sexta-feira'
+                            disabled={!administrator}
                             value={sexta}
                             onChange={value => setSexta(value)}
                         />
@@ -141,6 +146,7 @@ const motorista = props => {
                         <SelectCidades
                             key="sabado"
                             dia='Sábado'
+                            disabled={!administrator}
                             value={sabado}
                             onChange={value => setSabado(value)}
                         />

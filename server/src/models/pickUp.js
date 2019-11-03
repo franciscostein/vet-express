@@ -6,6 +6,10 @@ const pickUpSchema = new mongoose.Schema({
         required: true,
         ref: 'Clinic'
     },
+    driver: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Driver'
+    },
     date: {
         type: Date,
         required: true

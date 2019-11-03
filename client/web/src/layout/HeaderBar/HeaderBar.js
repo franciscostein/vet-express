@@ -13,6 +13,7 @@ import { Header } from 'mui-layout';
 import makeStyles from '@material-ui/styles/makeStyles';
 import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import MenuRounded from '@material-ui/icons/MenuRounded';
+import Assignment from '@material-ui/icons/Assignment';
 
 import styles from './HeaderBar.module.css';
 
@@ -27,6 +28,8 @@ const useHeaderStyles = makeStyles(({ palette }) => ({
 
 const HeaderBar = props => {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const authToken = Cookies.get('authToken');
+    const { _id, administrator } = Cookies.getJSON('user');
     const open = Boolean(anchorEl);
     const history = useHistory();
 
@@ -39,12 +42,14 @@ const HeaderBar = props => {
     }
 
     function handleProfile() {
-        const { _id } = Cookies.getJSON('user');
         history.push(`/usuario/${_id}`);
     }
 
+    function handleMotorista() {
+        history.push(`/motorista/${_id}`);
+    }
+
     function handleLogout() {
-        const authToken = Cookies.get('authToken');
         axios.post('/users/logout', null, {
             headers: { 'Authorization': `Bearer ${authToken}` }
         })
@@ -112,8 +117,17 @@ const HeaderBar = props => {
                             open={open}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={event => handleProfile(event)}><PersonOutlineIcon />&nbsp; Perfil</MenuItem>
-                            <MenuItem onClick={event => handleLogout(event)}><ExitToAppIcon />&nbsp; Sair</MenuItem>   
+                            <MenuItem onClick={event => handleProfile(event)}>
+                                <PersonOutlineIcon />&nbsp; Perfil
+                            </MenuItem>
+                            { !administrator ?
+                                <MenuItem onClick={event => handleMotorista(event)}>
+                                    <Assignment />&nbsp; Motorista
+                                </MenuItem>
+                            : '' }
+                            <MenuItem onClick={event => handleLogout(event)}>
+                                <ExitToAppIcon />&nbsp; Sair
+                            </MenuItem>   
                         </Menu>
                     </div>
                 </Grid>

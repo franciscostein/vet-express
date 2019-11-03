@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import axios from 'axios';
 import Cookies from 'js-cookie';
 import MUIDataTable from 'mui-datatables';
 import Grid from '@material-ui/core/Grid';
@@ -11,16 +12,8 @@ import options from '../fragments/TableOptions/Options';
 
 import styles from './Retiradas.module.css';
 
-const columns = [{ name: 'id', options: { display: false, viewColumns: false, filter: false, searchable: false } }, 'Clínica', 'Data', 'Observação', 'Motorista' ];
-
-const data = [
-    ['123', 'VETPAT LAB. DE ANALISE VETERINARIA - SP  COD-4981*', '20/09/2019', '', 'Jevan Stout' ],
-    ['123', 'ANIMAL CENTER - CAMPINAS', '20/09/2019', '', 'Jevan Stout' ],
-    ['123', 'DIAGPET - CAMPINAS', '20/09/2019', '', 'Jevan Stout' ],
-    ['123', 'LABORATORIO CDVE - CAMPINAS', '20/09/2019', '.', 'Jevan Stout' ],
-    ['123', 'SCAN SAUDE E CIENCIA ANIMAL-CAMPINAS- COD.7961*', '20/09/2019', 'retirada de material', 'Jevan Stout' ],
-    ['123', 'AMAZOO CLINLAB COD.3349 *', '20/09/2019', 'retirada de material', 'Thelma Ahmed' ],
-    ['123', 'CLINICA VETERINARIA MUNDO PET - VINHEDO 13334', '20/09/2019', '2 formulario raiva', 'Nayan Morgan' ]
+const columns = [
+    { name: 'id', options: { display: false, viewColumns: false, filter: false, searchable: false } }, 'Clínica', 'Data', 'Observação', 'Motorista'
 ];
 
 const useStyles = makeStyles(() => ({
@@ -34,12 +27,43 @@ const loading = true;
   
 const retiradas = props => {
     const classes = useStyles();
-    const user = Cookies.getJSON('user');
+    const authToken = Cookies.get('authToken');
+    const { _id, administrator } = Cookies.getJSON('user');
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const userId = administrator ? '/' : `/driver/${_id}`;
+
+        axios.get(`/pickUps${userId}`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        })
+        .then(response => {
+            const retiradas = [];
+
+            response.data.forEach(retirada => {
+                const { _id, clinic, date, note, driver } = retirada;
+
+                retiradas.push([_id, clinic.name, formatDate(date), note, driver.user.name]);
+            });
+            setData(retiradas);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }, []);
+
+    const formatDate = date => {
+        const dateArray = date.split('-');
+        const day = dateArray[2].substring(0, 2);
+        const month = dateArray[1];
+        const year = dateArray[0];
+        return `${day}/${month}/${year}`;
+    }
 
     return (
         <form className={props.styles.formTable}>
             
-            { user.administrator ? 
+            { administrator ? 
                 <Fragment>
                     <Grid justify="center" container className={styles.topButton}>
                         <Grid item>
@@ -72,12 +96,12 @@ const retiradas = props => {
 
             
 
-            <div className={user.administrator ? styles.table : styles.marginTop}>
+            <div className={administrator ? styles.table : styles.marginTop}>
                 <MUIDataTable
-                    title={user.administrator ? 'Retiradas' : ''}
+                    title={administrator ? 'Retiradas' : ''}
                     columns={columns}
                     data={data}
-                    options={options(user.administrator, '/retirada')}
+                    options={options(administrator, '/retirada')}
                 />
             </div>
         </form>

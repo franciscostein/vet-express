@@ -60,8 +60,10 @@ const SignIn = props => {
             password
         })
         .then(response => {
-            Cookies.set('authToken', response.data.token);
-            Cookies.set('user', response.data.user);
+            const { token, user } = response.data;
+
+            Cookies.set('authToken', token);
+            Cookies.set('user', user);
 
             props.history.push("/");
             window.location.reload();

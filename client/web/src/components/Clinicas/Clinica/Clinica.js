@@ -1,10 +1,53 @@
-import React, { Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import TextField from '@material-ui/core/TextField';
 
 import Endereco from '../../fragments/Endereco/Endereco';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
 
 const clinica = props => {
+    const { id } = useParams();
+    const authToken = Cookies.get('authToken');
+    // const { administrator } = Cookies.getJSON('user');
+    const [nome, setNome] = useState('');
+    const [cnpj, setCnpj] = useState(0);
+    const [telefone, setTelefone] = useState(0);
+    const [contato, setContato] = useState('');
+    const [cep, setCep] = useState('');
+    const [logradouro, setLogradouro] = useState('');
+    const [numero, setNumero] = useState('');
+    const [bairro, setBairro] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [estado, setEstado] = useState('');
+
+    useEffect(() => {
+        if (id) {
+            axios.get(`/clinics/${id}`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+            .then(response => {
+                const { data } = response;
+                const { address } = data;
+
+                setNome(data.name);
+                setCnpj(data.cnpj);
+                setTelefone(data.phone);
+                setContato(data.contact);
+                setCep(address.zipCode);
+                setLogradouro(address.street);
+                setNumero(address.number);
+                setBairro(address.neighborhood);
+                setCidade(address.city);
+                setEstado(address.state);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    }, []);
+
     return (
         <Fragment>
             <h2 className={props.styles.row}>Clínica</h2>
@@ -17,6 +60,8 @@ const clinica = props => {
                             margin="normal"
                             required
                             fullWidth
+                            value={nome}
+                            onChange={value => setNome(value)}
                         />
                     </div>
                 </div>
@@ -28,6 +73,8 @@ const clinica = props => {
                             margin="normal"
                             required
                             fullWidth
+                            value={cnpj}
+                            onChange={value => setCnpj(value)}
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3}`}>
@@ -36,6 +83,8 @@ const clinica = props => {
                             label="Telefone"
                             margin="normal"
                             fullWidth
+                            value={telefone}
+                            onChange={value => setTelefone(value)}
                         />  
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3}`}>
@@ -45,12 +94,40 @@ const clinica = props => {
                             margin="normal"
                             required
                             fullWidth
+                            value={contato}
+                            onChange={value => setContato(value)}
                         />
                     </div>
                 </div>
-                <Endereco styles={props.styles} />
+                <Endereco 
+                    styles={props.styles} 
+                    cep={cep} setCep={value => setCep(value)}
+                    logradouro={logradouro} setLogradouro={value => setLogradouro(value)}
+                    numero={numero} setNumero={value => setNumero(value)}
+                    bairro={bairro} setBairro={value => setBairro(value)}
+                    cidade={cidade} setCidade={value => setCidade(value)}
+                    estado={estado} setEstado={value => setEstado(value)}
+                />
 
-                <FormButtons styles={props.styles} />
+                <FormButtons 
+                    styles={props.styles}
+                    path='/users'
+                    id={id}
+                    data={{
+                        name: nome,
+                        cnpj: parseInt(cnpj),
+                        address: {
+                            zipCode: parseInt(cep),
+                            street: logradouro,
+                            number: parseInt(numero),
+                            neighborhood: bairro,
+                            city: cidade,
+                            state: estado
+                        },
+                        phone: parseInt(telefone),
+                        contact: contato
+                    }}
+                />
             </form>
         </Fragment>
     );

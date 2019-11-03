@@ -6,7 +6,23 @@ const router = new express.Router();
 // Get pick ups
 router.get('/pickUps', auth, async (req, res) => {
     try {
-        const pickUps = await PickUp.find();
+        const pickUps = await PickUp.find().populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', select: 'name' }}).exec();
+
+        if (!pickUps) {
+            return res.status(404).send();
+        }
+        res.send(pickUps);
+    } catch(e) {
+        res.status(500).send();
+    }
+});
+
+// Get driver's pick ups
+router.get('/pickUps/driver/:userId', auth, async (req, res) => {
+    const _userId = req.params.userId;
+
+    try {
+        const pickUps = await PickUp.find({ 'driver.user': _userId }).populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', select: 'name' }}).exec();
 
         if (!pickUps) {
             return res.status(404).send();

@@ -1009,6 +1009,7 @@ export default function IntegrationReactSelect(props) {
                     },
                 }}
                 placeholder=""
+                isDisabled={props.disabled}
                 options={cidades}
                 components={components}
                 value={multi}

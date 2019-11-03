@@ -44,6 +44,22 @@ router.get('/drivers/:id', auth, async (req, res) => {
     }
 });
 
+// Get driver by user id
+router.get('/drivers/user/:userId', auth, async (req, res) => {
+    const _userId = req.params.userId;
+
+    try {
+        const driver = await Driver.findOne({ user: _userId }).populate('user', 'name').exec();
+
+        if (!driver) {
+            return res.status(404).send();
+        }
+        res.send(driver);
+    } catch(e) {
+        res.status(500).send();
+    }
+});
+
 // Create driver
 router.post('/drivers', auth, async (req, res) => {
     const driver = new Driver({ ...req.body });
