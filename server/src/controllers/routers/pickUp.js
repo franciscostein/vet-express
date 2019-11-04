@@ -22,7 +22,7 @@ router.get('/pickUps/driver/:userId', auth, async (req, res) => {
     const _userId = req.params.userId;
 
     try {
-        const pickUps = await PickUp.find({ 'driver.user': _userId }).populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', select: 'name' }}).exec();
+        const pickUps = await PickUp.find().populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', match: { _id: _userId }, select: 'name' }}).exec();
 
         if (!pickUps) {
             return res.status(404).send();
@@ -38,7 +38,7 @@ router.get('/pickUps/:id', auth, async (req, res) => {
     const _id = req.params.id;
 
     try {
-        const pickUp = await PickUp.findOne({ _id });
+        const pickUp = await PickUp.findOne({ _id }).populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', select: 'name' }}).exec();
 
         if (!pickUp) {
             return res.status(404).send();

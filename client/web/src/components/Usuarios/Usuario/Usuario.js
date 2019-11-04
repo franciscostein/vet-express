@@ -115,7 +115,7 @@ const usuario = props => {
                             label="Nascimento"
                             margin="normal"
                             format="dd/MM/yyyy"
-                            autoOk={true}
+                            autoOk
                             disableFuture={true}
                             value={nascimento}
                             onChange={date => setNascimento(date)}
@@ -152,6 +152,7 @@ const usuario = props => {
                             id="inputValidadeCNH"
                             label="Válido até"
                             format="dd/MM/yyyy"
+                            autoOk
                             value={validadeCNH}
                             onChange={date => setValidadeCNH(date)}
                             margin="normal"

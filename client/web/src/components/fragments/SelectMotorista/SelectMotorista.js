@@ -312,15 +312,15 @@ export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
     const authToken = Cookies.get('authToken');
-    const [clinicas, setClinicas] = useState([]); 
+    const [motoristas, setMotoristas] = useState([]);    
     const [single, setSingle] = useState(null);
 
     useEffect(() => {
-        axios.get(`/clinics`, {
+        axios.get(`/drivers?userOnly=true`, {
             headers: { 'Authorization': `Bearer ${authToken}` }
         })       
         .then(response => {
-            setClinicas(response.data);
+            setMotoristas(response.data);
         })
         .catch(error => {
             console.log(error);
@@ -332,15 +332,14 @@ export default function IntegrationReactSelect(props) {
         }
     }, [props.value]);
 
-    const suggestions = clinicas.map(suggestion => ({
+    const suggestions = motoristas.map(suggestion => ({
         value: suggestion._id,
-        label: suggestion.name,
+        label: suggestion.user.name,
     }));
 
-    const handleChangeSingle = clinicValue => {
-        setSingle(clinicValue);
-        console.log(clinicValue);
-        props.onChange(clinicValue.value, clinicValue.label);
+    const handleChangeSingle = driverValue => {
+        setSingle(driverValue);
+        props.onChange(driverValue.value, driverValue.label);
     };
 
     const selectStyles = {
@@ -360,16 +359,18 @@ export default function IntegrationReactSelect(props) {
                 styles={selectStyles}
                 inputId="react-select-single"
                 TextFieldProps={{
-                    label: 'Clínica',
+                    label: 'Motorista',
                     InputLabelProps: {
                         htmlFor: 'react-select-single',
                         shrink: true,
                     },
                 }}
+                isSearchable
+                noOptionsMessage="Nenhum motorista encontrado"
                 placeholder=""
-                isDisabled={props.disabled}
                 options={suggestions}
                 components={components}
+                isDisabled={props.disabled}
                 value={single}
                 onChange={handleChangeSingle}
             />

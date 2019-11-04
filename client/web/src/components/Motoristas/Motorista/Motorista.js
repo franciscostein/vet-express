@@ -1,8 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useParams } from 'react-router-dom';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';

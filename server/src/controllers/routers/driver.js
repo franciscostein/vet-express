@@ -8,19 +8,16 @@ const router = express.Router();
 router.get('/drivers', auth, async (req, res) => {
     try {
         const userOnly = req.query.userOnly === 'true';
-        const driversQueryResult = await Driver.find().populate('user', 'name').exec();
         let drivers = [];
 
-        if (!driversQueryResult) {
-            return res.status(404).send();
+        if (userOnly) {
+            drivers = await Driver.find(null, 'user').populate('user', 'name').exec();
+        } else {
+            drivers = await Driver.find().populate('user', 'name').exec();
         }
 
-        if (userOnly) {
-            driversQueryResult.forEach(driver => {
-                drivers.push(driver.user);
-            });
-        } else {
-            drivers = driversQueryResult;
+        if (!drivers) {
+            return res.status(404).send();
         }
         res.send(drivers);
     } catch(e) {

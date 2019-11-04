@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+require('mongoose-long')(mongoose);
 
 const clinicSchema = new mongoose.Schema({
     cnpj: {
-        type: Number,
+        type: mongoose.Types.Long,
         required: true
     },
     name: {
@@ -35,7 +36,7 @@ const clinicSchema = new mongoose.Schema({
         }
     },
     phone: {
-        type: Number
+        type: mongoose.Types.Long
     },
     contact: {
         type: String,

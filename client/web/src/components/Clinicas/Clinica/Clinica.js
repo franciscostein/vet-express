@@ -12,8 +12,8 @@ const clinica = props => {
     const authToken = Cookies.get('authToken');
     // const { administrator } = Cookies.getJSON('user');
     const [nome, setNome] = useState('');
-    const [cnpj, setCnpj] = useState(0);
-    const [telefone, setTelefone] = useState(0);
+    const [cnpj, setCnpj] = useState('');
+    const [telefone, setTelefone] = useState('');
     const [contato, setContato] = useState('');
     const [cep, setCep] = useState('');
     const [logradouro, setLogradouro] = useState('');
@@ -61,7 +61,7 @@ const clinica = props => {
                             required
                             fullWidth
                             value={nome}
-                            onChange={value => setNome(value)}
+                            onChange={value => setNome(value.target.value)}
                         />
                     </div>
                 </div>
@@ -74,7 +74,7 @@ const clinica = props => {
                             required
                             fullWidth
                             value={cnpj}
-                            onChange={value => setCnpj(value)}
+                            onChange={value => setCnpj(value.target.value)}
                         />
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3}`}>
@@ -84,7 +84,7 @@ const clinica = props => {
                             margin="normal"
                             fullWidth
                             value={telefone}
-                            onChange={value => setTelefone(value)}
+                            onChange={value => setTelefone(value.target.value)}
                         />  
                     </div>
                     <div className={`${props.styles.col} ${props.styles.span1of3}`}>
@@ -92,10 +92,9 @@ const clinica = props => {
                             id="inputContato"
                             label="Contato"
                             margin="normal"
-                            required
                             fullWidth
                             value={contato}
-                            onChange={value => setContato(value)}
+                            onChange={value => setContato(value.target.value)}
                         />
                     </div>
                 </div>
@@ -111,7 +110,7 @@ const clinica = props => {
 
                 <FormButtons 
                     styles={props.styles}
-                    path='/users'
+                    path='/clinics'
                     id={id}
                     data={{
                         name: nome,
