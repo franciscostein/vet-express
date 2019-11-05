@@ -1,9 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import CustomToolbar from '../CustomToolbar/CustomToolbar';
-// import DeleteConfirmation from '../../fragments/DeleteConfirmation/DeleteConfirmation';
 
-const options = (admin, addPath) => {
+const options = (admin, addPath, deleteCallback) => {
     const history = useHistory();
 
     const commomConfig = {
@@ -13,7 +12,7 @@ const options = (admin, addPath) => {
         print: false,
         textLabels: {
             body: {
-                noMatch: "Desculpe, nenhum registro encontrado",
+                noMatch: "Nenhum registro encontrado",
                 toolTip: "Ordenar",
                 columnHeaderTooltip: column => `Ordenar por ${column.label}`
             },
@@ -55,11 +54,8 @@ const options = (admin, addPath) => {
             // Callback function that triggers when row(s) are deleted.
             onRowsDelete: rowsDeleted => {
                 // function(rowsDeleted: object(lookup: {[dataIndex]: boolean}, data: arrayOfObjects: {index: number, dataIndex: number})) => void OR false (Returning false prevents row deletion.)
-                console.log(rowsDeleted);
-                return (
-                    // <DeleteConfirmation />
-                    false    
-                );
+                deleteCallback(rowsDeleted.data);
+                return false;
             },
             customToolbar: () => {
                 return (

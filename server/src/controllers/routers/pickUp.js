@@ -93,4 +93,20 @@ router.delete('/pickUps/:id', auth, async (req, res) => {
     }
 });
 
+// Delete many pick ups
+router.delete('/pickUps/many', auth, async (req, res) => {
+    // Gotta implement level authorization
+    try {
+        console.log(...req.body);
+        const pickUp = await PickUp.deleteMany({ _id: req.body });
+
+        if (!pickUp) {
+            return res.status(404).send();
+        }
+        res.send(pickUp);
+    } catch(e) {
+        res.status(500).send();
+    }
+});
+
 module.exports = router;

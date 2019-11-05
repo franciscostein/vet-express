@@ -4,6 +4,8 @@ import Cookies from 'js-cookie';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import lightGreen from '@material-ui/core/colors/lightGreen';
+import red from '@material-ui/core/colors/red';
+import orange from '@material-ui/core/colors/orange';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { Root, Content, presets } from 'mui-layout';
@@ -29,7 +31,9 @@ const baseTheme = createMuiTheme({
         primary: lightGreen,
         secondary: {
             main: '#f3f3f3'
-        }
+        },
+        error: red,
+        danger: orange
     }
 });
 
