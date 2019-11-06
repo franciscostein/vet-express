@@ -1,11 +1,12 @@
 const express = require('express');
 const auth = require('../../utils/middleware/auth');
+const authAdmin = require('../../utils/middleware/authAdmin');
 const router = new express.Router();
 const User = require('../../models/user');
 
 // Get users
 // Get users' id and name of non admins: /users?drivers=true
-router.get('/users', auth, async (req, res) => {
+router.get('/users', authAdmin, async (req, res) => {
     try {
         const driversOnly = req.query.drivers === 'true';
         let users;
@@ -42,7 +43,7 @@ router.get('/users/:id', auth, async (req, res) => {
 });
 
 // Create user
-router.post('/users', auth, async (req, res) => {
+router.post('/users', authAdmin, async (req, res) => {
     const user = new User(req.body);
 
     try {
@@ -76,10 +77,23 @@ router.patch('/users/:id', auth, async (req, res) => {
 });
 
 // Delete user
-router.delete('/users/:id', auth, async (req, res) => {
-    // Gotta implement level authorization
+router.delete('/users/:id', authAdmin, async (req, res) => {
     try {
         const user = await User.findOneAndDelete({ _id: req.params.id });
+
+        if (!user) {
+            return res.status(404).send();
+        }
+        res.send(user);
+    } catch(e) {
+        res.status(500).send();
+    }
+});
+
+// Delete many users
+router.delete('/users/many/:123', authAdmin, async (req, res) => {
+    try {
+        const user = await User.deleteMany({ _id: req.body.ids });
 
         if (!user) {
             return res.status(404).send();

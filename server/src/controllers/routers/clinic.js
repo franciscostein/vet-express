@@ -1,5 +1,6 @@
 const express = require('express');
 const auth = require('../../utils/middleware/auth');
+const authAdmin = require('../../utils/middleware/authAdmin');
 const Clinic = require('../../models/clinic');
 const router = new express.Router();
 
@@ -34,7 +35,7 @@ router.get('/clinics/:id', auth, async (req, res) => {
 });
 
 // Create clinic
-router.post('/clinics', auth, async (req, res) => {
+router.post('/clinics', authAdmin, async (req, res) => {
     const clinic = new Clinic({ ...req.body });
 
     try {
@@ -63,10 +64,23 @@ router.patch('/clinics/:id', auth, async (req, res) => {
 });
 
 // Delete clinic
-router.delete('/clinics/:id', auth, async (req, res) => {
-    // Gotta implement level authorization
+router.delete('/clinics/:id', authAdmin, async (req, res) => {
     try {
         const clinic = await Clinic.findOneAndDelete({ _id: req.params.id });
+
+        if (!clinic) {
+            return res.status(404).send();
+        }
+        res.send(clinic);
+    } catch(e) {
+        res.status(500).send();
+    }
+});
+
+// Delete many clinics
+router.delete('/clinics/many/:123', authAdmin, async (req, res) => {
+    try {
+        const clinic = await Clinic.deleteMany({ _id: req.body.ids });
 
         if (!clinic) {
             return res.status(404).send();

@@ -76,7 +76,8 @@ const retiradas = props => {
                 pickUpIds.push(pickUp[0]);
             });
 
-            axios.delete(`/pickUps/many`, { params: pickUpIds }, {
+            axios.delete('/pickUps/many/123', {
+                data: { ids: pickUpIds },
                 headers: { 'Authorization': `Bearer ${authToken}` }
             })
             .then(response => {
@@ -141,8 +142,7 @@ const retiradas = props => {
             </div>
 
             { showDeleteAlert ?
-                <DeleteAlert
-                    onChange={value => handleChangeDeleteAlert(value)} />
+                <DeleteAlert onChange={value => handleChangeDeleteAlert(value)} />
             : ''}
         </form>
     );

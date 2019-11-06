@@ -1,10 +1,11 @@
 const express = require('express');
 const auth = require('../../utils/middleware/auth');
+const authAdmin = require('../../utils/middleware/authAdmin');
 const PickUp = require('../../models/pickUp');
 const router = new express.Router();
 
 // Get pick ups
-router.get('/pickUps', auth, async (req, res) => {
+router.get('/pickUps', authAdmin, async (req, res) => {
     try {
         const pickUps = await PickUp.find().populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', select: 'name' }}).exec();
 
@@ -50,7 +51,7 @@ router.get('/pickUps/:id', auth, async (req, res) => {
 });
 
 // Create pick up
-router.post('/pickUps', auth, async (req, res) => {
+router.post('/pickUps', authAdmin, async (req, res) => {
     const pickUp = new PickUp({ ...req.body });
 
     try {
@@ -79,8 +80,7 @@ router.patch('/pickUps/:id', auth, async (req, res) => {
 });
 
 // Delete pick up
-router.delete('/pickUps/:id', auth, async (req, res) => {
-    // Gotta implement level authorization
+router.delete('/pickUps/:id', authAdmin, async (req, res) => {
     try {
         const pickUp = await PickUp.findOneAndDelete({ _id: req.params.id });
 
@@ -94,11 +94,9 @@ router.delete('/pickUps/:id', auth, async (req, res) => {
 });
 
 // Delete many pick ups
-router.delete('/pickUps/many', auth, async (req, res) => {
-    // Gotta implement level authorization
+router.delete('/pickUps/many/:123', authAdmin, async (req, res) => {
     try {
-        console.log(...req.body);
-        const pickUp = await PickUp.deleteMany({ _id: req.body });
+        const pickUp = await PickUp.deleteMany({ _id: req.body.ids });
 
         if (!pickUp) {
             return res.status(404).send();
