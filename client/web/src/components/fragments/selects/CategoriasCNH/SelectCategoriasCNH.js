@@ -11,37 +11,15 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-const estados = [
-    { value: 'AC', label: 'Acre' },
-    { value: 'AL', label: 'Alagoas' },
-    { value: 'AP', label: 'Amapá' },
-    { value: 'AM', label: 'Amazonas' },
-    { value: 'BA', label: 'Bahia' },
-    { value: 'CE', label: 'Ceará' },
-    { value: 'DF', label: 'Distrito Federal' },
-    { value: 'ES', label: 'Espírito Santo' },
-    { value: 'GO', label: 'Goiás' },
-    { value: 'MA', label: 'Maranhão' },
-    { value: 'MT', label: 'Mato Grosso' },
-    { value: 'MS', label: 'Mato Grosso do Sul' },
-    { value: 'MG', label: 'Minas Gerais' },
-    { value: 'PA', label: 'Pará' },
-    { value: 'PB', label: 'Paraíba' },
-    { value: 'PR', label: 'Paraná' },
-    { value: 'PE', label: 'Pernambuco' },
-    { value: 'PI', label: 'Piauí' },
-    { value: 'RJ', label: 'Rio de Janeiro' },
-    { value: 'RN', label: 'Rio Grande do Norte' },
-    { value: 'RS', label: 'Rio Grande do Sul' },
-    { value: 'RO', label: 'Rondônia' },
-    { value: 'RR', label: 'Roraima' },
-    { value: 'SC', label: 'Santa Catarina' },
-    { value: 'SP', label: 'São Paulo' },
-    { value: 'SE', label: 'Sergipe' },
-    { value: 'TO', label: 'Tocantins' }
-].map(estados => ({
-    value: estados.value,
-    label: estados.label,
+const categories = [
+    { category: 'A' },
+    { category: 'B' },
+    { category: 'C' },
+    { category: 'D' },
+    { category: 'E' }
+].map(categories => ({
+    value: categories.category,
+    label: categories.category,
 }));
 
 const useStyles = makeStyles(theme => ({
@@ -342,19 +320,34 @@ const components = {
 export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const [single, setSingle] = useState(null);
+    const [multi, setMulti] = useState(null);
 
     useEffect(() => {
-        if (props.value) {
-            const ufs = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
-            setSingle(estados[ufs.indexOf(props.value)]);
+        const { value } = props;
+
+        if (value) {
+            const values = [];
+            const categorias = ['A', 'B', 'C', 'D', 'E'];
+
+            value.forEach(item => {
+                values.push(categories[categorias.indexOf(item)]);
+            });
+
+            setMulti(values);
         }
     }, [props.value]);
-    
-    function handleChangeSingle(estado) {
-        setSingle(estado);
-        props.setEstado(estado.value);
-    }
+
+    const handleChangeMulti = categoriasValue => {
+        const categoriasArray = [];
+        
+        setMulti(categoriasValue);
+
+        categoriasValue.forEach(categoriaElement => {
+            categoriasArray.push(categoriaElement.value);
+        });
+        
+        props.onChange(categoriasArray.sort());
+    };
 
     const selectStyles = {
         input: base => ({
@@ -371,21 +364,22 @@ export default function IntegrationReactSelect(props) {
             <Select
                 classes={classes}
                 styles={selectStyles}
-                inputId="selectUF"
+                inputId="react-select-multiple"
                 TextFieldProps={{
-                    label: 'UF',
+                    label: 'Categorias',
                     InputLabelProps: {
-                        htmlFor: 'selectUF',
+                        htmlFor: 'react-select-multiple',
                         shrink: true,
                     },
                 }}
-                placeholder="Estado"
-                options={estados}
+                placeholder="A, B..."
+                noOptionsMessage={() => 'Nenhuma categoria encontrada'}
+                options={categories}
                 components={components}
-                value={single}
-                onChange={handleChangeSingle}
+                value={multi}
+                onChange={handleChangeMulti}
+                isMulti
             />
         </NoSsr>
     );
 }
-

@@ -49,6 +49,8 @@ router.post('/clinics', authAdmin, async (req, res) => {
 // Update clinic
 router.patch('/clinics/:id', auth, async (req, res) => {
     // Gotta implement allowedUpdates
+    const updates = Object.keys(req.body);
+    
     try {
         const clinic = await Clinic.findOne({ _id: req.params.id });
 

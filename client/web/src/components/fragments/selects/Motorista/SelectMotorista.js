@@ -366,7 +366,7 @@ export default function IntegrationReactSelect(props) {
                     },
                 }}
                 isSearchable
-                noOptionsMessage="Nenhum motorista encontrado"
+                noOptionsMessage={() => 'Nenhum motorista encontrado'}
                 placeholder=""
                 options={suggestions}
                 components={components}

@@ -312,16 +312,24 @@ export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
     const authToken = Cookies.get('authToken');
-    const [clinicas, setClinicas] = useState([]); 
+    const axiosHeader = {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+    }
+    const [usuarios, setUsuarios] = useState([]);    
     const [single, setSingle] = useState(null);
 
     useEffect(() => {
-        axios.get(`/clinics`, {
-            headers: { 'Authorization': `Bearer ${authToken}` }
-        })       
-        .then(response => {
-            setClinicas(response.data);
-        })
+        axios.all([
+            axios.get('/users?drivers=true', axiosHeader),
+            axios.get('/drivers?userOnly=true', axiosHeader)
+        ])        
+        .then(axios.spread((usersRes, driversRes) => {  // fill only users that aren't admins and drivers yet
+            let usersData = usersRes.data;
+            const driversData = JSON.stringify(driversRes.data);
+
+            usersData = usersData.filter(user => !driversData.includes(JSON.stringify(user)));
+            setUsuarios(usersData);
+        }))
         .catch(error => {
             console.log(error);
         });
@@ -332,15 +340,14 @@ export default function IntegrationReactSelect(props) {
         }
     }, [props.value]);
 
-    const suggestions = clinicas.map(suggestion => ({
+    const suggestions = usuarios.map(suggestion => ({
         value: suggestion._id,
         label: suggestion.name,
     }));
 
-    const handleChangeSingle = clinicValue => {
-        setSingle(clinicValue);
-        console.log(clinicValue);
-        props.onChange(clinicValue.value, clinicValue.label);
+    const handleChangeSingle = userValue => {
+        setSingle(userValue);
+        props.onChange(userValue.value, userValue.label);
     };
 
     const selectStyles = {
@@ -360,16 +367,18 @@ export default function IntegrationReactSelect(props) {
                 styles={selectStyles}
                 inputId="react-select-single"
                 TextFieldProps={{
-                    label: 'Clínica',
+                    label: 'Usuário',
                     InputLabelProps: {
                         htmlFor: 'react-select-single',
                         shrink: true,
                     },
                 }}
+                isSearchable
                 placeholder=""
-                isDisabled={props.disabled}
+                noOptionsMessage={() => 'Nenhum motorista disponível'}
                 options={suggestions}
                 components={components}
+                isDisabled={props.disabled}
                 value={single}
                 onChange={handleChangeSingle}
             />

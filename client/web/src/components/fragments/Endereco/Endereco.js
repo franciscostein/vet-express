@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import TextField from '@material-ui/core/TextField';
 
-import UF from '../../fragments/UnidadeFederativa/UnidadeFederativa';
+import Estado from '../../fragments/selects/Estado/SelectEstado';
 
 const endereco = props => {
     return (
@@ -62,7 +62,7 @@ const endereco = props => {
                     />
                 </div>
                 <div className={`${props.styles.col} ${props.styles.span1of3} ${props.styles.select}`}>
-                    <UF 
+                    <Estado 
                         value={props.estado} setEstado={value => props.setEstado(value)}
                     />
                 </div>

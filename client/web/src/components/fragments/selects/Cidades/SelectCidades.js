@@ -1009,6 +1009,7 @@ export default function IntegrationReactSelect(props) {
                     },
                 }}
                 placeholder=""
+                noOptionsMessage={() => 'Nenhuma cidade encontrada'}
                 isDisabled={props.disabled}
                 options={cidades}
                 components={components}

@@ -14,8 +14,8 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import SelectClinica from '../../fragments/SelectClinica/SelectClinica';
-import SelectMotorista from '../../fragments/SelectMotorista/SelectMotorista';
+import SelectClinica from '../../fragments/selects/Clinica/SelectClinica';
+import SelectMotorista from '../../fragments/selects/Motorista/SelectMotorista';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
 
 import styles from './Retirada.module.css';
@@ -200,6 +200,7 @@ const retiradas = props => {
 
                 <FormButtons 
                     styles={props.styles}
+                    urlPath='/retiradas'
                     path='/pickUps'
                     id={id}
                     data={{

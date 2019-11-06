@@ -11,10 +11,10 @@ const formButtons = props => {
     const history = useHistory();
 
     const salvarClickHandler = event => {
-        const { id, data, path } = props;
+        const { id, data, path, urlPath } = props;
         const authToken = Cookies.get('authToken');
 
-        // console.log(data);
+        console.log(data);
         
         if (id) {   // edit
             axios.patch(`${path}/${id}`, 
@@ -23,7 +23,7 @@ const formButtons = props => {
             })
             .then(response => {
                 console.log(response);
-                // history.goBack();
+                history.push(urlPath);
             })
             .catch(error => {
                 console.log(error);
@@ -36,7 +36,7 @@ const formButtons = props => {
             })
             .then(response => {
                 console.log(response);
-                // history.goBack();
+                history.goBack();
             })
             .catch(error => {
                 console.log(error);
@@ -54,6 +54,7 @@ const formButtons = props => {
                 <Button 
                     variant="contained"
                     color="primary"
+                    disabled={props.blockSave}
                     className={props.styles.primaryButton}
                     onClick={event => salvarClickHandler(event)}
                 >Salvar</Button>
@@ -64,7 +65,7 @@ const formButtons = props => {
                     color="secondary"
                     className={props.styles.secondaryButton}
                     onClick={() => cancelarClickHandler()}
-                >Cancelar</Button>
+                >{props.blockSave? 'Voltar' : 'Cancelar'}</Button>
             </Grid>
         </Grid>
     );

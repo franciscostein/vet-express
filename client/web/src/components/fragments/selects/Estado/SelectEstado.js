@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Select from 'react-select';
@@ -13,10 +11,38 @@ import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 
-// const suggestions = usuarios.map(suggestion => ({
-//     value: suggestion._id,
-//     label: suggestion.name,
-// }));
+const estados = [
+    { value: 'AC', label: 'Acre' },
+    { value: 'AL', label: 'Alagoas' },
+    { value: 'AP', label: 'Amapá' },
+    { value: 'AM', label: 'Amazonas' },
+    { value: 'BA', label: 'Bahia' },
+    { value: 'CE', label: 'Ceará' },
+    { value: 'DF', label: 'Distrito Federal' },
+    { value: 'ES', label: 'Espírito Santo' },
+    { value: 'GO', label: 'Goiás' },
+    { value: 'MA', label: 'Maranhão' },
+    { value: 'MT', label: 'Mato Grosso' },
+    { value: 'MS', label: 'Mato Grosso do Sul' },
+    { value: 'MG', label: 'Minas Gerais' },
+    { value: 'PA', label: 'Pará' },
+    { value: 'PB', label: 'Paraíba' },
+    { value: 'PR', label: 'Paraná' },
+    { value: 'PE', label: 'Pernambuco' },
+    { value: 'PI', label: 'Piauí' },
+    { value: 'RJ', label: 'Rio de Janeiro' },
+    { value: 'RN', label: 'Rio Grande do Norte' },
+    { value: 'RS', label: 'Rio Grande do Sul' },
+    { value: 'RO', label: 'Rondônia' },
+    { value: 'RR', label: 'Roraima' },
+    { value: 'SC', label: 'Santa Catarina' },
+    { value: 'SP', label: 'São Paulo' },
+    { value: 'SE', label: 'Sergipe' },
+    { value: 'TO', label: 'Tocantins' }
+].map(estados => ({
+    value: estados.value,
+    label: estados.label,
+}));
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -316,47 +342,19 @@ const components = {
 export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const authToken = Cookies.get('authToken');
-    const axiosHeader = {
-        headers: { 'Authorization': `Bearer ${authToken}` }
-    }
-    const [usuarios, setUsuarios] = useState([]);    
     const [single, setSingle] = useState(null);
 
     useEffect(() => {
-        axios.all([
-            axios.get('/users?drivers=true', axiosHeader),
-            axios.get('/drivers?userOnly=true', axiosHeader)
-        ])        
-        .then(axios.spread((usersRes, driversRes) => {  // fill only users that aren't admins and drivers yet
-            let usersData = usersRes.data;
-            const driversData = JSON.stringify(driversRes.data);
-
-            usersData = usersData.filter(user => {
-                const strUser = JSON.stringify(user);
-                return !driversData.includes(strUser);
-            });
-            setUsuarios(usersData);
-        }))
-        .catch(error => {
-            console.log(error);
-        });
-        const { value } = props;
-
-        if (value) {
-            setSingle({ value: value._id, label: value.nome });
+        if (props.value) {
+            const ufs = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
+            setSingle(estados[ufs.indexOf(props.value)]);
         }
     }, [props.value]);
-
-    const suggestions = usuarios.map(suggestion => ({
-        value: suggestion._id,
-        label: suggestion.name,
-    }));
-
-    const handleChangeSingle = userValue => {
-        setSingle(userValue);
-        props.onChange(userValue.value, userValue.label);
-    };
+    
+    function handleChangeSingle(estado) {
+        setSingle(estado);
+        props.setEstado(estado.value);
+    }
 
     const selectStyles = {
         input: base => ({
@@ -373,23 +371,22 @@ export default function IntegrationReactSelect(props) {
             <Select
                 classes={classes}
                 styles={selectStyles}
-                inputId="react-select-single"
+                inputId="selectUF"
                 TextFieldProps={{
-                    label: 'Usuário',
+                    label: 'UF',
                     InputLabelProps: {
-                        htmlFor: 'react-select-single',
+                        htmlFor: 'selectUF',
                         shrink: true,
                     },
                 }}
-                isSearchable
-                noOptionsMessage="Nenhum usuário encontrado"
-                placeholder=""
-                options={suggestions}
+                placeholder="Estado"
+                noOptionsMessage={() => 'Nenhum estado encontrado'}
+                options={estados}
                 components={components}
-                isDisabled={props.disabled}
                 value={single}
                 onChange={handleChangeSingle}
             />
         </NoSsr>
     );
 }
+

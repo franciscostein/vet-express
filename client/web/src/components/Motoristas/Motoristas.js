@@ -3,7 +3,7 @@ import axios from 'axios';
 import MUIDataTable from 'mui-datatables';
 import Cookies from 'js-cookie';
 
-import options from '../fragments/TableOptions/Options';
+import options from '../fragments/MuiDataTable/Options';
 import DeleteAlert from '../fragments/DeleteAlert/DeleteAlert';
 
 const columns = [

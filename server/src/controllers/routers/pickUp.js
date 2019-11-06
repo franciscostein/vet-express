@@ -2,12 +2,14 @@ const express = require('express');
 const auth = require('../../utils/middleware/auth');
 const authAdmin = require('../../utils/middleware/authAdmin');
 const PickUp = require('../../models/pickUp');
+const multer = require('multer');
+const sharp = require('sharp');
 const router = new express.Router();
 
 // Get pick ups
 router.get('/pickUps', authAdmin, async (req, res) => {
     try {
-        const pickUps = await PickUp.find().populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', select: 'name' }}).exec();
+        const pickUps = await PickUp.find().select('-photo').populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', select: 'name' }}).exec();
 
         if (!pickUps) {
             return res.status(404).send();
@@ -19,11 +21,11 @@ router.get('/pickUps', authAdmin, async (req, res) => {
 });
 
 // Get driver's pick ups
-router.get('/pickUps/driver/:userId', auth, async (req, res) => {
-    const _userId = req.params.userId;
-
+router.get('/pickUps/driver', auth, async (req, res) => {
     try {
-        const pickUps = await PickUp.find().populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', match: { _id: _userId }, select: 'name' }}).exec();
+        let pickUps = await PickUp.find().select('-photo').populate('clinic', 'name').populate({ path: 'driver', select: 'user', populate: { path: 'user', select: 'name' }}).exec();
+
+        pickUps = pickUps.filter(pickUp => JSON.stringify(pickUp.driver.user._id) === JSON.stringify(req.user.id));
 
         if (!pickUps) {
             return res.status(404).send();
@@ -65,6 +67,8 @@ router.post('/pickUps', authAdmin, async (req, res) => {
 // Update pick up
 router.patch('/pickUps/:id', auth, async (req, res) => {
     // Gotta implement allowedUpdates
+    const updates = Object.keys(req.body);
+    
     try {
         const pickUp = await PickUp.findOne({ _id: req.params.id });
 
@@ -104,6 +108,66 @@ router.delete('/pickUps/many/:123', authAdmin, async (req, res) => {
         res.send(pickUp);
     } catch(e) {
         res.status(500).send();
+    }
+});
+
+const upload = multer({
+    limits: {
+        fileSize: 16777216, // 16MB in bytes, MongoDB's Buffer limit
+        files: 1
+    },
+    fileFilter(req, file, callback) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) { // regular expression for file extentions
+            return callback(new Error('Formatos permitidos: .jpg, .jpeg, .png'));
+        }
+        callback(undefined, true);
+    }
+});
+
+// Create pick up photo
+router.post('/pickUps/:id/photo', auth, upload.single('photo'), async (req, res) => {
+    try {
+        const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+        let pickUp = await PickUp.findById(req.params.id);
+
+        pickUp.photo = buffer;
+        await pickUp.save();
+        res.send();
+    } catch(e) {
+        res.status(500).send();
+    }
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+});
+
+// Get pick up photo
+router.get('/pickUp/:id/photo', auth, async (req, res) => {
+    try {
+        const pickUp = await PickUp.findById(req.params.id);
+
+        if (!pickUp || !pickUp.photo) {
+            throw new Error();
+        }
+        res.set('Content-Type', 'image/png');
+        res.send(pickUp.photo);
+    } catch(e) {
+        res.status(404).send();
+    }
+});
+
+// Delete pick up photo
+router.delete('/pickUp/:id/photo', auth, async (req, res) => {
+    try {
+        const pickUp = await PickUp.findById(req.params.id);
+
+        if (!pickUp || !pickUp.photo) {
+            throw new Error();
+        }
+        pickUp.photo = undefined;
+        await pickUp.save();
+        res.send();
+    } catch(e) {
+        res.status(404).send();
     }
 });
 

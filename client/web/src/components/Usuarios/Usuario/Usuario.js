@@ -8,7 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
-import CategoriaCNH from '../../fragments/CategoriaCNH/CategoriaCNH';
+import CategoriaCNH from '../../fragments/selects/CategoriasCNH/SelectCategoriasCNH';
 import Endereco from '../../fragments/Endereco/Endereco';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
 
@@ -86,6 +86,7 @@ const usuario = props => {
                             margin="normal"
                             required
                             fullWidth
+                            disabled={!administrator}
                             value={nome}
                             onChange={event => setNome(event.target.value)}
                         />
@@ -116,6 +117,7 @@ const usuario = props => {
                             margin="normal"
                             format="dd/MM/yyyy"
                             autoOk
+                            disabled={!administrator}
                             disableFuture={true}
                             value={nascimento}
                             onChange={date => setNascimento(date)}
@@ -141,7 +143,6 @@ const usuario = props => {
                             id="inputNumeroCNH"
                             label="Número"
                             margin="normal"
-                            disabled={!administrator}
                             fullWidth
                             value={numeroCNH}
                             onChange={event => setNumeroCNH(event.target.value)}
@@ -233,9 +234,10 @@ const usuario = props => {
                 
                 <FormButtons 
                     styles={props.styles}
+                    urlPath='/usuarios'
                     path='/users'
                     id={id}
-                    data={{
+                    data={ administrator ? {
                         name: nome,
                         cpf: parseInt(cpf),
                         birthday: new Date(nascimento),
@@ -256,6 +258,22 @@ const usuario = props => {
                         email: email,
                         password: senha,
                         administrator: admin.checkedAdmin
+                    } : {
+                        phone: parseInt(telefone),
+                        cnh: {
+                            number: parseInt(numeroCNH),
+                            expiringDate: new Date(validadeCNH),
+                            category: categoriasCNH
+                        },
+                        address: {
+                            zipCode: parseInt(cep),
+                            street: logradouro,
+                            number: parseInt(numero),
+                            neighborhood: bairro,
+                            city: cidade,
+                            state: estado
+                        },
+                        password: senha
                     }}
                 />
             </form>

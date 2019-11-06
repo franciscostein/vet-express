@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import CustomToolbar from '../CustomToolbar/CustomToolbar';
+import CustomToolbar from './CustomToolbar';
 
 const options = (admin, addPath, deleteCallback) => {
     const history = useHistory();

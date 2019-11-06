@@ -8,7 +8,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
-import options from '../fragments/TableOptions/Options';
+import options from '../fragments/MuiDataTable/Options';
 import DeleteAlert from '../fragments/DeleteAlert/DeleteAlert';
 
 import styles from './Retiradas.module.css';
@@ -29,16 +29,16 @@ const loading = true;
 const retiradas = props => {
     const classes = useStyles();
     const authToken = Cookies.get('authToken');
-    const { _id, administrator } = Cookies.getJSON('user');
+    const { administrator } = Cookies.getJSON('user');
     const [data, setData] = useState([]);
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
     const [dataDeleted, setDataDeleted] = useState(false);
     const [rowsData, setRowsData] = useState([]);
 
     useEffect(() => {
-        const userId = administrator ? '/' : `/driver/${_id}`;
+        const urlEnd = administrator ? '' : `/driver`;
 
-        axios.get(`/pickUps${userId}`, {
+        axios.get(`/pickUps${urlEnd}`, {
             headers: { 'Authorization': `Bearer ${authToken}` }
         })
         .then(response => {

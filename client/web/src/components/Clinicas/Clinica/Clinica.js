@@ -110,6 +110,7 @@ const clinica = props => {
 
                 <FormButtons 
                     styles={props.styles}
+                    urlPath='/clinicas'
                     path='/clinics'
                     id={id}
                     data={{

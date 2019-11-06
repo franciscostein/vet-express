@@ -72,6 +72,8 @@ router.post('/drivers', authAdmin, async (req, res) => {
 
 // Update driver
 router.patch('/drivers/:id', authAdmin, async (req, res) => {
+    const updates = Object.keys(req.body);
+    
     try {
         const driver = await Driver.findOne({ _id: req.params.id });
 

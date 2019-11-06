@@ -28,10 +28,11 @@ router.get('/users', authAdmin, async (req, res) => {
 
 // Get user
 router.get('/users/:id', auth, async (req, res) => {
-    const _id = req.params.id;
-
+    if (!req.user.administrator) {
+        res.send(req.user);
+    }
     try {
-        const user = await User.findOne({ _id });
+        const user = await User.findOne({ _id: req.params.id });
 
         if (!user) {
             return res.status(404).send();
@@ -58,21 +59,31 @@ router.post('/users', authAdmin, async (req, res) => {
 
 // Update user
 router.patch('/users/:id', auth, async (req, res) => {
-    // Gotta implement allowedUpdates
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ['name', 'cpf', 'birthday', 'phone', 'cnh', 'address', 'email', 'password', 'administrator'];
+    const allowedUpdatesDrivers = ['phone', 'cnh', 'address', 'password'];
+    let isValidOperation = false;
+
+    if (req.user.administrator) {
+        isValidOperation = updates.every(update => allowedUpdates.includes(update));
+    } else {
+        isValidOperation = updates.every(update => allowedUpdatesDrivers.includes(update));
+    }
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Atualização não permitida!' });
+    }
     try {
         const user = await User.findOne({ _id: req.params.id });
 
         if (!user) {
             return res.status(404).send();
-        } else if (user.administrator) {
-            updates.forEach(update => user[update] = req.body[update]);
-            await user.save();
-            res.send(user);
-        } else {
-            res.status(403).send({ message: 'Ação só permitida para administradores' }); // 403 - forbidden
         }
+        updates.forEach(update => user[update] = req.body[update]);
+        await user.save();
+        res.send(user);
     } catch(e) {
-        res.status(400).send(e);
+        res.status(500).send(e);
     }
 });
 

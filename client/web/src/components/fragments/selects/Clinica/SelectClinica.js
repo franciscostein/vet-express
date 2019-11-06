@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Select from 'react-select';
@@ -10,17 +12,6 @@ import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import CancelIcon from '@material-ui/icons/Cancel';
-
-const categories = [
-    { category: 'A' },
-    { category: 'B' },
-    { category: 'C' },
-    { category: 'D' },
-    { category: 'E' }
-].map(categories => ({
-    value: categories.category,
-    label: categories.category,
-}));
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -320,33 +311,36 @@ const components = {
 export default function IntegrationReactSelect(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const [multi, setMulti] = useState(null);
+    const authToken = Cookies.get('authToken');
+    const [clinicas, setClinicas] = useState([]); 
+    const [single, setSingle] = useState(null);
 
     useEffect(() => {
+        axios.get(`/clinics`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        })       
+        .then(response => {
+            setClinicas(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
         const { value } = props;
 
         if (value) {
-            const values = [];
-            const categorias = ['A', 'B', 'C', 'D', 'E'];
-
-            value.forEach(item => {
-                values.push(categories[categorias.indexOf(item)]);
-            });
-
-            setMulti(values);
+            setSingle({ value: value._id, label: value.nome });
         }
     }, [props.value]);
 
-    const handleChangeMulti = categoriasValue => {
-        const categoriasArray = [];
-        
-        setMulti(categoriasValue);
+    const suggestions = clinicas.map(suggestion => ({
+        value: suggestion._id,
+        label: suggestion.name,
+    }));
 
-        categoriasValue.forEach(categoriaElement => {
-            categoriasArray.push(categoriaElement.value);
-        });
-        
-        props.onChange(categoriasArray.sort());
+    const handleChangeSingle = clinicValue => {
+        setSingle(clinicValue);
+        console.log(clinicValue);
+        props.onChange(clinicValue.value, clinicValue.label);
     };
 
     const selectStyles = {
@@ -364,20 +358,21 @@ export default function IntegrationReactSelect(props) {
             <Select
                 classes={classes}
                 styles={selectStyles}
-                inputId="react-select-multiple"
+                inputId="react-select-single"
                 TextFieldProps={{
-                    label: 'Categorias',
+                    label: 'Clínica',
                     InputLabelProps: {
-                        htmlFor: 'react-select-multiple',
+                        htmlFor: 'react-select-single',
                         shrink: true,
                     },
                 }}
-                placeholder="A, B..."
-                options={categories}
+                placeholder=""
+                noOptionsMessage={() => 'Nenhuma clínica encontrada'}
+                isDisabled={props.disabled}
+                options={suggestions}
                 components={components}
-                value={multi}
-                onChange={handleChangeMulti}
-                isMulti
+                value={single}
+                onChange={handleChangeSingle}
             />
         </NoSsr>
     );

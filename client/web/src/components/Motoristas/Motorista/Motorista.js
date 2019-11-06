@@ -6,8 +6,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 
-import SelectUsuario from '../../fragments/SelectUsuario/SelectUsuario';
-import SelectCidades from '../../fragments/SelectCidades/SelectCidades';
+import SelectUsuario from '../../fragments/selects/Usuario/SelectUsuario';
+import SelectCidades from '../../fragments/selects/Cidades/SelectCidades';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
 
 import styles from './Motorista.module.css';
@@ -154,6 +154,8 @@ const motorista = props => {
                 
                 <FormButtons 
                     styles={props.styles}
+                    blockSave={!administrator}
+                    urlPath='/motoristas'
                     path='/drivers'
                     id={id}
                     data={{
