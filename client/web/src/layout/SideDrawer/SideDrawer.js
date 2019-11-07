@@ -30,6 +30,7 @@ const SimpleList = props => {
 
     const handleLinkClick = path => {
         props.history.push(path);
+        window.location.reload();
     }
 
     return (
