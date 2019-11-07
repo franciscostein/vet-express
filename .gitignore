@@ -1,5 +1,8 @@
-Docs/Private
+Docs
 client/web/node_modules
+client/web/src/App.test.js
 server/node_modules
-server/src/utils/config
+server/src/utils/config/dev.env
+server/src/utils/config/test.env
 /Vet Express.code-workspace
+tests

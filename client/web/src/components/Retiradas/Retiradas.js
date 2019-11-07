@@ -1,12 +1,7 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import MUIDataTable from 'mui-datatables';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import makeStyles from '@material-ui/core/styles/makeStyles';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 import options from '../fragments/MuiDataTable/Options';
 import DeleteAlert from '../fragments/DeleteAlert/DeleteAlert';
@@ -16,18 +11,8 @@ import styles from './Retiradas.module.css';
 const columns = [
     { name: 'id', options: { display: false, viewColumns: false, filter: false, searchable: false } }, 'Clínica', 'Data', 'Observação', 'Motorista'
 ];
-
-const useStyles = makeStyles(() => ({
-    input: {
-        display: 'none'
-    }
-}));
-
-// DEV only
-const loading = true;
   
 const retiradas = props => {
-    const classes = useStyles();
     const authToken = Cookies.get('authToken');
     const { administrator } = Cookies.getJSON('user');
     const [data, setData] = useState([]);
@@ -100,41 +85,10 @@ const retiradas = props => {
 
     return (
         <form className={props.styles.formTable}>
-            
-            { administrator ? 
-                <Fragment>
-                    <Grid justify="center" container className={styles.topButton}>
-                        <Grid item>
-                            <input
-                                accept=".xlsx, .xls"
-                                className={classes.input}
-                                id="contained-button-file"
-                                type="file"
-                            />
-                            <label htmlFor="contained-button-file">
-                                <Button 
-                                    variant="contained" 
-                                    component="span" 
-                                    color="primary" 
-                                    className={props.styles.primaryButton}
-                                >
-                                    Importar
-                                </Button>
-                            </label>
-                        </Grid>
-                    </Grid>
-
-                    <div className={styles.progress}>
-                    {
-                        loading ? <LinearProgress variant="indeterminate" color="primary"/> : <CheckCircleIcon color="primary" fontSize="large"/>
-                    }
-                    </div>
-                </Fragment>
-            : <h2 className={props.styles.row}>Retiradas</h2> }
-
-            <div className={administrator ? styles.table : styles.marginTop}>
+            <h2 className={props.styles.row}>Retiradas</h2>
+            <div className={styles.marginTop}>
                 <MUIDataTable
-                    title={administrator ? 'Retiradas' : ''}
+                    title={''}
                     columns={columns}
                     data={data}
                     options={options(administrator, '/retirada', rows => handleDeleteClick(rows))}

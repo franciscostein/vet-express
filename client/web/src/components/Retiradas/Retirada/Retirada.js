@@ -17,6 +17,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SelectClinica from '../../fragments/selects/Clinica/SelectClinica';
 import SelectMotorista from '../../fragments/selects/Motorista/SelectMotorista';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
+import DeleteAlert from '../../fragments/DeleteAlert/DeleteAlert';
 
 import styles from './Retirada.module.css';
 
@@ -43,6 +44,8 @@ const retiradas = props => {
     const [observacao, setObservacao] = useState('');
     const [dataRetirada, setDataRetirada] = useState(new Date());
     const [concluido, setConcluido] = useState({ checkedConcluido: false });
+    const [photo, setPhoto] = useState('');
+    const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
     useEffect(() => {
         if (id) {
@@ -61,6 +64,17 @@ const retiradas = props => {
             .catch(error => {
                 console.log(error);
             });
+
+            axios.get(`/pickUps/${id}/photo`, {
+                headers: { 'Authorization': `Bearer ${authToken}` },
+                responseType: 'arraybuffer'
+            })
+            .then(response => {
+                setPhoto(Buffer.from(response.data, 'binary').toString('base64'));
+            })
+            .catch(error => {
+                console.log(error);
+            })
         }
     }, []);
 
@@ -82,6 +96,45 @@ const retiradas = props => {
 
     const handleChangeConcluido = name => event => {
         setConcluido({ ...concluido, [name]: event.target.checked });
+    }
+
+    const handlePhotoUpload = event => {
+        event.preventDefault();
+        const file = event.target.files[0];
+        const data = new FormData();
+
+        data.append('photo', file);
+
+        axios.post(`/pickUps/${id}/photo`, data, {
+            headers: { 
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'multipart/form-data' 
+            },
+            responseType: 'arraybuffer'
+        })
+        .then(response => {
+            setPhoto(Buffer.from(response.data, 'binary').toString('base64'));
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
+    const handleChangeDeleteAlert = userResponse => {
+        setShowDeleteAlert(false);
+
+        if (userResponse) {
+            axios.delete(`/pickUps/${id}/photo`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+            .then(response => {
+                console.log(response);
+                setPhoto('');
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }
     }
 
     return (
@@ -158,9 +211,7 @@ const retiradas = props => {
                             margin="normal"
                         />
                     </div>
-                    <div className={`${props.styles.col} ${props.styles.span1of3}`}>
-
-                    </div>
+                    <div className={`${props.styles.col} ${props.styles.span1of3}`}></div>
                     <div className={`${props.styles.col} ${props.styles.span1of3} ${props.styles.switch}`}>
                         <FormControlLabel
                             control={
@@ -178,7 +229,13 @@ const retiradas = props => {
                 </div>
 
                 <div className={`${props.styles.row} ${styles.photoButton}`}>
-                    <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
+                    <input
+                        id="icon-button-file"
+                        type="file"
+                        accept="image/*"
+                        className={classes.input}
+                        onChange={event => handlePhotoUpload(event)}
+                    />
                     <label htmlFor="icon-button-file">
                         <Tooltip title="Adicionar imagem da colheta">
                             <IconButton
@@ -191,25 +248,36 @@ const retiradas = props => {
                             </IconButton>
                         </Tooltip>
                     </label>
-                </div>
-                <div className={props.styles.row}>
-                    <Paper elevation="1" className={styles.img}>
-                        {/* <img src={require('../../../static/img/doggo.jpg')} alt="Doggo"/> */}
+                    <Paper elevation="1" className={!photo ? styles.paper : ''}>
+                        { photo ?
+                            <img
+                              alt="Colheta"
+                                className={styles.photo}
+                                src={`data:image/png;base64,${photo}`}
+                                onClick={() => setShowDeleteAlert(true)}
+                            />
+                        : ''}
                     </Paper>
                 </div>
+
+                { showDeleteAlert ?
+                    <DeleteAlert onChange={response => handleChangeDeleteAlert(response)} />
+                : ''}
 
                 <FormButtons 
                     styles={props.styles}
                     urlPath='/retiradas'
                     path='/pickUps'
                     id={id}
-                    data={{
+                    data={ administrator ? {
                         clinic: clinica._id,
                         driver: motorista._id,
                         date: dataRetirada,
                         note: observacao,
                         done: concluido.checkedConcluido,
-                        photo: ''
+                    } : {
+                        note: observacao,
+                        done: concluido.checkedConcluido
                     }}
                 />
             </form>

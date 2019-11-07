@@ -48,9 +48,20 @@ router.post('/clinics', authAdmin, async (req, res) => {
 
 // Update clinic
 router.patch('/clinics/:id', auth, async (req, res) => {
-    // Gotta implement allowedUpdates
     const updates = Object.keys(req.body);
-    
+    const allowedUpdates = ['name', 'cnpf', 'phone', 'contact', 'address'];
+    const allowedUpdatesDrivers = ['phone', 'contact', 'address'];
+    let isValidOperation = false;
+
+    if (req.user.administrator) {
+        isValidOperation = updates.every(update => allowedUpdates.includes(update));
+    } else {
+        isValidOperation = updates.every(update => allowedUpdatesDrivers.includes(update));
+    }
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Atualização não permitida!' });
+    }
     try {
         const clinic = await Clinic.findOne({ _id: req.params.id });
 

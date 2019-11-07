@@ -44,8 +44,13 @@ router.get('/drivers/:id', authAdmin, async (req, res) => {
 
 // Get driver by user id
 router.get('/drivers/user/:userId', auth, async (req, res) => {
-    const _userId = req.params.userId;
+    let _userId = null;
 
+    if (req.user.administrator) {
+        _userId = req.params.userId;
+    } else {
+        _userId = req.user._id;
+    }
     try {
         const driver = await Driver.findOne({ user: _userId }).populate('user', 'name').exec();
 
@@ -73,7 +78,12 @@ router.post('/drivers', authAdmin, async (req, res) => {
 // Update driver
 router.patch('/drivers/:id', authAdmin, async (req, res) => {
     const updates = Object.keys(req.body);
+    const allowedUpdates = ['region'];
+    const isValidOperation = updates.every(update => allowedUpdates.includes(update));
     
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Atualização não permitida!' });
+    }
     try {
         const driver = await Driver.findOne({ _id: req.params.id });
 
@@ -84,7 +94,7 @@ router.patch('/drivers/:id', authAdmin, async (req, res) => {
         await driver.save();
         res.send(driver);
     } catch(e) {
-        res.status(400).send(e);
+        res.status(500).send(e);
     }
 });
 

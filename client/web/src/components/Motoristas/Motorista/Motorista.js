@@ -158,8 +158,29 @@ const motorista = props => {
                     urlPath='/motoristas'
                     path='/drivers'
                     id={id}
-                    data={{
+                    data={ !id ? {
                         user: usuario._id,
+                        region: {
+                            monday: {
+                                cities: segunda
+                            },
+                            tuesday: {
+                                cities: terca
+                            },
+                            wednesday: {
+                                cities: quarta
+                            },
+                            thursday: {
+                                cities: quinta
+                            },
+                            friday: {
+                                cities: sexta
+                            },
+                            saturday: {
+                                cities: sabado
+                            }
+                        }
+                    } : {
                         region: {
                             monday: {
                                 cities: segunda

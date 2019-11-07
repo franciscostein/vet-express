@@ -46,6 +46,11 @@ router.get('/pickUps/:id', auth, async (req, res) => {
         if (!pickUp) {
             return res.status(404).send();
         }
+        if (!req.user.administrator) {
+            if (JSON.stringify(pickUp.driver.user._id) !== JSON.stringify(req.user._id)) {
+                return res.status(403).send();
+            }
+        }
         res.send(pickUp);
     } catch(e) {
         res.status(500).send();
@@ -66,9 +71,20 @@ router.post('/pickUps', authAdmin, async (req, res) => {
 
 // Update pick up
 router.patch('/pickUps/:id', auth, async (req, res) => {
-    // Gotta implement allowedUpdates
     const updates = Object.keys(req.body);
-    
+    const allowedUpdates = ['clinic', 'driver', 'note', 'date', 'done'];
+    const allowedUpdatesDrivers = ['note', 'done'];
+    let isValidOperation = false;
+
+    if (req.user.administrator) {
+        isValidOperation = updates.every(update => allowedUpdates.includes(update));
+    } else {
+        isValidOperation = updates.every(update => allowedUpdatesDrivers.includes(update));
+    }
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Atualização não permitida!' });
+    }
     try {
         const pickUp = await PickUp.findOne({ _id: req.params.id });
 
@@ -127,12 +143,12 @@ const upload = multer({
 // Create pick up photo
 router.post('/pickUps/:id/photo', auth, upload.single('photo'), async (req, res) => {
     try {
-        const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
-        let pickUp = await PickUp.findById(req.params.id);
+        let pickUp = await PickUp.findById(req.params.id).select('photo');
+        const buffer = await sharp(req.file.buffer).resize({ width: undefined, height: 350 }).toFormat('png').toBuffer();
 
         pickUp.photo = buffer;
         await pickUp.save();
-        res.send();
+        res.send(buffer);
     } catch(e) {
         res.status(500).send();
     }
@@ -141,9 +157,9 @@ router.post('/pickUps/:id/photo', auth, upload.single('photo'), async (req, res)
 });
 
 // Get pick up photo
-router.get('/pickUp/:id/photo', auth, async (req, res) => {
+router.get('/pickUps/:id/photo', auth, async (req, res) => {
     try {
-        const pickUp = await PickUp.findById(req.params.id);
+        const pickUp = await PickUp.findById(req.params.id).select('photo');
 
         if (!pickUp || !pickUp.photo) {
             throw new Error();
@@ -156,9 +172,9 @@ router.get('/pickUp/:id/photo', auth, async (req, res) => {
 });
 
 // Delete pick up photo
-router.delete('/pickUp/:id/photo', auth, async (req, res) => {
+router.delete('/pickUps/:id/photo', auth, async (req, res) => {
     try {
-        const pickUp = await PickUp.findById(req.params.id);
+        const pickUp = await PickUp.findById(req.params.id).select('photo');
 
         if (!pickUp || !pickUp.photo) {
             throw new Error();

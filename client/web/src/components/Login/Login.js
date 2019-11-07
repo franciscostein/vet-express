@@ -43,14 +43,7 @@ const SignIn = props => {
     const classes = useStyles();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const handleChangeEmail = value => {
-        setEmail(value);
-    }
-
-    const handleChangePassword = value => {
-        setPassword(value);
-    }
+    const [error, setError] = useState('');
 
     const doLogin = event => {
         event.preventDefault();
@@ -70,11 +63,12 @@ const SignIn = props => {
         })
         .catch(error => {
             console.log(error);
+            setError('Usuário ou senha inválidos');
         });
     }
     
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs" className={styles.container}>
             <CssBaseline />
             <form className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -83,7 +77,7 @@ const SignIn = props => {
                 <Typography component="h1" variant="h5" color="textSecondary">
                     Vet Express
                 </Typography>
-                <div className={classes.form}>
+                <div className={`${classes.form} ${styles.form}`}>
                     <TextField
                         margin="normal"
                         required
@@ -94,7 +88,7 @@ const SignIn = props => {
                         autoComplete="email"
                         autoFocus
                         value={email}
-                        onChange={event => handleChangeEmail(event.target.value)}
+                        onChange={event => setEmail(event.target.value)}
                     />
                     <TextField
                         margin="normal"
@@ -106,8 +100,9 @@ const SignIn = props => {
                         id="password"
                         autoComplete="current-password"
                         value={password}
-                        onChange={event => handleChangePassword(event.target.value)}
+                        onChange={event => setPassword(event.target.value)}
                     />
+                    <p>{error}</p>
                     <Button
                         type="submit"
                         fullWidth

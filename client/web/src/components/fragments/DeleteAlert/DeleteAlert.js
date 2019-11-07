@@ -17,8 +17,7 @@ export default function AlertDialog(props) {
 
     const handleClose = decision => {
         setOpen(false);
-        console.log(decision);
-        props.onChange(decision);
+        props.onChange(decision === true ? true : false);
     };
 
     return (

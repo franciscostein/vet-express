@@ -10,7 +10,7 @@ import FormButtons from '../../fragments/FormButtons/FormButtons';
 const clinica = props => {
     const { id } = useParams();
     const authToken = Cookies.get('authToken');
-    // const { administrator } = Cookies.getJSON('user');
+    const { administrator } = Cookies.getJSON('user');
     const [nome, setNome] = useState('');
     const [cnpj, setCnpj] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -60,6 +60,7 @@ const clinica = props => {
                             margin="normal"
                             required
                             fullWidth
+                            disabled={!administrator}
                             value={nome}
                             onChange={value => setNome(value.target.value)}
                         />
@@ -73,6 +74,7 @@ const clinica = props => {
                             margin="normal"
                             required
                             fullWidth
+                            disabled={!administrator}
                             value={cnpj}
                             onChange={value => setCnpj(value.target.value)}
                         />
@@ -98,7 +100,7 @@ const clinica = props => {
                         />
                     </div>
                 </div>
-                <Endereco 
+                <Endereco
                     styles={props.styles} 
                     cep={cep} setCep={value => setCep(value)}
                     logradouro={logradouro} setLogradouro={value => setLogradouro(value)}
@@ -113,9 +115,20 @@ const clinica = props => {
                     urlPath='/clinicas'
                     path='/clinics'
                     id={id}
-                    data={{
+                    data={ administrator ? {
                         name: nome,
                         cnpj: parseInt(cnpj),
+                        address: {
+                            zipCode: parseInt(cep),
+                            street: logradouro,
+                            number: parseInt(numero),
+                            neighborhood: bairro,
+                            city: cidade,
+                            state: estado
+                        },
+                        phone: parseInt(telefone),
+                        contact: contato
+                    } : {
                         address: {
                             zipCode: parseInt(cep),
                             street: logradouro,

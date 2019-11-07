@@ -24,7 +24,8 @@ const pickUpSchema = new mongoose.Schema({
         default: false
     },
     photo: {
-        type: Buffer
+        type: Buffer,
+        select: false
     }
 }, {
     timestamps: true

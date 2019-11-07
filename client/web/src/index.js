@@ -6,27 +6,9 @@ import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
 
 // default global settings for Axios
-axios.defaults.baseURL = 'http://localhost:4000';
+axios.defaults.baseURL = 'http://localhost:4000';   // caminho do backend, exemplo http://127.0.0.1:4000
 axios.defaults.headers.common['Authorization'] = 'AUTH TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-// axios.interceptors.request.use(request => {
-//     console.log(request);
-//     // Edit request config
-//     return request;
-// }, error => {
-//     console.log(error);
-//     return Promise.reject(error);
-// });
-
-// axios.interceptors.response.use(response => {
-//     console.log(response);
-//     // Edit request config
-//     return response;
-// }, error => {
-//     console.log(error);
-//     return Promise.reject(error);
-// });
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

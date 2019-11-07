@@ -140,7 +140,7 @@ router.post('/users/logout', auth, async (req, res) => {
     }
 });
 
-// Log out of all devices
+// Loggin out of all devices
 router.post('/users/logoutAll', auth, async (req, res) => {
     try {
         req.user.tokens = [];
@@ -148,29 +148,6 @@ router.post('/users/logoutAll', auth, async (req, res) => {
         res.send();
     } catch(e) {
         res.status(500).send();
-    }
-});
-
-// Get ones profile
-router.get('/users/me', auth, async (req, res) => {
-    res.send(req.user);
-});
-
-// Update ones profile
-router.patch('/users/me', auth, async (req, res) => {
-    const updates = Object.keys(req.body);
-    const allowedUpdates = ['phone', 'address', 'password'];
-    const isValidOperation = updates.every(update => allowedUpdates.includes(update));
-
-    if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' });
-    }
-    try {
-        updates.forEach(update => req.user[update] = req.body[update]);
-        await req.user.save();
-        res.send(req.user);
-    } catch(e) {
-        res.status(400).send(e);
     }
 });
 
