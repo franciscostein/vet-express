@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 
 import Endereco from '../../fragments/Endereco/Endereco';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
+import ErrorSnackBar from '../../fragments/ErrorSnackBar/ErrorSnackBar';
 
 const clinica = props => {
     const { id } = useParams();
@@ -21,6 +22,8 @@ const clinica = props => {
     const [bairro, setBairro] = useState('');
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         if (id) {
@@ -43,6 +46,8 @@ const clinica = props => {
                 setEstado(address.state);
             })
             .catch(error => {
+                setErrorMessage('Erro ao carregar dados.');
+                setError(true);
                 console.log(error);
             });
         }
@@ -115,6 +120,8 @@ const clinica = props => {
                     urlPath='/clinicas'
                     path='/clinics'
                     id={id}
+                    setError={value => setError(value)}
+                    setErrorMessage={message => setErrorMessage(message)}
                     data={ administrator ? {
                         name: nome,
                         cnpj: parseInt(cnpj),
@@ -141,6 +148,10 @@ const clinica = props => {
                         contact: contato
                     }}
                 />
+
+                { error ?
+                    <ErrorSnackBar message={errorMessage} />
+                : '' }
             </form>
         </Fragment>
     );

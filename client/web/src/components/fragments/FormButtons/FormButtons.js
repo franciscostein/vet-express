@@ -13,8 +13,8 @@ const formButtons = props => {
     const salvarClickHandler = event => {
         const { id, data, path, urlPath } = props;
         const authToken = Cookies.get('authToken');
-
-        console.log(data);
+        props.setError(false);
+        // console.log(data);
         
         if (id) {   // edit
             axios.patch(`${path}/${id}`, 
@@ -26,6 +26,8 @@ const formButtons = props => {
                 history.push(urlPath);
             })
             .catch(error => {
+                props.setErrorMessage('Erro ao atualizar dados, verifique as informações.');
+                props.setError(true);
                 console.log(error);
             });
         }
@@ -39,6 +41,8 @@ const formButtons = props => {
                 history.goBack();
             })
             .catch(error => {
+                props.setErrorMessage('Erro ao inserir dados, verifique as informações.');
+                props.setError(true);
                 console.log(error);
             });
         }

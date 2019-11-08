@@ -18,6 +18,7 @@ import SelectClinica from '../../fragments/selects/Clinica/SelectClinica';
 import SelectMotorista from '../../fragments/selects/Motorista/SelectMotorista';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
 import DeleteAlert from '../../fragments/DeleteAlert/DeleteAlert';
+import ErrorSnackBar from '../../fragments/ErrorSnackBar/ErrorSnackBar';
 
 import styles from './Retirada.module.css';
 
@@ -46,6 +47,8 @@ const retiradas = props => {
     const [concluido, setConcluido] = useState({ checkedConcluido: false });
     const [photo, setPhoto] = useState('');
     const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         if (id) {
@@ -62,6 +65,8 @@ const retiradas = props => {
                 setConcluido({ ...concluido, checkedConcluido: data.done });
             })
             .catch(error => {
+                setErrorMessage('Erro ao carregar dados.');
+                setError(true);
                 console.log(error);
             });
 
@@ -233,6 +238,7 @@ const retiradas = props => {
                         id="icon-button-file"
                         type="file"
                         accept="image/*"
+                        disabled={!id}
                         className={classes.input}
                         onChange={event => handlePhotoUpload(event)}
                     />
@@ -269,6 +275,8 @@ const retiradas = props => {
                     urlPath='/retiradas'
                     path='/pickUps'
                     id={id}
+                    setError={value => setError(value)}
+                    setErrorMessage={message => setErrorMessage(message)}
                     data={ administrator ? {
                         clinic: clinica._id,
                         driver: motorista._id,
@@ -280,6 +288,10 @@ const retiradas = props => {
                         done: concluido.checkedConcluido
                     }}
                 />
+
+                { error ?
+                    <ErrorSnackBar message={errorMessage} />
+                : '' }
             </form>
         </Fragment>
     );

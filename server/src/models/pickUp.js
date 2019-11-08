@@ -8,6 +8,7 @@ const pickUpSchema = new mongoose.Schema({
     },
     driver: {
         type: mongoose.Schema.Types.ObjectId,
+        required: true,
         ref: 'Driver'
     },
     date: {

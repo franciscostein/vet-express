@@ -9,6 +9,7 @@ import Fab from '@material-ui/core/Fab';
 import SelectUsuario from '../../fragments/selects/Usuario/SelectUsuario';
 import SelectCidades from '../../fragments/selects/Cidades/SelectCidades';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
+import ErrorSnackBar from '../../fragments/ErrorSnackBar/ErrorSnackBar';
 
 import styles from './Motorista.module.css';
 
@@ -27,6 +28,8 @@ const motorista = props => {
     const [quinta, setQuinta] = useState([]);
     const [sexta, setSexta] = useState([]);
     const [sabado, setSabado] = useState([]);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         if (id) {
@@ -48,6 +51,8 @@ const motorista = props => {
                 setSabado(region.saturday.cities);
             })
             .catch(error => {
+                setErrorMessage('Erro ao carregar dados.');
+                setError(true);
                 console.log(error);
             });
         }
@@ -158,6 +163,8 @@ const motorista = props => {
                     urlPath='/motoristas'
                     path='/drivers'
                     id={id}
+                    setError={value => setError(value)}
+                    setErrorMessage={message => setErrorMessage(message)}
                     data={ !id ? {
                         user: usuario._id,
                         region: {
@@ -203,6 +210,10 @@ const motorista = props => {
                         }
                     }}
                 />
+
+                { error ?
+                    <ErrorSnackBar message={errorMessage} />
+                : '' }
             </form>
         </Fragment>
     );

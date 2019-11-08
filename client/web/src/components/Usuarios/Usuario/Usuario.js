@@ -6,11 +6,16 @@ import Cookies from 'js-cookie';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
 import CategoriaCNH from '../../fragments/selects/CategoriasCNH/SelectCategoriasCNH';
 import Endereco from '../../fragments/Endereco/Endereco';
 import FormButtons from '../../fragments/FormButtons/FormButtons';
+import ErrorSnackBar from '../../fragments/ErrorSnackBar/ErrorSnackBar';
+
+import styles from './Usuario.module.css';
 
 const usuario = props => {
     const { id } = useParams();
@@ -32,6 +37,10 @@ const usuario = props => {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [admin, setAdmin] = useState({ checkedAdmin: false });
+    const [showSenha, setShowSenha] = useState(false);
+    const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const password = senha ?  { password: senha } : '';
     
     useEffect(() => {
         if (id) {
@@ -57,6 +66,8 @@ const usuario = props => {
                 setAdmin({ ...admin, checkedAdmin: data.administrator });
             })
             .catch(error => {
+                setErrorMessage('Erro ao carregar dados.');
+                setError(true);
                 console.log(error);
             });
         }
@@ -77,7 +88,7 @@ const usuario = props => {
     return (
         <Fragment>
             <h2 className={props.styles.row}>Usuário</h2>
-            <form noValidate autoComplete="off">
+            <form>
                 <div className={props.styles.row}>
                     <div className={`${props.styles.col} ${props.styles.span3of3}`}>
                         <TextField
@@ -117,6 +128,7 @@ const usuario = props => {
                             margin="normal"
                             format="dd/MM/yyyy"
                             autoOk
+                            required
                             disabled={!administrator}
                             disableFuture={true}
                             value={nascimento}
@@ -207,36 +219,54 @@ const usuario = props => {
                         />
                     </div>
                 </div>
-                <div className={props.styles.row}>
-                    <div className={`${props.styles.col} ${props.styles.span1of2}`}>
-                        <TextField
-                            id="inputSenha"
-                            label="Senha"
-                            type="password"
-                            margin="normal"
-                            fullWidth
-                            value={senha}
-                            onChange={event => setSenha(event.target.value)}
-                        />
+
+                { showSenha || !id ?
+                    <div className={props.styles.row}>
+                        <div className={`${props.styles.col} ${props.styles.span1of2}`}>
+                            <TextField
+                                id="inputSenha"
+                                label="Senha"
+                                type="password"
+                                margin="normal"
+                                required
+                                fullWidth
+                                value={senha}
+                                onChange={event => setSenha(event.target.value)}
+                            />
+                        </div>
+                        <div className={`${props.styles.col} ${props.styles.span1of2}`}>
+                            <TextField
+                                id="inputConfirmarSenha"
+                                label="Confirme a senha"
+                                type="password"
+                                margin="normal"
+                                required
+                                fullWidth
+                                value={senha}
+                                onChange={event => setSenha(event.target.value)}
+                            />
+                        </div>
                     </div>
-                    <div className={`${props.styles.col} ${props.styles.span1of2}`}>
-                        <TextField
-                            id="inputConfirmarSenha"
-                            label="Confirme a senha"
-                            type="password"
-                            margin="normal"
-                            fullWidth
-                            value={senha}
-                            onChange={event => setSenha(event.target.value)}
-                        />
-                    </div>
-                </div>
+                :
+                    <Grid justify="center" spacing={2} container>
+                        <Grid item>
+                            <Button 
+                                variant="contained"
+                                color="secondary"
+                                className={`${props.styles.secondaryButton} ${styles.buttonSenha}`}
+                                onClick={() => setShowSenha(true)}
+                            >Alterar senha</Button>
+                            </Grid>
+                    </Grid>
+                }
                 
                 <FormButtons 
                     styles={props.styles}
                     urlPath='/usuarios'
                     path='/users'
                     id={id}
+                    setError={value => setError(value)}
+                    setErrorMessage={message => setErrorMessage(message)}
                     data={ administrator ? {
                         name: nome,
                         cpf: parseInt(cpf),
@@ -256,7 +286,7 @@ const usuario = props => {
                             state: estado
                         },
                         email: email,
-                        password: senha,
+                        ...password,
                         administrator: admin.checkedAdmin
                     } : {
                         phone: parseInt(telefone),
@@ -273,9 +303,13 @@ const usuario = props => {
                             city: cidade,
                             state: estado
                         },
-                        password: senha
+                        ...password
                     }}
                 />
+
+                { error ?
+                    <ErrorSnackBar message={errorMessage} />
+                : '' }
             </form>
         </Fragment>
     );
